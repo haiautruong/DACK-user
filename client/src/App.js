@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { CookiesProvider } from 'react-cookie';
 import AppRouter from './routes';
 import store from './store';
-import './style';
+import './style/index.scss';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 import 'antd/dist/antd.css';

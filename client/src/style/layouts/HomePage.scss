@@ -1,0 +1,18 @@
+.ant-switch-checked {
+  background-color: rgb(1, 33, 105) !important;
+}
+.ant-switch-uncheck {
+  background-color: rgb(218, 37, 29) !important;
+  .ant-switch-inner {
+    color: rgb(255, 255, 0) !important;
+  }
+  &::after {
+    background-color: rgb(255, 255, 0) !important;
+  }
+}
+
+.home-page {
+  background-image: url('https://cdn.dribbble.com/users/692322/screenshots/6176292/dribbble_8_6_copy_13.png');
+  min-height: 100vh;
+  background-size: cover;
+}

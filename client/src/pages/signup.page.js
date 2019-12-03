@@ -1,12 +1,12 @@
 import React from 'react';
 // import { useTranslation } from 'react-i18next';
-import Login from '../components/Login';
-const LoginPage = ({ t }) => {
+import SignUp from '../components/SignUp';
+const SignUpPage = ({ t }) => {
   return (
     <div className="main">
-      <Login />
+      <SignUp />
     </div>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

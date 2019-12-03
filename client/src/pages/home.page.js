@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import { LanguageToggle } from '../components';
 const HomePage = ({ i18n, t }) => {
   return (
-    <div>
+    <div className="home-page">
       {/* <LanguageToggle i18n={i18n} />
       <h1>{t('greeting')}</h1> */}
     </div>

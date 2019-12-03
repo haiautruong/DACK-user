@@ -101,7 +101,7 @@ const SignUp = ({ i18n }) => {
         </div>
         <div className="signup-image">
           <figure>
-            <img src="images/signup-image.jpg" alt="sing up image" />
+            <img src="images/signup-image.jpg" alt="sing-up" />
           </figure>
           <a href="/login" className="signup-image-link">
             I am already member

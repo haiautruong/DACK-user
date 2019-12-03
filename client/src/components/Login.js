@@ -27,7 +27,7 @@ const Login = ({ i18n }) => {
       <div className="signin-content">
         <div className="signin-image">
           <figure>
-            <img src="images/signin-image.jpg" alt="sing-up-image" />
+            <img src="images/signin-image.jpg" alt="sing-up" />
           </figure>
           <a href="/signup" className="signup-image-link">
             Create an account
@@ -63,25 +63,33 @@ const Login = ({ i18n }) => {
               onClick={e => handleLogin(e)}
               type="submit"
               className="form-submit"
-              value="Log in"
+              value="Sign in"
             />
           </div>
           <div className="social-login">
-            <span className="social-label">Or login with</span>
+            <span className="social-label">Or sign in with</span>
             <ul className="socials">
               <li>
-                <a href="#" onClick={() => onLoginFB()}>
+                <button
+                  className="btn-fb"
+                  type="button"
+                  onClick={() => onLoginFB()}
+                >
                   <i className="display-flex-center zmdi-facebook">
                     <Icon className="logo" type="facebook" />
                   </i>
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" onClick={() => onLoginGG()}>
+                <button
+                  className="btn-gg"
+                  type="button"
+                  onClick={() => onLoginGG()}
+                >
                   <i className="display-flex-center zmdi-google">
                     <Icon className="logo" type="google" />
                   </i>
-                </a>
+                </button>
               </li>
             </ul>
           </div>

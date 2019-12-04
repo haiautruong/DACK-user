@@ -66,7 +66,7 @@ const Login = ({ i18n, login }) => {
     };
 
     const onLoginFB = () => {
-        window.open(`http://167.179.80.90:3004/auth/facebook/init/${type}`,
+        window.open(`http://localhost:3004/auth/facebook/init/${type}`,
             "mywindow",
             "location=1,status=1,scrollbars=1, width=700,height=550");
 
@@ -93,7 +93,7 @@ const Login = ({ i18n, login }) => {
     }
 
     const onLoginGG = () => {
-        window.open(`http://167.179.80.90:3004/auth/google/init/${type}`,
+        window.open(`http://localhost:3004/auth/google/init/${type}`,
             "mywindow",
             "location=1,status=1,scrollbars=1, width=700,height=550");
 

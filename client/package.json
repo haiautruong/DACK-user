@@ -24,6 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "pm2 start ./runserver.sh --name user-frontend",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

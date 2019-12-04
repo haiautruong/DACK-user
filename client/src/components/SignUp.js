@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 
 const SignUp = ({ i18n, login }) => {
   const [type, setType] = useState(2);
+  const [message, setMessage] = useState(null);
   const { value: fullName, bind: bindFullName } = useInput('fullName');
   const { value: email, bind: bindEmail } = useInput('email');
   const { value: password, bind: bindPassword } = useInput('password');
@@ -48,6 +49,16 @@ const SignUp = ({ i18n, login }) => {
       isYes = true;
     }
 
+    if (
+      document.getElementById('email').classList.contains('invalid') ||
+      document.getElementById('fullName').classList.contains('invalid') ||
+      document.getElementById('phone').classList.contains('invalid') ||
+      document.getElementById('address').classList.contains('invalid') ||
+      document.getElementById('repeatPassword').classList.contains('invalid') ||
+      document.getElementById('password').classList.contains('invalid')
+    ) {
+      isYes = true;
+    }
     return isYes;
   };
 
@@ -76,6 +87,7 @@ const SignUp = ({ i18n, login }) => {
             console.log('Auto login fail');
           }
         } else {
+          setMessage(response.returnMessage);
           document.getElementsByClassName('notify')[0].classList.remove('hide');
         }
       });
@@ -95,7 +107,7 @@ const SignUp = ({ i18n, login }) => {
       <div className="signup-content">
         <div className="signup-form">
           <h2 className="form-title">Sign up</h2>
-          <span className="notify hide">Your email already exist !</span>
+          <span className="notify hide">{message}</span>
           <div className="form-group">
             <label className="icon">
               <Icon type="user" />

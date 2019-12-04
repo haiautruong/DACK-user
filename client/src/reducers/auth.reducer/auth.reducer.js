@@ -49,6 +49,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     }
 
     case authAction.LOGIN_SUCCESS: {
+      console.log(action.payload.user);
       return applyLoginSuccess(state, action);
     }
 
@@ -59,7 +60,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case authAction.LOGOUT: {
       return applyLogout(state, action);
     }
-   
+
     default: return state;
   }
 };

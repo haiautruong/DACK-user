@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { HomePage, LoginPage, SignUpPage } from './pages';
+import { HomePage, LoginPage, SignUpPage, UpdateTutor } from './pages';
 import { useTranslation } from 'react-i18next';
 const AppRouter = () => {
   const { t, i18n } = useTranslation();
@@ -17,7 +17,9 @@ const AppRouter = () => {
         <Route exact path="/">
           <HomePage t={t} i18n={i18n} />
         </Route>
-        <Route exact path="/update-tutor"></Route>
+        <Route exact path="/update-tutor">
+          <UpdateTutor/>
+        </Route>
       </Switch>
     </Router>
   );

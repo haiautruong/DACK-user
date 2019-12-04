@@ -14,9 +14,10 @@ export const login = (email, password, type) => dispatch =>
   new Promise(async (resolve, reject) => {
     dispatch(doLogin());
     const res = await authApi.login(email, password, type);
+    console.log('res', res);
     if (res.returnCode === 1) {
       const cookies = new Cookies();
-      cookies.set('MY_TOKEN', res.token);
+      cookies.set('MY_TOKEN', res.data.token);
       cookies.set('CURR_USER', res.data.user);
       resolve(dispatch(doLoginSuccess(res.data.user)));
     } else {

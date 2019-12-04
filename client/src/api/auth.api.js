@@ -5,7 +5,7 @@ const login = (email, password, type) => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'post',
-      url: `${API_URL}/signup`,
+      url: `${API_URL}/login`,
       data: {
         email,
         password,

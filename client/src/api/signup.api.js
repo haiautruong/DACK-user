@@ -18,6 +18,7 @@ const signup = user => {
       }
     })
       .then(result => {
+        console.log('result', result);
         resolve(result.data);
       })
       .catch(error => {

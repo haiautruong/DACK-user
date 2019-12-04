@@ -9,7 +9,7 @@ import { logout } from '../reducers/auth.reducer';
 const HomePage = ({ i18n, t, user, logout }) => {
   let history = useHistory();
 
-  const linkToSignIn = async e => {
+  const linkToSignIn = e => {
     if (user) {
       logout();
     }

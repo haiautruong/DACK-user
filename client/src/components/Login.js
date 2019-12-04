@@ -24,8 +24,9 @@ const Login = ({ i18n, login }) => {
   const handleLogin = async () => {
     console.log(email, password, type);
     const res = await login(email, password, type);
+    console.log('res login', res);
     if (res) {
-      history.push('/home');
+      history.push('/');
     } else {
       console.log('fail');
     }

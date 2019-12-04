@@ -2,11 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
 import { useHistory } from 'react-router-dom';
+import { logout } from '../reducers/auth.reducer';
+
 // import { useTranslation } from 'react-i18next';
 // import { LanguageToggle } from '../components';
-const HomePage = ({ i18n, t }) => {
+const HomePage = ({ i18n, t, user, logout }) => {
   let history = useHistory();
-  const linkToSignIn = () => {
+
+  const linkToSignIn = async e => {
+    if (user) {
+      logout();
+    }
+
     history.push('/login');
   };
 
@@ -18,7 +25,7 @@ const HomePage = ({ i18n, t }) => {
         type="primary"
         size="large"
       >
-        Sign in
+        {user ? 'Logout' : 'Sign in'}
       </Button>
 
       {/* <LanguageToggle i18n={i18n} />
@@ -27,8 +34,12 @@ const HomePage = ({ i18n, t }) => {
   );
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  user: state.authReducer.user
+});
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logout())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

@@ -5,6 +5,7 @@ import { useInput } from '../hooks';
 import * as _ from 'lodash';
 import { signupApi } from '../api';
 import { login } from '../reducers/auth.reducer';
+
 import { useHistory } from 'react-router-dom';
 
 const SignUp = ({ i18n, login }) => {
@@ -70,7 +71,7 @@ const SignUp = ({ i18n, login }) => {
         if (response.returnCode === 1) {
           const res = await login(email, password, type);
           if (res) {
-            history.push('/home');
+            history.push('/');
           } else {
             console.log('Auto login fail');
           }

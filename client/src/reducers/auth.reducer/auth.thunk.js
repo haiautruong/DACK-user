@@ -2,21 +2,28 @@ import { Cookies } from 'react-cookie';
 
 import { authApi } from '../../api';
 import {
-  // doClearResult,
+  doClearResult,
   doLogin,
   doLoginFail,
-  doLoginSuccess
-  // doLogout
+  doLoginSuccess,
+  doLogout
 } from './auth.action';
-export const login = (email, password) => async dispatch => {
+const cookies = new Cookies();
+
+export const login = (email, password, type) => async dispatch => {
   dispatch(doLogin());
-  const res = await authApi.login(email, password);
-  if (res.user) {
+  const res = await authApi.login(email, password, type);
+  if (res.returnCode === 1) {
     const cookies = new Cookies();
     cookies.set('MY_TOKEN', res.token);
-    cookies.set('CURR_USER', res.user);
-    dispatch(doLoginSuccess(res.user));
+    cookies.set('CURR_USER', res.data.user);
+    dispatch(doLoginSuccess(res.data.user));
   } else {
-    dispatch(doLoginFail(res.message));
+    dispatch(doLoginFail(res.returnMessage));
   }
+};
+
+export const logout = () => async dispatch => {
+  dispatch(doLogout());
+  cookies.set('CURR_USER', '');
 };

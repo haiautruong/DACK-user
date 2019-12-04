@@ -10,7 +10,7 @@ export default {
   LOGIN_SUCCESS,
   CLEAR_RESULT,
   LOGOUT
-}
+};
 
 const doClearResult = () => ({
   type: CLEAR_RESULT
@@ -18,21 +18,21 @@ const doClearResult = () => ({
 
 const doLogout = () => ({
   type: LOGOUT,
-  payload:{
+  payload: {}
+});
+
+const doLogin = (email, password, type) => ({
+  type: LOGIN,
+  payload: {
+    email,
+    password,
+    type
   }
 });
 
-const doLogin = (email, password) => ({
-  type: LOGIN,
-  payload:{
-    email,
-    password
-  }
-})
-
-const doLoginSuccess = (user) => ({
+const doLoginSuccess = user => ({
   type: LOGIN_SUCCESS,
-  payload:{
+  payload: {
     user
   }
 });
@@ -44,10 +44,4 @@ const doLoginFail = message => ({
   }
 });
 
-export {
-  doClearResult,
-  doLogin,
-  doLoginFail,
-  doLoginSuccess,
-  doLogout
-}
+export { doClearResult, doLogin, doLoginFail, doLoginSuccess, doLogout };

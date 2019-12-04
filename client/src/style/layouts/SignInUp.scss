@@ -6,6 +6,19 @@
   padding: 3px;
 }
 
+.invalid {
+  border-bottom-color: red;
+}
+
+.notify {
+  color: red;
+  font-style: italic;
+}
+
+.hide {
+  display: none;
+}
+
 .zmdi-google,
 .zmdi-facebook {
   border-radius: 5px;
@@ -15,6 +28,9 @@
 .btn-gg {
   font-size: 25px;
   color: #fff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .icon {
@@ -109,7 +125,7 @@ input {
     border-bottom: 1px solid $black-color;
     @include input-placeholder($black-color);
   }
-  font-size: 11px !important;
+  font-size: 14px !important;
 }
 
 input[type='checkbox']:not(old) {

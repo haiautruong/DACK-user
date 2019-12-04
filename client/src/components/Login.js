@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import axios from 'axios';
 import {Cookies} from "react-cookie";
 
-const Login = ({i18n, login,user}) => {
+const Login = ({ i18n, login }) => {
     const [checked, setChecked] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -44,14 +44,18 @@ const Login = ({i18n, login,user}) => {
         if (!notifyInvalid()) {
             login(email, password, type)
                 .then(res => {
-                    history.push('/');
+                    if (type === 2) {
+                        history.push('/');
+                    } else {
+                        history.push('/update-tutor');
+                    }
                 })
                 .catch(err => {
                     console.log(err);
                     document.getElementsByClassName('notify')[0].classList.remove('hide');
                 });
         }
-    };
+    }
 
     const onCheckBox = e => {
         if (e.target.checked) {
@@ -60,6 +64,7 @@ const Login = ({i18n, login,user}) => {
             setType(2);
         }
     };
+
     const onLoginFB = () => {
         window.open(`http://167.179.80.90:3004/auth/facebook/init/${type}`,
             "mywindow",
@@ -75,13 +80,17 @@ const Login = ({i18n, login,user}) => {
                     cookies.set('MY_TOKEN', data.data.token);
                     cookies.set('CURR_USER', data.data.user);
                     login(data.data.user.email, '123', type);
-                    history.push('/');
+                    if (type === 2) {
+                        history.push('/');
+                    } else {
+                        history.push('/update-tutor');
+                    }
                 } else {
                     document.getElementsByClassName('notify')[0].classList.remove('hide');
                 }
             }
-        });
-    };
+        })
+    }
 
     const onLoginGG = () => {
         window.open(`http://167.179.80.90:3004/auth/google/init/${type}`,
@@ -98,7 +107,11 @@ const Login = ({i18n, login,user}) => {
                     cookies.set('MY_TOKEN', data.data.token);
                     cookies.set('CURR_USER', data.data.user);
                     login(data.data.user.email, '123', type);
-                    history.push('/');
+                    if (type === 2) {
+                        history.push('/');
+                    } else {
+                        history.push('/update-tutor');
+                    }
                 } else {
                     document.getElementsByClassName('notify')[0].classList.remove('hide');
                 }

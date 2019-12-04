@@ -11,6 +11,11 @@ const authenRoute = require('./routes/AuthenRoute');
 const jwtUtil = require('./authentication/jwt');
 
 require('./authentication/passport');
+
+logger.token('body', function (req, res) {
+    return JSON.stringify(req.body)
+});
+
 const app = express();
 
 // ############ init MySQL Connection ############
@@ -33,7 +38,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(cors());
-app.use(logger('dev'));
+app.use(logger(':method :url :status :response-time ms - :body - '));
 app.use(express.json());
 app.use(express.urlencoded({
     extended: false

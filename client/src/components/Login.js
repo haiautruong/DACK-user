@@ -42,7 +42,11 @@ const Login = ({ i18n, login }) => {
     if (!notifyInvalid()) {
       login(email, password, type)
         .then(res => {
-          history.push('/');
+          if (type === 2) {
+            history.push('/');
+          } else {
+            history.push('/update-tutor');
+          }
         })
         .catch(err => {
           console.log(err);

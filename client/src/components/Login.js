@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Icon, Checkbox } from 'antd';
 import { login } from '../reducers/auth.reducer';
 import { useHistory } from 'react-router-dom';
+import * as _ from 'lodash';
 
 const Login = ({ i18n, login }) => {
   const [checked, setChecked] = useState(true);
@@ -10,6 +11,22 @@ const Login = ({ i18n, login }) => {
   const [password, setPassword] = useState('');
   const [type, setType] = useState(2);
   const history = useHistory();
+
+  const notifyInvalid = () => {
+    let isYes = false;
+
+    if (_.isEmpty(email)) {
+      document.getElementById('email').classList.add('invalid');
+      isYes = true;
+    }
+
+    if (_.isEmpty(password)) {
+      document.getElementById('password').classList.add('invalid');
+      isYes = true;
+    }
+
+    return isYes;
+  };
 
   const handleOnchange = e => {
     if (e.target.name === 'email') {
@@ -21,13 +38,16 @@ const Login = ({ i18n, login }) => {
     }
   };
 
-  const handleLogin = async () => {
-    console.log(email, password, type);
-    const res = await login(email, password, type);
-    if (res) {
-      history.push('/home');
-    } else {
-      console.log('fail');
+  const handleLogin = () => {
+    if (!notifyInvalid()) {
+      login(email, password, type)
+        .then(res => {
+          history.push('/');
+        })
+        .catch(err => {
+          console.log(err);
+          document.getElementsByClassName('notify')[0].classList.remove('hide');
+        });
     }
   };
 
@@ -60,6 +80,9 @@ const Login = ({ i18n, login }) => {
 
         <div className="signin-form">
           <h2 className="form-title">Sign in</h2>
+          <span className="notify hide">
+            Your email or password incorrect !
+          </span>
           <div className="form-group">
             <label className="icon" htmlFor="your_name">
               <Icon type="user" />
@@ -69,6 +92,7 @@ const Login = ({ i18n, login }) => {
               type="text"
               name="email"
               placeholder="Your Email"
+              id="email"
             />
           </div>
           <div className="form-group">
@@ -80,6 +104,7 @@ const Login = ({ i18n, login }) => {
               type="password"
               name="password"
               placeholder="Password"
+              id="password"
             />
           </div>
           <div className="form-group check-box-wrapper">

@@ -82,7 +82,11 @@ const SignUp = ({ i18n, login }) => {
         if (response.returnCode === 1) {
           const res = await login(email, password, type);
           if (res) {
-            history.push('/');
+            if (type === 2) {
+              history.push('/');
+            } else {
+              history.push('/update-tutor');
+            }
           } else {
             console.log('Auto login fail');
           }

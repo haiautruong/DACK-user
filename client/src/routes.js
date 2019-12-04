@@ -17,6 +17,7 @@ const AppRouter = () => {
         <Route exact path="/">
           <HomePage t={t} i18n={i18n} />
         </Route>
+        <Route exact path="/update-tutor"></Route>
       </Switch>
     </Router>
   );

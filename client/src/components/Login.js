@@ -1,19 +1,43 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Icon } from 'antd';
-const Login = ({ i18n }) => {
+import { Icon, Checkbox } from 'antd';
+import { login } from '../reducers/auth.reducer';
+import { useHistory } from 'react-router-dom';
+
+const Login = ({ i18n, login }) => {
   const [checked, setChecked] = useState(true);
-  const [name, setName] = useState(true);
-  const [pass, setPass] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [type, setType] = useState(2);
+  const history = useHistory();
 
   const handleOnchange = e => {
-    console.log(e.target.value);
+    if (e.target.name === 'email') {
+      setEmail(e.target.value);
+    }
+
+    if (e.target.name === 'password') {
+      setPassword(e.target.value);
+    }
   };
 
-  const handleLogin = () => {
-    console.log('login');
+  const handleLogin = async () => {
+    console.log(email, password, type);
+    const res = await login(email, password, type);
+    if (res) {
+      history.push('/home');
+    } else {
+      console.log('fail');
+    }
   };
 
+  const onCheckBox = e => {
+    if (e.target.checked) {
+      setType(1);
+    } else {
+      setType(2);
+    }
+  };
   const onLoginFB = () => {
     console.log('login FB');
   };
@@ -43,8 +67,8 @@ const Login = ({ i18n }) => {
             <input
               onChange={e => handleOnchange(e)}
               type="text"
-              name="name"
-              placeholder="Your Name"
+              name="email"
+              placeholder="Your Email"
             />
           </div>
           <div className="form-group">
@@ -54,9 +78,12 @@ const Login = ({ i18n }) => {
             <input
               onChange={e => handleOnchange(e)}
               type="password"
-              name="pass"
+              name="password"
               placeholder="Password"
             />
+          </div>
+          <div className="form-group check-box-wrapper">
+            <Checkbox onChange={e => onCheckBox(e)}>I'm a tutor</Checkbox>
           </div>
           <div className="form-group form-button">
             <input
@@ -101,6 +128,8 @@ const Login = ({ i18n }) => {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  login: (username, password, type) => dispatch(login(username, password, type))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

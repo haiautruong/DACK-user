@@ -1,11 +1,15 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'antd';
-import { useHistory, withRouter,useLocation } from 'react-router-dom';
+import { Button, Row, Select, Tag } from 'antd';
+import { useHistory, withRouter, useLocation } from 'react-router-dom';
 import { logout } from '../reducers/auth.reducer';
+const { Option } = Select;
 
 // import { useTranslation } from 'react-i18next';
 // import { LanguageToggle } from '../components';
+
+const skills = ['C++', 'C#', 'Java', 'Math', 'Physic', 'Chemistry', 'React', 'Node', 'Angular'];
+
 const HomePage = ({ setshowLayout, user, logout }) => {
   let history = useHistory();
   const location = useLocation();
@@ -28,19 +32,34 @@ const HomePage = ({ setshowLayout, user, logout }) => {
     history.push('/login');
   };
 
+  const handleChange = () => {
+
+  }
+
   return (
     <div className="home-page">
-      <Button
-        onClick={linkToSignIn}
-        className="btn-signin"
-        type="primary"
-        size="large"
-      >
-        {user ? 'Logout' : 'Sign in'}
-      </Button>
-
-      {/* <LanguageToggle i18n={i18n} />
-      <h1>{t('greeting')}</h1> */}
+      <Row className='content-header'>
+        <Select
+          mode="multiple"
+          style={{ width: '100%' }}
+          placeholder="Search"
+          defaultValue={['C++', 'C#']}
+          renderSelectValue ={selected => selected.map(item => {console.log(item)})}
+          onChange={handleChange}
+          size='large'
+          // optionLabelProp="label"
+        >
+          {
+            skills.map(skill => 
+              <Option key={skill}>
+                {
+                  skill
+                }
+              </Option>
+            )
+          }
+        </Select>
+      </Row>
     </div>
   );
 };

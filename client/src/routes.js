@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HomePage, LoginPage, SignUpPage, UpdateTutor } from './pages';
-import { Layout, Menu, Icon, Button } from 'antd';
+import { Layout, Menu, Icon, Button  } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
+import logo from './assets/logo.png';
 const { Header, Footer, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 const cookies = new Cookies();
@@ -33,7 +34,33 @@ const AppRouter = () => {
           </Header>
           <Layout className='content-wrapper'>
             <Sider className={`${showLayout ? '' : 'hide'}`}>
-              Sider
+              <figure>
+                <img className='app-logo' src={logo} alt="logo"/>
+              </figure>
+              <Menu
+                defaultSelectedKeys={['/']}
+                mode="inline"
+                theme="light"
+              >
+                <Menu.Item key="/">
+                  <Link to='/'>
+                    <Icon type="layout" />
+                    <span>{t('overview')}</span>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="/user">
+                  <Link to='/user'>
+                    <Icon type="usergroup-add" />
+                    <span>{t('user')}</span>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="/skills">
+                  <Link to="/skills">
+                    <Icon type="thunderbolt" />
+                    <span>{t('skills')}</span>
+                  </Link>
+                </Menu.Item>
+              </Menu>
             </Sider>
             <Content>
               <Switch>
@@ -52,6 +79,9 @@ const AppRouter = () => {
               </Switch>
             </Content>
           </Layout>
+          <Footer>
+
+          </Footer>
         </Layout>
       </div>
     </Router>

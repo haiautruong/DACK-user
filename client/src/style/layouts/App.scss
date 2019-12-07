@@ -21,10 +21,38 @@
 
 .content-wrapper{
   margin: 0 30px 0 30px;
+  height: calc(100vh - 112px) !important;
 }
 
 .ant-layout-header{
   background: url('../../assets/header-bg.png') !important;
   background-repeat: no-repeat !important;
   background-size: 100% 100% !important;
+}
+
+.ant-layout-sider{
+  background: white !important;
+}
+
+.ant-layout-footer{
+  background: url('../../assets/footer-bg.png') !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+}
+
+.btn-signin{
+  float: right;
+  margin-top: 10px;
+}
+
+.app-logo{
+  width: 30%;
+  height: 30%;
+  margin: 20px 20px 0 20px;
+}
+
+.content-header{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px !important;
 }

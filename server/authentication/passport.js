@@ -8,6 +8,7 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const redis = require('../utilities/redis');
 
 passport.serializeUser(function (user, done) {
     done(null, user);
@@ -35,9 +36,9 @@ passport.use(new LocalStrategy({
 
         let user = null;
         if (req.body.type === 1) {
-            user = await TeacherModel.getUser(username);
+            user = await redis.getAsyncWithCallback(username, TeacherModel.getUser);
         } else if (req.body.type === 2) {
-            user = await StudentModel.getUser(username);
+            user = await redis.getAsyncWithCallback(username, StudentModel.getUser);
         }
 
         if (!user) {
@@ -80,9 +81,9 @@ passport.use(new JWTStrategy({
         try {
             let user = null;
             if (jwtPayload.type === 1) {
-                user = await TeacherModel.getUser(jwtPayload.email);
+                user = await redis.getAsyncWithCallback(jwtPayload.email, TeacherModel.getUser);
             } else if (jwtPayload.type === 2) {
-                user = await StudentModel.getUser(jwtPayload.email);
+                user = await redis.getAsyncWithCallback(jwtPayload.email, StudentModel.getUser);
             }
             if (user) {
                 next(null, user);
@@ -112,9 +113,9 @@ passport.use(new FacebookStrategy({
                 const type = parseInt(req.query.state);
                 let user = null;
                 if (type === 1) {
-                    user = await TeacherModel.getUser(profile.emails[0].value);
+                    user = await redis.getAsyncWithCallback(profile.emails[0].value, TeacherModel.getUser);
                 } else if (type === 2) {
-                    user = await StudentModel.getUser(profile.emails[0].value);
+                    user = await redis.getAsyncWithCallback(profile.emails[0].value, StudentModel.getUser);
                 }
 
                 if (user) {
@@ -131,10 +132,10 @@ passport.use(new FacebookStrategy({
 
                     if (type === 1) {
                         await TeacherModel.createUser(newUser);
-                        user = await TeacherModel.getUser(profile.emails[0].value);
+                        user = await redis.getAsyncWithCallback(profile.emails[0].value, TeacherModel.getUser);
                     } else if (type === 2) {
                         await StudentModel.createUser(newUser);
-                        user = await StudentModel.getUser(profile.emails[0].value);
+                        user = await redis.getAsyncWithCallback(profile.emails[0].value, StudentModel.getUser);
                     }
                     return cb(null, user);
 
@@ -161,9 +162,9 @@ passport.use(new GoogleStrategy({
                 const type = parseInt(req.query.state);
                 let user = null;
                 if (type === 1) {
-                    user = await TeacherModel.getUser(profile.emails[0].value);
+                    user = await redis.getAsyncWithCallback(profile.emails[0].value, TeacherModel.getUser);
                 } else if (type === 2) {
-                    user = await StudentModel.getUser(profile.emails[0].value);
+                    user = await redis.getAsyncWithCallback(profile.emails[0].value, StudentModel.getUser);
                 }
 
                 if (user) {
@@ -180,10 +181,10 @@ passport.use(new GoogleStrategy({
 
                     if (type === 1) {
                         await TeacherModel.createUser(newUser);
-                        user = await TeacherModel.getUser(profile.emails[0].value);
+                        user = await redis.getAsyncWithCallback(profile.emails[0].value, TeacherModel.getUser);
                     } else if (type === 2) {
                         await StudentModel.createUser(newUser);
-                        user = await StudentModel.getUser(profile.emails[0].value);
+                        user = await redis.getAsyncWithCallback(profile.emails[0].value, StudentModel.getUser);
                     }
                     return cb(null, user);
 

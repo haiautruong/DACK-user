@@ -2,6 +2,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const teacherModel = require('../models/Teacher');
 const studentModel = require('../models/Student');
+const redis = require('../utilities/redis');
 
 exports.login = function (req, res, next) {
     passport.authenticate('local', {
@@ -29,7 +30,7 @@ exports.login = function (req, res, next) {
                 type: req.body.type
             }, '1612145');
 
-            const {password, facebookID, googleID, updDate, ...newUser} = req.user;
+            const {password, updDate, ...newUser} = req.user;
             newUser.type = req.body.type;
 
             return res.json({
@@ -58,9 +59,9 @@ exports.signup = async function (req, res, next) {
 
         let find = null;
         if (type === 1) {
-            find = await teacherModel.getUser(user.email);
+            find = await redis.getAsyncWithCallback(user.email, teacherModel.getUser);
         } else if (type === 2) {
-            find = await studentModel.getUser(user.email);
+            find = await redis.getAsyncWithCallback(user.email, studentModel.getUser);
         }
 
         if (find != null) {

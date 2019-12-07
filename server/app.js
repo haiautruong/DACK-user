@@ -32,7 +32,7 @@ const mysql = require('./utilities/mysql');
 })();
 
 // ########### init Redis Connection ############
-// const redis = require('./utilities/redis');
+const redis = require('./utilities/redis');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

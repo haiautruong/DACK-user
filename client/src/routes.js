@@ -19,7 +19,10 @@ const AppRouter = () => {
       <Layout>
         <Header className={`${showLayout ? '' : 'hide'}`}>
           <Link to="/login">
-            <Button className="btn-signin" type="primary" size="large">
+            <Button className="btn-signin" type="primary" size="large" 
+              onClick={async () => {
+                await cookies.set('CURR_USER', '');
+              }}>
               {user ? 'Logout' : 'Sign in'}
             </Button>
           </Link>

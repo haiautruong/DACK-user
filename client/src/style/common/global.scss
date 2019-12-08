@@ -94,3 +94,8 @@ body {
   left: 50%;
   @include transform(translate(-50%, -50%));
 }
+
+.ant-layout {
+  height: 100vh;
+  background-color: #f8f8f8 !important;
+}

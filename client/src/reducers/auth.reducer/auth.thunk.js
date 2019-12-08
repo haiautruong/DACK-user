@@ -12,7 +12,7 @@ const cookies = new Cookies();
 
 export const login = (email, password, type) => dispatch =>
   new Promise(async (resolve, reject) => {
-    dispatch(doLogin());
+    dispatch(doLogin(email, password, type));
     const res = await authApi.login(email, password, type);
     console.log('res', res);
     if (res.returnCode === 1) {

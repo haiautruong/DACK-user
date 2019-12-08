@@ -59,9 +59,9 @@ exports.signup = async function (req, res, next) {
 
         let find = null;
         if (type === 1) {
-            find = await redis.getAsyncWithCallback(user.email, teacherModel.getUser);
+            find = await redis.getAsyncWithCallback(redis.REDIS_KEY.TEACHER, user.email, teacherModel.getUser);
         } else if (type === 2) {
-            find = await redis.getAsyncWithCallback(user.email, studentModel.getUser);
+            find = await redis.getAsyncWithCallback(redis.REDIS_KEY.STUDENT, user.email, studentModel.getUser);
         }
 
         if (find != null) {

@@ -3,9 +3,21 @@ const useRedis = (process.env.USE_REDIS === 'true');
 
 const client = useRedis ? redis.createClient() : null;
 
+let oldCacheKey = [];
+
 if (client) {
-    client.on('connect', function () {
-        console.log("### Redis Connected ###")
+    client.on('connect', async function () {
+        console.log("### Redis Connected ###");
+
+        oldCacheKey = await getAsync(REDIS_KEY.OLD_CACHE_KEY);
+        if (oldCacheKey) {
+            oldCacheKey = JSON.parse(oldCacheKey);
+            for (let key of oldCacheKey)
+                client.del(key);
+            client.del(oldCacheKey);
+        }
+        oldCacheKey = [];
+
     });
 
     client.on('error', function (err) {
@@ -36,7 +48,7 @@ const getAsync = (key) => {
     })
 };
 
-const getAsyncWithCallback = (key, callback) => {
+const getAsyncWithCallback = (prefix, key, callback) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!useRedis) {
@@ -44,7 +56,7 @@ const getAsyncWithCallback = (key, callback) => {
                 return resolve(value);
             }
 
-            client.get(key, async (err, obj) => {
+            client.get(prefix + key, async (err, obj) => {
                 if (err) {
                     console.error(`Redis getAsyncWithCallback key [${key}] | err: ${err}`);
                     return resolve(null);
@@ -53,7 +65,9 @@ const getAsyncWithCallback = (key, callback) => {
                 if (!obj) {
                     const value = await callback(key);
                     if (value) {
-                        client.set(key, JSON.stringify(value));
+                        client.set(prefix + key, JSON.stringify(value));
+                        oldCacheKey.push(prefix + key);
+                        client.set(REDIS_KEY.OLD_CACHE_KEY, JSON.stringify(oldCacheKey));
                     }
 
                     resolve(value);
@@ -73,9 +87,18 @@ const del = (key) => {
         client.del(key);
 };
 
+const REDIS_KEY = {
+    OLD_CACHE_KEY: 'OLD_CACHE_KEY',
+    ALL_TUTOR: 'ALL_TUTOR',
+    ALL_SKILL: 'ALL_SKILL',
+    TEACHER: 'TEACHER_',
+    STUDENT: 'STUDENT_',
+};
+
 module.exports = {
     client,
     getAsync,
     getAsyncWithCallback,
-    del
+    del,
+    REDIS_KEY
 };

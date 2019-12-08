@@ -1,6 +1,34 @@
 const conn = require('../utilities/mysql');
 const bcrypt = require('bcryptjs');
 
+module.exports.getAllUser = async () => {
+    const [res, f] = await conn.getConnection()
+        .query('SELECT * FROM Teacher WHERE status = ?', [1])
+        .then(([rows, fields]) => {
+            return [rows, fields];
+        })
+        .catch(err => {
+            console.error(err.message);
+            return [null, null];
+        });
+
+    if (!res || !res[0])
+        return null;
+
+    const result = [];
+
+    for (let row of res) {
+        const obj = {...row};
+        delete obj.password;
+        delete obj.updDate;
+        obj.canTeachingPlaces = JSON.parse(obj.canTeachingPlaces);
+        obj.skills = JSON.parse(obj.skills);
+        result.push(obj);
+    }
+
+    return result;
+};
+
 module.exports.getUser = async (email) => {
     const [res, f] = await conn.getConnection()
         .query('SELECT * FROM Teacher WHERE email = ?', [email])

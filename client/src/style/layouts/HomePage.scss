@@ -11,5 +11,18 @@
   }
 }
 
-.home-page {
+.content-header{
+  display: flex !important;
+  flex-direction: row;
+}
+
+.avartar-container{
+  display: flex;
+  flex-direction: row;
+  margin-left: 10px;
+
+}
+
+.avatar-username{
+  margin-left: 10px;
 }

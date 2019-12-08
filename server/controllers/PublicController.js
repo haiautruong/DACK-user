@@ -4,7 +4,7 @@ const redis = require('../utilities/redis');
 
 exports.getAllTeacher = async function (req, res, next) {
     try {
-        let tutors = await redis.getAsyncWithCallback(redis.REDIS_KEY.ALL_TUTOR, '' , teacherModel.getAllUser);
+        let tutors = await redis.getAsyncWithCallback(redis.REDIS_KEY.ALL_TEACHER, '' , teacherModel.getAllUser);
         if (!tutors)
             tutors = [];
 

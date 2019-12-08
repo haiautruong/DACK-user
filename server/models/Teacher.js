@@ -66,32 +66,32 @@ module.exports.createUser = async (user) => {
 
     return res;
 };
-//
-// module.exports.updateUser = async (username, user) => {
-//
-//     let query = `UPDATE AdminUser SET email = '${user.email}', fullName = '${user.fullName}', phoneNumber = '${user.phoneNumber}', status = '${user.status}' where username = '${username}'`;
-//     const [res, f] = await conn.getConnection()
-//         .query(query).then(([rows, fields]) => {
-//             return [rows, fields];
-//         }).catch((err) => {
-//             console.error(err.message);
-//             return [null, null];
-//         });
-//
-//     return res;
-// };
-//
-// module.exports.changePassword = async (username, password) => {
-//     const hash = bcrypt.hashSync(password, 8);
-//
-//     let query = `UPDATE AdminUser SET password = '${hash}' where username = '${username}'`;
-//     const [res, f] = await conn.getConnection()
-//         .query(query).then(([rows, fields]) => {
-//             return [rows, fields];
-//         }).catch((err) => {
-//             console.error(err.message);
-//             return [null, null];
-//         });
-//
-//     return res;
-// };
+
+module.exports.updateInfo = async (email, user, avatar) => {
+
+    let query = `UPDATE Teacher SET fullName = '${user.fullName}', phoneNumber = '${user.phoneNumber}', address = '${user.address}', avatar = '${avatar}', pricePerHour = '${user.pricePerHour}', canTeachingPlaces = '${JSON.stringify(user.canTeachingPlaces)}', selfDescription = '${user.selfDescription}', skills = '${JSON.stringify(user.skills)}' where email = '${email}'`;
+    const [res, f] = await conn.getConnection()
+        .query(query).then(([rows, fields]) => {
+            return [rows, fields];
+        }).catch((err) => {
+            console.error(err.message);
+            return [null, null];
+        });
+
+    return res;
+};
+
+module.exports.changePassword = async (email, password) => {
+    const hash = bcrypt.hashSync(password, 8);
+
+    let query = `UPDATE Teacher SET password = '${hash}' where email = '${email}'`;
+    const [res, f] = await conn.getConnection()
+        .query(query).then(([rows, fields]) => {
+            return [rows, fields];
+        }).catch((err) => {
+            console.error(err.message);
+            return [null, null];
+        });
+
+    return res;
+};

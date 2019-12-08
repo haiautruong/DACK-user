@@ -89,7 +89,7 @@ const del = (key) => {
 
 const REDIS_KEY = {
     OLD_CACHE_KEY: 'OLD_CACHE_KEY',
-    ALL_TUTOR: 'ALL_TUTOR',
+    ALL_TEACHER: 'ALL_TEACHER',
     ALL_SKILL: 'ALL_SKILL',
     TEACHER: 'TEACHER_',
     STUDENT: 'STUDENT_',

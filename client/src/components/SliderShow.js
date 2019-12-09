@@ -26,7 +26,7 @@ const SliderShow = () => {
   };
 
   return (
-    <div class="container-slider">
+    <div className="container-slider">
       <div className="slider">
         <img className="image-slider" alt="" src="/images/slider1.png" />
         Find a tutor near you

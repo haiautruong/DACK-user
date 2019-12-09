@@ -15,7 +15,6 @@ const AppRouter = () => {
   const { t, i18n } = useTranslation();
   const [showLayout, setshowLayout] = useState(true);
   const user = cookies.get('CURR_USER');
-  console.log(user);
   return (
     <Router>
       <Layout>

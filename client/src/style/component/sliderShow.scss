@@ -1,0 +1,14 @@
+.container-slider {
+  margin: 0;
+  float: left;
+  .slider {
+    color: #000 !important;
+    .image-slider {
+      width: 100px;
+      height: 63px;
+      object-fit: cover;
+      margin-right: 40px;
+    }
+    color: #fff !important;
+  }
+}

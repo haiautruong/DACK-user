@@ -26,7 +26,7 @@ const CardTutor = ({
   };
 
   const handleOnCard = () => {
-    history.push(`/detail/${email}`);
+    history.push(`/detail-tutor/${email}`);
   };
 
   return (

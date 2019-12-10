@@ -1,3 +1,3 @@
 import { useInput } from './input.hook';
-
-export { useInput };
+import authHook from './auth.hook';
+export { useInput, authHook };

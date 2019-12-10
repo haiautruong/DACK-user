@@ -20,15 +20,11 @@ const AppRouter = () => {
       <Layout>
         <Header className={`${showLayout ? '' : 'hide'}`}>
           <SliderShow />
-          <div className="user">
+          <div className={`user ${user ? '' : 'hide'}`} id="user-control">
             <Avatar
               shape="square"
               size="large"
-              src={
-                user
-                  ? user.avatar
-                  : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
-              }
+              src={user ? user.avatar : null}
             />
             <Dropdown
               className="avatar-username"
@@ -41,7 +37,14 @@ const AppRouter = () => {
                     <Link to="/">Settings</Link>
                   </Menu.Item>
                   <Menu.Item key="2">
-                    <Link to="/login">Logout</Link>
+                    <Link
+                      onClick={async () => {
+                        await cookies.set('CURR_USER', '');
+                      }}
+                      to="/login"
+                    >
+                      Logout
+                    </Link>
                   </Menu.Item>
                 </Menu>
               )}
@@ -52,6 +55,11 @@ const AppRouter = () => {
               </a>
             </Dropdown>
           </div>
+          <Link to="/login" className={user ? 'hide' : ''}>
+            <Button className="btn-signin" type="primary" size="large">
+              Sign in
+            </Button>
+          </Link>
         </Header>
         <Layout className="content-wrapper">
           <Sider className={`${showLayout ? '' : 'hide'}`}>

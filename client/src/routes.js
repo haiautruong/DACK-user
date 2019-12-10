@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { HomePage, LoginPage, SignUpPage, UpdateTutor } from './pages';
+import {
+  HomePage,
+  LoginPage,
+  SignUpPage,
+  UpdateTutor,
+  DetailTutor
+} from './pages';
 import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
@@ -100,6 +106,9 @@ const AppRouter = () => {
               </Route>
               <Route exact path="/update-tutor">
                 <UpdateTutor setshowLayout={setshowLayout} />
+              </Route>
+              <Route exact path="/detail/:email">
+                <DetailTutor setshowLayout={setshowLayout} />
               </Route>
             </Switch>
           </Content>

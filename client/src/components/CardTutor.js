@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Card, Avatar, Row, Col } from 'antd';
 import { renderStar, formatCurrency, renderTags } from '../utils/helper';
+import { useHistory } from 'react-router-dom';
 import '../style/component/cardTutor.scss';
 
 const { Meta } = Card;
@@ -11,8 +12,10 @@ const CardTutor = ({
   pricePerHour,
   skills,
   rating,
-  canTeachingPlaces
+  canTeachingPlaces,
+  email
 }) => {
+  const history = useHistory();
   const renderPriceAndStar = () => {
     return (
       <Row>
@@ -22,12 +25,16 @@ const CardTutor = ({
     );
   };
 
+  const handleOnCard = () => {
+    history.push(`/detail/${email}`);
+  };
+
   return (
     <Card
       className="card-tutor"
       size="small"
-      style={{ width: 300 }}
       bordered={false}
+      onClick={handleOnCard}
     >
       <Meta
         avatar={<Avatar src={avatar} />}

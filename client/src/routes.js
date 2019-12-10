@@ -13,7 +13,7 @@ const { SubMenu } = Menu;
 const cookies = new Cookies();
 const AppRouter = () => {
   const { t, i18n } = useTranslation();
-  const [showLayout, setshowLayout] = useState(true);
+  const [showLayout, setshowLayout] = useState(false);
   const user = cookies.get('CURR_USER');
   return (
     <Router>
@@ -21,7 +21,7 @@ const AppRouter = () => {
         <Header className={`${showLayout ? '' : 'hide'}`}>
           <SliderShow />
           <Link to="/login">
-            <Button className="btn-signin" type="primary" size="large" 
+            <Button className="btn-signin" type="primary" size="large"
               onClick={async () => {
                 await cookies.set('CURR_USER', '');
               }}>
@@ -72,7 +72,7 @@ const AppRouter = () => {
             </Switch>
           </Content>
         </Layout>
-        <Footer className={`${showLayout ? '' : 'hide'}`}>
+        <Footer className={`${showLayout ? '' : 'hide'}`} style={{textAlign: 'center', padding: '12px 50px'}}>
           &copy; Copyright - HCMUS-2019
         </Footer>
       </Layout>

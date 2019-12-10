@@ -20,7 +20,6 @@
 }
 
 .content-wrapper {
-  margin: 0 30px 0 30px;
   height: calc(100vh - 112px) !important;
 }
 
@@ -28,6 +27,7 @@
   background: url('../../assets/header-bg.png') !important;
   background-repeat: no-repeat !important;
   background-size: 100% 100% !important;
+  color: #000b2d !important;
 }
 
 .ant-layout-sider {
@@ -38,13 +38,21 @@
   background: url('../../assets/footer-bg.png') !important;
   background-repeat: no-repeat !important;
   background-size: 100% 100% !important;
-  color: #fff !important;
+  color: #000b2d !important;
 }
 
 .btn-signin {
   float: right;
   margin-top: 10px;
   background-color: #455cc7 !important;
+  border: none !important;
+}
+
+.btn-homepage {
+  margin-top: 10px;
+  float: left;
+  margin-left: 20px;
+  //background-color: black !important;
   border: none !important;
 }
 

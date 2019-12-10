@@ -10,20 +10,10 @@ const { Option } = Select;
 // import { useTranslation } from 'react-i18next';
 // import { LanguageToggle } from '../components';
 
-const skills = [
-  'C++',
-  'C#',
-  'Java',
-  'Math',
-  'Physic',
-  'Chemistry',
-  'React',
-  'Node',
-  'Angular'
-];
-
 const HomePage = ({ setshowLayout, user, logout }) => {
   const [tutors, setTutors] = useState([]);
+  const [skills, setSkills] = useState([]);
+
   let history = useHistory();
   const location = useLocation();
   useEffect(() => {
@@ -45,7 +35,17 @@ const HomePage = ({ setshowLayout, user, logout }) => {
       .catch(error => {
         console.log('error get list tutor', error);
       });
-  });
+    homeApi
+      .getSkills()
+      .then(result => {
+        if (result.returnCode === 1) {
+          setSkills(result.data.skills);
+        }
+      })
+      .catch(error => {
+        console.log('error get list tutor', error);
+      });
+  }, []);
   const linkToSignIn = e => {
     if (user) {
       logout();
@@ -68,12 +68,11 @@ const HomePage = ({ setshowLayout, user, logout }) => {
   return (
     <div className="home-page">
       <Row className="content-header">
-        <Col span={20}>
+        <Col span={24}>
           <Select
             mode="multiple"
             style={{ width: '100%' }}
             placeholder="Search"
-            defaultValue={['C++', 'C#']}
             renderSelectValue={selected =>
               selected.map(item => {
                 console.log(item);
@@ -84,30 +83,9 @@ const HomePage = ({ setshowLayout, user, logout }) => {
             // optionLabelProp="label"
           >
             {skills.map(skill => (
-              <Option key={skill}>{skill}</Option>
+              <Option key={skill.skillID}>{skill.skillName}</Option>
             ))}
           </Select>
-        </Col>
-        <Col className="avartar-container" span={4}>
-          <Avatar shape="square" size="large" src={user ? user.avatar : ''} />
-          <Dropdown
-            className="avatar-username"
-            overlay={() => (
-              <Menu>
-                <Menu.Item key="0">
-                  <Link to="/">My Profile</Link>
-                </Menu.Item>
-                <Menu.Item key="1">
-                  <Link href="/">Settings</Link>
-                </Menu.Item>
-              </Menu>
-            )}
-            trigger={['click']}
-          >
-            <a className="ant-dropdown-link" href="#">
-              {user ? user.fullName : ''} <Icon type="down" />
-            </a>
-          </Dropdown>
         </Col>
       </Row>
       <Row className="container-tutors">{renderListTutor(tutors)}</Row>

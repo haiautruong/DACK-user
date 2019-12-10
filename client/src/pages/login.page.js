@@ -1,9 +1,13 @@
 import React, {useEffect} from 'react';
-import {withRouter,useLocation} from 'react-router-dom';
+import {withRouter,useLocation, useHistory} from 'react-router-dom';
+import { authHook } from '../hooks';
 // import { useTranslation } from 'react-i18next';
 import Login from '../components/Login';
 const LoginPage = ({ setshowLayout }) => {
   const location = useLocation();
+  const history = useHistory();
+
+  authHook(history);
   useEffect(() => {
     async function checkLocation() {
       if(location.pathname === '/login'||location.pathname === '/signup'){

@@ -16,6 +16,22 @@ const getListTutors = () => {
   });
 };
 
+const getSkills = () => {
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'get',
+      url: `${API_URL}/public/skills`
+    })
+      .then(result => {
+        resolve(result.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 export default {
-  getListTutors
+  getListTutors,
+  getSkills
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Form, Input } from 'antd';
 
 const ModalChangePass = props => {
+  console.log(props.isOpen);
   const [visible, setVisible] = useState(props.isOpen);
   const { getFieldDecorator } = props.form;
   const compareToFirstPassword = () => {};

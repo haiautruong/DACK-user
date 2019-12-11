@@ -8,11 +8,9 @@ exports.updateTeacherInfo = async function (req, res, next) {
     try {
         let avatar = req.body.avatar;
         const email = req.params.email;
-        const newAvatarFile = req.files[0];
-
-        if (newAvatarFile) {
+        if (req.file) {
             try {
-                avatar = await Firebase.UploadImageToStorage(newAvatarFile);
+                avatar = await Firebase.UploadImageToStorage(req.file);
             } catch (e) {
                 console.error(e);
                 avatar = req.body.avatar;

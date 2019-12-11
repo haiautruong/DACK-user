@@ -9,7 +9,7 @@ const multer = Multer({
     }
 });
 
-router.put('/teachers/:email', multer.any(), PrivateController.updateTeacherInfo);
-router.put('/teachers/changepassword/:email', PrivateController.changePassword);
+router.post('/teachers/:email', multer.single('file'), PrivateController.updateTeacherInfo);
+router.post('/teachers/changepassword/:email', PrivateController.changePassword);
 
 module.exports = router;

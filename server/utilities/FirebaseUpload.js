@@ -3,11 +3,11 @@ const {
 } = require('@google-cloud/storage');
 
 const storage = new Storage({
-    projectId: "caro-online-257205",
+    projectId: "uberfortutor-80eb9",
     keyFilename: "./serviceAccount.json"
 });
 
-const bucket = storage.bucket("caro-online-257205.appspot.com");
+const bucket = storage.bucket("uberfortutor-80eb9.appspot.com");
 
 module.exports.UploadImageToStorage = (file) => {
     return new Promise((resolve, reject) => {

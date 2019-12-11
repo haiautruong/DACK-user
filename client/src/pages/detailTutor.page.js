@@ -62,7 +62,6 @@ const DetailTutorPage = ({ setshowLayout }) => {
               >
                 Register
               </Button>
-              <Icon onClick={goHome} className="icon-home" type="home" />
             </div>
           </Card>
         </Col>

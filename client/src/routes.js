@@ -25,6 +25,9 @@ const AppRouter = () => {
     <Router>
       <Layout>
         <Header className={`${showLayout ? '' : 'hide'}`}>
+          <Link to="/">
+            <Icon className="icon-home" type="home" />
+          </Link>
           <SliderShow />
           <div className={`user ${user ? '' : 'hide'}`} id="user-control">
             <Avatar

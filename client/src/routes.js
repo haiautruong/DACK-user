@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { HomePage, LoginPage, SignUpPage, UpdateTutor } from './pages';
+import {
+  HomePage,
+  LoginPage,
+  SignUpPage,
+  UpdateTutor,
+  DetailTutor
+} from './pages';
 import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
@@ -20,44 +26,44 @@ const AppRouter = () => {
       <Layout>
         <Header className={`${showLayout ? '' : 'hide'}`}>
           <SliderShow />
-            <div className={`user ${user ? '' : 'hide'}`} id="user-control">
-                <Avatar
-                    shape="square"
-                    size="large"
-                    src={user ? user.avatar : null}
-                />
-                <Dropdown
-                    className="avatar-username"
-                    overlay={() => (
-                        <Menu>
-                            <Menu.Item key="0">
-                                <Link to="/">My Profile</Link>
-                            </Menu.Item>
-                            <Menu.Item key="1">
-                                <Link to="/">Settings</Link>
-                            </Menu.Item>
-                            <Menu.Item key="2">
-                                <Link
-                                    onClick={async () => {
-                                        await cookies.set('CURR_USER', '');
-                                    }}
-                                    to="/login"
-                                >
-                                    Logout
-                                </Link>
-                            </Menu.Item>
-                        </Menu>
-                    )}
-                    trigger={['click']}
-                >
-                    <a className="ant-dropdown-link" href="#">
-                        {user ? user.fullName : ''} <Icon type="down" />
-                    </a>
-                </Dropdown>
-            </div>
-            <Link to="/login" className={user ? 'hide' : ''}>
-                <Button className="btn-signin" type="primary" size="large">
-                    Sign in
+          <div className={`user ${user ? '' : 'hide'}`} id="user-control">
+            <Avatar
+              shape="square"
+              size="large"
+              src={user ? user.avatar : null}
+            />
+            <Dropdown
+              className="avatar-username"
+              overlay={() => (
+                <Menu>
+                  <Menu.Item key="0">
+                    <Link to="/">My Profile</Link>
+                  </Menu.Item>
+                  <Menu.Item key="1">
+                    <Link to="/">Settings</Link>
+                  </Menu.Item>
+                  <Menu.Item key="2">
+                    <Link
+                      onClick={async () => {
+                        await cookies.set('CURR_USER', '');
+                      }}
+                      to="/login"
+                    >
+                      Logout
+                    </Link>
+                  </Menu.Item>
+                </Menu>
+              )}
+              trigger={['click']}
+            >
+              <a className="ant-dropdown-link" href="#">
+                {user ? user.fullName : ''} <Icon type="down" />
+              </a>
+            </Dropdown>
+          </div>
+          <Link to="/login" className={user ? 'hide' : ''}>
+            <Button className="btn-signin" type="primary" size="large">
+              Sign in
             </Button>
           </Link>
         </Header>
@@ -76,10 +82,16 @@ const AppRouter = () => {
               <Route exact path="/update-tutor">
                 <UpdateTutor setshowLayout={setshowLayout} />
               </Route>
+              <Route exact path="/detail-tutor/:email">
+                <DetailTutor setshowLayout={setshowLayout} />
+              </Route>
             </Switch>
           </Content>
         </Layout>
-        <Footer className={`${showLayout ? '' : 'hide'}`} style={{textAlign: 'center', padding: '12px 50px'}}>
+        <Footer
+          className={`${showLayout ? '' : 'hide'}`}
+          style={{ textAlign: 'center', padding: '12px 50px' }}
+        >
           &copy; Copyright - HCMUS-2019
         </Footer>
       </Layout>

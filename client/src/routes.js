@@ -68,31 +68,6 @@ const AppRouter = () => {
           </Link>
         </Header>
         <Layout className="content-wrapper">
-          <Sider className={`${showLayout ? '' : 'hide'}`}>
-            <figure>
-              <img className="app-logo" src={logo} alt="logo" />
-            </figure>
-            <Menu defaultSelectedKeys={['/']} mode="inline" theme="light">
-              <Menu.Item key="/">
-                <Link to="/">
-                  <Icon type="layout" />
-                  <span>{t('overview')}</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="/user">
-                <Link to="/user">
-                  <Icon type="usergroup-add" />
-                  <span>{t('user')}</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="/skills">
-                <Link to="/skills">
-                  <Icon type="thunderbolt" />
-                  <span>{t('skills')}</span>
-                </Link>
-              </Menu.Item>
-            </Menu>
-          </Sider>
           <Content>
             <Switch>
               <Route exact path="/login">

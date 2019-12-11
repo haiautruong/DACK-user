@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory, withRouter, useLocation, Link } from 'react-router-dom';
-import { Row, Select, Avatar, Menu, Dropdown, Col, Icon, Result } from 'antd';
+import { useHistory, useLocation, withRouter } from 'react-router-dom';
+import { Col, Row, Select } from 'antd';
 import { logout } from '../reducers/auth.reducer';
 import { homeApi } from '../api';
 import CardTutor from '../components/CardTutor';
+import SkillFilter from '../components/filter/SkillFilter';
+import PlaceFilter from '../components/filter/PlaceFilter';
+import PriceFilter from '../components/filter/PriceFilter';
+
 const { Option } = Select;
 
 // import { useTranslation } from 'react-i18next';
@@ -12,6 +16,8 @@ const { Option } = Select;
 
 const HomePage = ({ setshowLayout, user, logout }) => {
   const [tutors, setTutors] = useState([]);
+  const [filteredTutors, setFilteredTutor] = useState([]);
+
   const [skills, setSkills] = useState([]);
 
   let history = useHistory();
@@ -24,12 +30,14 @@ const HomePage = ({ setshowLayout, user, logout }) => {
         await setshowLayout(true);
       }
     }
+
     checkLocation();
     homeApi
       .getListTutors()
       .then(result => {
         if (result.returnCode === 1) {
           setTutors(result.data.tutors);
+          setFilteredTutor(result.data.tutors);
         }
       })
       .catch(error => {
@@ -54,11 +62,53 @@ const HomePage = ({ setshowLayout, user, logout }) => {
     history.push('/login');
   };
 
-  const handleChange = () => {};
+  const handleChangeSkillFilter = selectedSkills => {
+    if (selectedSkills.length === 0) {
+      setFilteredTutor(tutors);
+      return;
+    }
+
+    let result = [];
+    for (let s of selectedSkills) {
+      for (let t of tutors) {
+        if (!result.includes(t) && t.skills.includes(s)) result.push(t);
+      }
+    }
+    setFilteredTutor(result);
+  };
+
+  const handleChangePlaceFilter = selectedPlaces => {
+    if (selectedPlaces.length === 0) {
+      setFilteredTutor(tutors);
+      return;
+    }
+
+    let result = [];
+    for (let s of selectedPlaces) {
+      for (let t of tutors) {
+        if (!result.includes(t) && t.canTeachingPlaces.includes(s))
+          result.push(t);
+      }
+    }
+    setFilteredTutor(result);
+  };
+
+  const handleChangePriceFilter = values => {
+    const startPrice = values[0] * 1000;
+    const endPrice = values[1] * 1000;
+    let result = [];
+    for (let t of tutors) {
+      if (t.pricePerHour >= startPrice && t.pricePerHour <= endPrice)
+        result.push(t);
+    }
+
+    setFilteredTutor(result);
+  };
+
   const renderListTutor = (list = []) => {
     return list.map((element, key) => {
       return (
-        <Col key={key} xs={12} sm={12} md={8}>
+        <Col key={key} span={6}>
           <CardTutor {...element} />
         </Col>
       );
@@ -68,27 +118,17 @@ const HomePage = ({ setshowLayout, user, logout }) => {
   return (
     <div className="home-page">
       <Row className="content-header">
-        <Col span={24}>
-          <Select
-            mode="multiple"
-            style={{ width: '100%' }}
-            placeholder="Search"
-            renderSelectValue={selected =>
-              selected.map(item => {
-                console.log(item);
-              })
-            }
-            onChange={handleChange}
-            size="large"
-            // optionLabelProp="label"
-          >
-            {skills.map(skill => (
-              <Option key={skill.skillID}>{skill.skillName}</Option>
-            ))}
-          </Select>
+        <Col span={8}>
+          <SkillFilter skills={skills} handleChange={handleChangeSkillFilter} />
+        </Col>
+        <Col span={8}>
+          <PlaceFilter handleChange={handleChangePlaceFilter} />
+        </Col>
+        <Col span={8}>
+          <PriceFilter handleChange={handleChangePriceFilter} />
         </Col>
       </Row>
-      <Row className="container-tutors">{renderListTutor(tutors)}</Row>
+      <Row className="container-tutors">{renderListTutor(filteredTutors)}</Row>
     </div>
   );
 };

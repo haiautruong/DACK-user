@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {Cookies} from 'react-cookie';
 import {Button, Icon, Layout, Menu,} from 'antd';
 import {Link, useHistory, withRouter} from 'react-router-dom';
+import UpdateInfoForm from "../components/teacher/UpdateInfoForm";
 
 const {SubMenu} = Menu;
 const cookies = new Cookies();
@@ -70,7 +71,9 @@ const UpdateTutor = () => {
                 </div>
                 <>
                     <Content style={{margin: '24px 16px 0'}}>
-                        <div style={{padding: 24, background: '#fff', minHeight: 360}}>content</div>
+                        <div style={{padding: 24, background: '#fff'}}>
+                            <UpdateInfoForm user={curr_user}/>
+                        </div>
                     </Content>
                 </>
             </div>

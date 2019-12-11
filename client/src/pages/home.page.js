@@ -58,7 +58,7 @@ const HomePage = ({ setshowLayout, user, logout }) => {
   const renderListTutor = (list = []) => {
     return list.map((element, key) => {
       return (
-        <Col key={key} span={6}>
+        <Col key={key} xs={12} sm={12} md={8}>
           <CardTutor {...element} />
         </Col>
       );

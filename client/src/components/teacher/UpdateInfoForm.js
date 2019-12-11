@@ -40,9 +40,13 @@ const UpdateInfoForm = ({user}) => {
             <Button block type="primary">
                 Change Password ?
             </Button>
+
+            <Button block type="default">
+                Update Info
+            </Button>
         </Col>
 
-        <Col span={7} offset={1}>
+        <Col span={12} offset={1}>
             <Input
                 style={{marginBottom: 12}}
                 prefix={<Icon type="mail" style={{color: 'rgba(0,0,0,.25)'}}/>}

@@ -1,30 +1,59 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, Row, Select, Tag, Avatar, Menu, Dropdown, Col, Icon } from 'antd';
-import { useHistory, withRouter, useLocation, Link } from 'react-router-dom';
+import { useHistory, useLocation, withRouter } from 'react-router-dom';
+import { Col, Row, Select } from 'antd';
 import { logout } from '../reducers/auth.reducer';
+import { homeApi } from '../api';
+import CardTutor from '../components/CardTutor';
+import SkillFilter from '../components/filter/SkillFilter';
+import PlaceFilter from '../components/filter/PlaceFilter';
+import PriceFilter from '../components/filter/PriceFilter';
+
 const { Option } = Select;
 
 // import { useTranslation } from 'react-i18next';
 // import { LanguageToggle } from '../components';
 
-const skills = ['C++', 'C#', 'Java', 'Math', 'Physic', 'Chemistry', 'React', 'Node', 'Angular'];
-
 const HomePage = ({ setshowLayout, user, logout }) => {
+  const [tutors, setTutors] = useState([]);
+  const [filteredTutors, setFilteredTutor] = useState([]);
+
+  const [skills, setSkills] = useState([]);
+
   let history = useHistory();
   const location = useLocation();
   useEffect(() => {
-    console.log(user);
     async function checkLocation() {
-      if(location.pathname === '/login'||location.pathname === '/signup'){
+      if (location.pathname === '/login' || location.pathname === '/signup') {
         await setshowLayout(false);
-      }
-      else{
+      } else {
         await setshowLayout(true);
       }
     }
+
     checkLocation();
-  });
+    homeApi
+      .getListTutors()
+      .then(result => {
+        if (result.returnCode === 1) {
+          setTutors(result.data.tutors);
+          setFilteredTutor(result.data.tutors);
+        }
+      })
+      .catch(error => {
+        console.log('error get list tutor', error);
+      });
+    homeApi
+      .getSkills()
+      .then(result => {
+        if (result.returnCode === 1) {
+          setSkills(result.data.skills);
+        }
+      })
+      .catch(error => {
+        console.log('error get list tutor', error);
+      });
+  }, []);
   const linkToSignIn = e => {
     if (user) {
       logout();
@@ -33,59 +62,73 @@ const HomePage = ({ setshowLayout, user, logout }) => {
     history.push('/login');
   };
 
-  const handleChange = () => {
+  const handleChangeSkillFilter = selectedSkills => {
+    if (selectedSkills.length === 0) {
+      setFilteredTutor(tutors);
+      return;
+    }
 
-  }
+    let result = [];
+    for (let s of selectedSkills) {
+      for (let t of tutors) {
+        if (!result.includes(t) && t.skills.includes(s)) result.push(t);
+      }
+    }
+    setFilteredTutor(result);
+  };
+
+  const handleChangePlaceFilter = selectedPlaces => {
+    if (selectedPlaces.length === 0) {
+      setFilteredTutor(tutors);
+      return;
+    }
+
+    let result = [];
+    for (let s of selectedPlaces) {
+      for (let t of tutors) {
+        if (!result.includes(t) && t.canTeachingPlaces.includes(s))
+          result.push(t);
+      }
+    }
+    setFilteredTutor(result);
+  };
+
+  const handleChangePriceFilter = values => {
+    const startPrice = values[0] * 1000;
+    const endPrice = values[1] * 1000;
+    let result = [];
+    for (let t of tutors) {
+      if (t.pricePerHour >= startPrice && t.pricePerHour <= endPrice)
+        result.push(t);
+    }
+
+    setFilteredTutor(result);
+  };
+
+  const renderListTutor = (list = []) => {
+    return list.map((element, key) => {
+      return (
+        <Col key={key} span={6}>
+          <CardTutor {...element} />
+        </Col>
+      );
+    });
+  };
 
   return (
     <div className="home-page">
-      <Row className='content-header'>
-        <Col span={20}>
-          <Select
-            mode="multiple"
-            style={{ width: '100%' }}
-            placeholder="Search"
-            defaultValue={['C++', 'C#']}
-            renderSelectValue ={selected => selected.map(item => {console.log(item)})}
-            onChange={handleChange}
-            size='large'
-            // optionLabelProp="label"
-          >
-            {
-              skills.map(skill => 
-                <Option key={skill}>
-                  {
-                    skill
-                  }
-                </Option>
-              )
-            }
-          </Select>
+      <Row className="content-header">
+        <Col span={8}>
+          <SkillFilter skills={skills} handleChange={handleChangeSkillFilter} />
         </Col>
-        <Col className='avartar-container' span={4}>
-          <Avatar shape="square" size="large" src={user ? user.avatar : ''} /> 
-          <Dropdown 
-          className='avatar-username'
-          overlay={() => (
-            <Menu>
-              <Menu.Item key="0">
-                <Link to="/">My Profile</Link>
-              </Menu.Item>
-              <Menu.Item key="1">
-                <Link href="/">Settings</Link>
-              </Menu.Item>
-            </Menu>
-          )}
-          trigger={['click']}
-          >
-            <a className="ant-dropdown-link" href="#">
-              {
-                user ? user.fullName : ''
-              } <Icon type="down" />
-            </a>
-          </Dropdown>
+        <Col span={8}>
+          <PlaceFilter handleChange={handleChangePlaceFilter} />
+        </Col>
+        <Col span={8}>
+          <PriceFilter handleChange={handleChangePriceFilter} />
         </Col>
       </Row>
+      <Row className="container-tutors">{renderListTutor(filteredTutors)}</Row>
     </div>
   );
 };
@@ -98,4 +141,6 @@ const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout())
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomePage));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(HomePage)
+);

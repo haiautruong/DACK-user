@@ -1,0 +1,31 @@
+.icon-home {
+  font-size: 35px;
+  color: #455cc7 !important;
+  position: absolute;
+  top: 11px;
+  left: 30px;
+  cursor: pointer;
+  &:hover {
+    font-size: 40px;
+    top: 9px;
+  }
+}
+
+.container-tutors {
+  .value {
+    margin-bottom: 15px;
+  }
+  .text-small {
+    margin: 0;
+  }
+  .btn-register {
+    background-color: #455cc7;
+    color: white;
+    border: none;
+    &:hover {
+      border: 1px solid #455cc7;
+      background-color: transparent;
+      color: #455cc7;
+    }
+  }
+}

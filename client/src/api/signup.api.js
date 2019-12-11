@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_URL = 'http://167.179.80.90:3004';
+import { API_URL } from '../constant';
 
 const signup = user => {
   console.log('user', user);

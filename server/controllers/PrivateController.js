@@ -24,14 +24,21 @@ exports.updateTeacherInfo = async function (req, res, next) {
             redis.del(redis.REDIS_KEY.ALL_TEACHER);
             redis.del(redis.REDIS_KEY.TEACHER + email);
 
-            res.json({
+            const user = await redis.getAsyncWithCallback(redis.REDIS_KEY.TEACHER, email, teacherModel.getUser);
+            const {password, updDate, ...newUser} = user;
+            newUser.type = req.body.type;
+
+            return res.json({
                 returnCode: 1,
-                message: "Success."
+                returnMessage: "Success.",
+                data: {
+                    user: newUser
+                }
             });
         } else {
-            res.json({
+            return res.json({
                 returnCode: 0,
-                message: "Exception. Retry Later."
+                returnMessage: "Exception. Retry Later."
             });
         }
     } catch (e) {

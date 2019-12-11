@@ -37,7 +37,7 @@ const AppRouter = () => {
               overlay={() => (
                 <Menu>
                   <Menu.Item key="0">
-                    <Link to="/">My Profile</Link>
+                    <Link to="/update-tutor">My Profile</Link>
                   </Menu.Item>
                   <Menu.Item key="1">
                     <Link to="/">Settings</Link>

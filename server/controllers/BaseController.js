@@ -24,9 +24,6 @@ exports.login = function (req, res, next) {
 
             const token = jwt.sign({
                 email: user.email,
-                fullName: user.fullName,
-                phoneNumber: user.phoneNumber,
-                address: user.address,
                 type: req.body.type
             }, '1612145');
 
@@ -81,9 +78,6 @@ exports.signup = async function (req, res, next) {
         if (result != null && result.affectedRows === 1) {
             const token = jwt.sign({
                 email: user.email,
-                fullName: user.fullName,
-                phoneNumber: user.phoneNumber,
-                address: user.address,
                 type: type
             }, '1612145');
 

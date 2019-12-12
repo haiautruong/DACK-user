@@ -11,9 +11,17 @@
   }
 }
 
+.ant-pagination {
+  text-align: center;
+}
+
 .content-header {
   display: flex !important;
   flex-direction: row;
+}
+
+.home-page {
+  height: 100%;
 }
 
 .avartar-container {

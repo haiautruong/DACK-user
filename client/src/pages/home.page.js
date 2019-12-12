@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useLocation, withRouter } from 'react-router-dom';
-import { Col, Row, Select } from 'antd';
+import { Col, Row, Select, Pagination } from 'antd';
 import { logout } from '../reducers/auth.reducer';
 import { homeApi } from '../api';
 import CardTutor from '../components/CardTutor';
@@ -17,6 +17,8 @@ const { Option } = Select;
 const HomePage = ({ setshowLayout, user, logout }) => {
   const [tutors, setTutors] = useState([]);
   const [filteredTutors, setFilteredTutor] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [total, setTotal] = useState(40);
 
   const [skills, setSkills] = useState([]);
 
@@ -54,12 +56,9 @@ const HomePage = ({ setshowLayout, user, logout }) => {
         console.log('error get list tutor', error);
       });
   }, []);
-  const linkToSignIn = e => {
-    if (user) {
-      logout();
-    }
 
-    history.push('/login');
+  const onChange = page => {
+    setCurrentPage(page);
   };
 
   const handleChangeSkillFilter = selectedSkills => {
@@ -129,6 +128,7 @@ const HomePage = ({ setshowLayout, user, logout }) => {
         </Col>
       </Row>
       <Row className="container-tutors">{renderListTutor(filteredTutors)}</Row>
+      <Pagination current={currentPage} onChange={onChange} total={total} />
     </div>
   );
 };

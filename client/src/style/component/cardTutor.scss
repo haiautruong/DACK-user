@@ -1,8 +1,9 @@
 .container-tutors {
+  height: 80% !important;
   padding: 10px;
   max-height: calc(100vh - 130px - 40px);
   .card-tutor {
-    margin: 0 18px 8px 0;
+    margin: 15px 25px 20px 10px;
     width: unset !important;
     cursor: pointer;
   }

@@ -12,7 +12,6 @@ const validateToken = (req, res, next) => {
                     returnMessage: "JWT Not Valid."
                 });
             }
-
             next();
 
         } catch (e) {

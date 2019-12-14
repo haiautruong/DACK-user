@@ -42,6 +42,7 @@ exports.getTeacher = async function (req, res, next) {
         teacher.canTeachingPlaces = JSON.parse(teacher.canTeachingPlaces);
         teacher.skills = JSON.parse(teacher.skills);
 
+        console.log(teacher);
         res.json({
             returnCode: 1,
             returnMessage: "Success",

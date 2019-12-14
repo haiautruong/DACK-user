@@ -2,7 +2,6 @@ import axios from 'axios';
 import { API_URL } from '../constant';
 
 const signup = user => {
-  console.log('user', user);
   return new Promise((resolve, reject) => {
     axios({
       method: 'post',
@@ -17,7 +16,6 @@ const signup = user => {
       }
     })
       .then(result => {
-        console.log('result', result);
         resolve(result.data);
       })
       .catch(error => {

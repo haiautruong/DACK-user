@@ -84,7 +84,7 @@ const UpdateTutor = ({ setshowLayout }) => {
       </div>
       <div>
         {isShowUpdate ? (
-          <UpdateInfoForm user={tutor} />
+          <UpdateInfoForm user={tutor} setIsShowUpdate={setIsShowUpdate}/>
         ) : (
           <Row className="container-tutors">
             <Col span={5}>

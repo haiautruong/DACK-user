@@ -69,7 +69,7 @@ module.exports.createUser = async (user) => {
 
 module.exports.updateInfo = async (email, user, avatar) => {
 
-    let query = `UPDATE Teacher SET fullName = '${user.fullName}', phoneNumber = '${user.phoneNumber}', address = '${user.address}', avatar = '${avatar}', pricePerHour = '${user.pricePerHour}', canTeachingPlaces = '${JSON.stringify(user.canTeachingPlaces)}', selfDescription = '${user.selfDescription}', skills = '${JSON.stringify(user.skills)}' where email = '${email}'`;
+    let query = `UPDATE Teacher SET fullName = '${user.fullName}', phoneNumber = '${user.phoneNumber}', address = '${user.address}', avatar = '${avatar}', pricePerHour = '${user.pricePerHour}', canTeachingPlaces = '${user.canTeachingPlaces}', selfDescription = '${user.selfDescription}', skills = '${user.skills}' where email = '${email}'`;
     const [res, f] = await conn.getConnection()
         .query(query).then(([rows, fields]) => {
             return [rows, fields];

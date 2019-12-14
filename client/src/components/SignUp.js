@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import { signupApi } from '../api';
 import { login } from '../reducers/auth.reducer';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 const SignUp = ({ i18n, login }) => {
   const [type, setType] = useState(2);
@@ -73,12 +73,8 @@ const SignUp = ({ i18n, login }) => {
       type
     };
 
-    console.log(!notifyInvalid());
-
     if (!notifyInvalid()) {
-      console.log('all valid');
       signupApi.signup(user).then(async response => {
-        console.log(response);
         if (response.returnCode === 1) {
           const res = await login(email, password, type);
           if (res) {
@@ -108,6 +104,9 @@ const SignUp = ({ i18n, login }) => {
 
   return (
     <div className="container-wrapper">
+      <Link to="/">
+        <Icon className="icon-home" type="home" />
+      </Link>
       <div className="signup-content">
         <div className="signup-form">
           <h2 className="form-title">Sign up</h2>

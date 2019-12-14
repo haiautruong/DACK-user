@@ -3,26 +3,56 @@ import { Modal, Form, Input } from 'antd';
 
 const ModalChangePass = props => {
   const { getFieldDecorator } = props.form;
-  const compareToFirstPassword = () => {};
-  const validateToNextPassword = () => {};
-  const handleConfirmBlur = () => {};
+  const [confirmDirty, setConfirmDirty] = useState(false);
+
+  const handleConfirmBlur = e => {
+    const { value } = e.target;
+    setConfirmDirty(!!value);
+  };
+
+  const updatePass = e => {
+    e.preventDefault();
+    props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+
+        setConfirmDirty(false);
+        props.form.resetFields();
+      }
+    });
+
+    props.setShowModalChangePass(false);
+  };
+
+  const compareToFirstPassword = (rule, value, callback) => {
+    const { form } = props;
+    if (value && value !== form.getFieldValue('newPassword')) {
+      callback('Two passwords that you enter is inconsistent!');
+    } else {
+      callback();
+    }
+  };
+
+  const validateToNextPassword = (rule, value, callback) => {
+    const { form } = props;
+    if (value && confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+    }
+    callback();
+  };
 
   return (
     <div>
       <Modal
         title="Change your password"
         visible={props.isOpen}
-        onOk={() => props.setShowModalChangePass(false)}
+        onOk={updatePass}
         onCancel={() => props.setShowModalChangePass(false)}
       >
         <Form>
           <Form.Item label="Current password">
             {getFieldDecorator('currentPass', {
               rules: [
-                {
-                  type: 'text',
-                  message: 'The input is not valid your current password!'
-                },
                 {
                   required: true,
                   message: 'Please input your current password!'

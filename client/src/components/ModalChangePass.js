@@ -2,39 +2,36 @@ import React, { useState } from 'react';
 import { Modal, Form, Input } from 'antd';
 
 const ModalChangePass = props => {
-  console.log(props.isOpen);
-  const [visible, setVisible] = useState(props.isOpen);
   const { getFieldDecorator } = props.form;
   const compareToFirstPassword = () => {};
   const validateToNextPassword = () => {};
-
   const handleConfirmBlur = () => {};
 
   return (
     <div>
       <Modal
         title="Change your password"
-        visible={visible}
-        onOk={() => setVisible(false)}
-        onCancel={() => setVisible(false)}
+        visible={props.isOpen}
+        onOk={() => props.setShowModalChangePass(false)}
+        onCancel={() => props.setShowModalChangePass(false)}
       >
         <Form>
-          <Form.Item label="E-mail">
-            {getFieldDecorator('email', {
+          <Form.Item label="Current password">
+            {getFieldDecorator('currentPass', {
               rules: [
                 {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!'
+                  type: 'text',
+                  message: 'The input is not valid your current password!'
                 },
                 {
                   required: true,
-                  message: 'Please input your E-mail!'
+                  message: 'Please input your current password!'
                 }
               ]
             })(<Input />)}
           </Form.Item>
-          <Form.Item label="Password" hasFeedback>
-            {getFieldDecorator('password', {
+          <Form.Item label="New password" hasFeedback>
+            {getFieldDecorator('newPassword', {
               rules: [
                 {
                   required: true,
@@ -46,7 +43,7 @@ const ModalChangePass = props => {
               ]
             })(<Input.Password />)}
           </Form.Item>
-          <Form.Item label="Confirm Password" hasFeedback>
+          <Form.Item label="Confirm password" hasFeedback>
             {getFieldDecorator('confirm', {
               rules: [
                 {

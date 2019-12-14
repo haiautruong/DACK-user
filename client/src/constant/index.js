@@ -14,4 +14,31 @@ export const COLORS = [
   'geekblue'
 ];
 
+export const PROVINCES = [
+  'Q1',
+  'Q2',
+  'Q3',
+  'Q4',
+  'Q5',
+  'Q6',
+  'Q7',
+  'Q8',
+  'Q9',
+  'Q10',
+  'Q11',
+  'Q12',
+  'Thủ Đức',
+  'Gò Vấp',
+  'Bình Thạnh',
+  'Tân Bình',
+  'Tân Phú',
+  'Phú Nhuận',
+  'Bình Tân',
+  'Củ Chi',
+  'Hóc Môn',
+  'Bình Chánh',
+  'Nhà Bè',
+  'Cần Giờ'
+];
+
 export const API_URL = 'http://167.179.80.90:3004';

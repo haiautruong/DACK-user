@@ -6,6 +6,6 @@ const authHook = (history) => {
   if(user){
     history.push('/');
   }
-}
+};
 
 export default authHook;

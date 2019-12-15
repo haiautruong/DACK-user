@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { Switch } from 'antd';
 import { connect } from 'react-redux';
@@ -22,8 +23,8 @@ const LanguageToggle = ({ i18n }) => {
   );
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(LanguageToggle);

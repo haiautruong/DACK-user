@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import { Card, Avatar, Row, Col } from 'antd';
 import { renderStar, formatCurrency, renderTags } from '../utils/helper';
 import { useHistory } from 'react-router-dom';

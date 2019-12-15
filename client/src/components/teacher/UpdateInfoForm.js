@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Col, Icon, Input, Row, Select } from 'antd';
@@ -12,7 +13,7 @@ const { TextArea } = Input;
 
 const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
   const [avatar, setAvatar] = useState(user.avatar);
-  const [email, setEmail] = useState(user.email);
+  // const [email, setEmail] = useState(user.email);
   const [address, setAddress] = useState(user.address);
   const [fullName, setFullName] = useState(user.fullName);
   const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);

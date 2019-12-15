@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Icon, Checkbox } from 'antd';
 import { useInput } from '../hooks';
@@ -8,7 +9,7 @@ import { login } from '../reducers/auth.reducer';
 
 import { useHistory, Link } from 'react-router-dom';
 
-const SignUp = ({ i18n, login }) => {
+const SignUp = ({ login }) => {
   const [type, setType] = useState(2);
   const [message, setMessage] = useState(null);
   const { value: fullName, bind: bindFullName } = useInput('fullName');
@@ -178,7 +179,7 @@ const SignUp = ({ i18n, login }) => {
             />
           </div>
           <div className="form-group check-box-wrapper">
-            <Checkbox onChange={e => onCheckBox(e)}>I'm a tutor</Checkbox>
+            <Checkbox onChange={e => onCheckBox(e)}>{'I"m a tutor'}</Checkbox>
           </div>
           <div className="form-group form-button">
             <input
@@ -202,7 +203,7 @@ const SignUp = ({ i18n, login }) => {
   );
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
   login: (username, password, type) => dispatch(login(username, password, type))

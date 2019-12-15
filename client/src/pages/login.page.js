@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import React, {useEffect} from 'react';
 import {withRouter,useLocation, useHistory} from 'react-router-dom';
 import { authHook } from '../hooks';

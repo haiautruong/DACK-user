@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory, withRouter, useParams } from 'react-router-dom';
+import { 
+  // useHistory, 
+  withRouter, useParams } from 'react-router-dom';
 import { renderStar, formatCurrency, renderTags } from '../utils/helper';
-import { Row, Card, Col, Icon, Button } from 'antd';
+import { Row, Card, Col, Button } from 'antd';
 import { tutorApi } from '../api';
-const { Meta } = Card;
+// const { Meta } = Card;
 
 const DetailTutorPage = ({ setshowLayout }) => {
   const [tutor, setTutor] = useState({});
   let { email } = useParams();
-  const history = useHistory();
+  // const history = useHistory();
   useEffect(() => {
     async function fetchLayout() {
       await setshowLayout(true);
@@ -28,9 +30,9 @@ const DetailTutorPage = ({ setshowLayout }) => {
       });
   }, []);
 
-  const goHome = () => {
-    history.push('/');
-  };
+  // const goHome = () => {
+  //   history.push('/');
+  // };
 
   const grid33 = {
     width: '33.33%',
@@ -107,7 +109,7 @@ const mapStateToProps = state => ({
   user: state.authReducer.user
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps =() => ({});
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(DetailTutorPage)

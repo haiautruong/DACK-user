@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/prop-types, react/display-name */
 import React from 'react';
 import {Button, Upload} from 'antd';
 

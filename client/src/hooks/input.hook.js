@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import { useState } from 'react';
 import { REGEX_EMAIL, REGEX_PHONE } from '../constant';
 import * as _ from 'lodash';

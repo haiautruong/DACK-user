@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars, react/no-unescaped-entities, react/prop-types */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Checkbox, Icon } from 'antd';
@@ -8,8 +8,8 @@ import * as _ from 'lodash';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 
-const Login = ({ i18n, login }) => {
-  const [checked, setChecked] = useState(true);
+const Login = ({ login }) => {
+  // const [checked, setChecked] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [type, setType] = useState(2);

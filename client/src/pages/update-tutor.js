@@ -53,10 +53,10 @@ const UpdateTutor = ({ setshowLayout }) => {
     }
   }, []);
 
-  const handleShowFormUpdate = () => {
-    setIsShowUpdate(true);
-    // <UpdateInfoForm user={curr_user} />
-  };
+  // const handleShowFormUpdate = () => {
+  //   setIsShowUpdate(true);
+  //   // <UpdateInfoForm user={curr_user} />
+  // };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>

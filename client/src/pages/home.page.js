@@ -1,8 +1,12 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory, useLocation, withRouter } from 'react-router-dom';
-import { Col, Row, Select, Pagination } from 'antd';
+import { 
+  // useHistory, 
+  useLocation, withRouter } from 'react-router-dom';
+import { Col, Row, 
+  // Select, 
+  Pagination } from 'antd';
 import { logout } from '../reducers/auth.reducer';
 import { homeApi } from '../api';
 import CardTutor from '../components/CardTutor';
@@ -15,7 +19,7 @@ import PriceFilter from '../components/filter/PriceFilter';
 // import { useTranslation } from 'react-i18next';
 // import { LanguageToggle } from '../components';
 
-const HomePage = ({ setshowLayout, user, logout }) => {
+const HomePage = ({ setshowLayout }) => {
   const [tutors, setTutors] = useState([]);
   const [filteredTutors, setFilteredTutor] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -129,7 +133,7 @@ const HomePage = ({ setshowLayout, user, logout }) => {
         </Col>
       </Row>
       <Row className="container-tutors">{renderListTutor(filteredTutors)}</Row>
-      <Pagination current={currentPage} onChange={onChange} total={total} />
+      <Pagination current={currentPage} onChange={onChange} total={total} setTotal={setTotal}/>
     </div>
   );
 };

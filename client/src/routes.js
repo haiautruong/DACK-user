@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
 // import logo from './assets/logo.png';
 import SliderShow from './components/SliderShow';
+import { TeacherRoute, StudentRoute } from './components';
 
 const { 
   Header, 
@@ -84,12 +85,21 @@ const AppRouter = () => {
               <Route exact path="/">
                 <HomePage t={t} i18n={i18n} setshowLayout={setshowLayout} />
               </Route>
-              <Route exact path="/update-tutor">
-                <UpdateTutor setshowLayout={setshowLayout} />
-              </Route>
-              <Route exact path="/detail-tutor/:email">
-                <DetailTutor setshowLayout={setshowLayout} />
-              </Route>
+              <TeacherRoute 
+                path="/update-tutor"
+                component={UpdateTutor}
+                setshowLayout={setshowLayout}
+                redirect={'/'}
+              >
+                <UpdateTutor  />
+              </TeacherRoute>
+              <TeacherRoute 
+                path="/detail-tutor/:email"
+                component={TeacherRoute}
+                setshowLayout={setshowLayout}
+                redirect={'/'}
+              >
+              </TeacherRoute>
             </Switch>
           </Content>
         </Layout>

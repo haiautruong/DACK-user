@@ -48,17 +48,22 @@
       "no-case-declarations": 0
   },
   "parserOptions": {
-      "ecmaVersion": 6,
+      "ecmaVersion": 2017,
       "sourceType": "module",
       "ecmaFeatures": {
           "jsx": true
-      }
+      },
+      "rules": {
+        "no-unused-vars": [2, {"vars": "all", "varsIgnorePattern": "[iI]gnored"}]
+    }
   },
   "env": {
       "browser": true,
       "es6": true
   },
   "globals": {
-      "arguments": true
-  }
+      "arguments": true,
+      "process": true
+  },
+  "parser": "babel-eslint"
 }

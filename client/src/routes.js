@@ -11,11 +11,15 @@ import {
 import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
-import logo from './assets/logo.png';
+// import logo from './assets/logo.png';
 import SliderShow from './components/SliderShow';
 
-const { Header, Footer, Sider, Content } = Layout;
-const { SubMenu } = Menu;
+const { 
+  Header, 
+  Footer, 
+  // Sider, 
+  Content } = Layout;
+// const { SubMenu } = Menu;
 const cookies = new Cookies();
 const AppRouter = () => {
   const { t, i18n } = useTranslation();
@@ -47,9 +51,7 @@ const AppRouter = () => {
                   </Menu.Item>
                   <Menu.Item key="2">
                     <Link
-                      onClick={async () => {
-                        await cookies.set('CURR_USER', '');
-                      }}
+                      onClick={async () => await cookies.set('CURR_USER', '')}
                       to="/login"
                     >
                       Logout
@@ -102,8 +104,11 @@ const AppRouter = () => {
   );
 };
 
-const mapStateToProps = state => ({});
+// const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({});
+// const mapDispatchToProps = dispatch => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
+export default connect(
+  // mapStateToProps, 
+  // mapDispatchToProps
+)(AppRouter);

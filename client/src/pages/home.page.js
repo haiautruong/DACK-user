@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useLocation, withRouter } from 'react-router-dom';
@@ -9,7 +10,7 @@ import SkillFilter from '../components/filter/SkillFilter';
 import PlaceFilter from '../components/filter/PlaceFilter';
 import PriceFilter from '../components/filter/PriceFilter';
 
-const { Option } = Select;
+// const { Option } = Select;
 
 // import { useTranslation } from 'react-i18next';
 // import { LanguageToggle } from '../components';
@@ -22,7 +23,7 @@ const HomePage = ({ setshowLayout, user, logout }) => {
 
   const [skills, setSkills] = useState([]);
 
-  let history = useHistory();
+  // let history = useHistory();
   const location = useLocation();
   useEffect(() => {
     async function checkLocation() {
@@ -70,7 +71,7 @@ const HomePage = ({ setshowLayout, user, logout }) => {
     let result = [];
     for (let s of selectedSkills) {
       for (let t of tutors) {
-        if (!result.includes(t) && t.skills.includes(s)) result.push(t);
+        if (!result.includes(t) && t.skills.includes(s)) {result.push(t);}
       }
     }
     setFilteredTutor(result);
@@ -86,7 +87,7 @@ const HomePage = ({ setshowLayout, user, logout }) => {
     for (let s of selectedPlaces) {
       for (let t of tutors) {
         if (!result.includes(t) && t.canTeachingPlaces.includes(s))
-          result.push(t);
+        {result.push(t);}
       }
     }
     setFilteredTutor(result);
@@ -98,7 +99,7 @@ const HomePage = ({ setshowLayout, user, logout }) => {
     let result = [];
     for (let t of tutors) {
       if (t.pricePerHour >= startPrice && t.pricePerHour <= endPrice)
-        result.push(t);
+      {result.push(t);}
     }
 
     setFilteredTutor(result);

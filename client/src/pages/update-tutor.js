@@ -1,7 +1,10 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { Cookies } from 'react-cookie';
 import { Button, Icon, Layout, Menu, Row, Col, Card } from 'antd';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory, 
+  withRouter 
+} from 'react-router-dom';
 import { renderStar, formatCurrency, renderTags } from '../utils/helper';
 import { tutorApi } from '../api';
 
@@ -9,7 +12,9 @@ import UpdateInfoForm from '../components/teacher/UpdateInfoForm';
 
 const cookies = new Cookies();
 
-const { Footer, Sider } = Layout;
+const { 
+  // Footer, 
+  Sider } = Layout;
 const grid33 = {
   width: '33.33%',
   boxShadow: 'none'
@@ -25,7 +30,7 @@ const UpdateTutor = ({ setshowLayout }) => {
 
   const history = useHistory();
 
-  const curr_user = cookies.get('CURR_USER');
+  const currUser = cookies.get('CURR_USER');
 
   useEffect(() => {
     async function fetchLayout() {
@@ -33,7 +38,7 @@ const UpdateTutor = ({ setshowLayout }) => {
     }
     fetchLayout();
     tutorApi
-      .getTutor(curr_user.email)
+      .getTutor(currUser.email)
       .then(result => {
         if (result.returnCode === 1) {
           setTutor(result.data);
@@ -152,4 +157,4 @@ const UpdateTutor = ({ setshowLayout }) => {
   );
 };
 
-export default UpdateTutor;
+export default withRouter(UpdateTutor);

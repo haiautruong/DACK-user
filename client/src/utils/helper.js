@@ -32,3 +32,7 @@ export const renderTags = (listSkills = [], color = true) => {
     );
   });
 };
+
+export const sliceArray = (array = [], start, end) => {
+  return array.slice(start, end);
+};

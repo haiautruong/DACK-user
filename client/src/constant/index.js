@@ -41,4 +41,6 @@ export const PROVINCES = [
   'Cần Giờ'
 ];
 
+export const ITEM_PER_PAGE = 8;
+
 export const API_URL = 'http://167.179.80.90:3004';

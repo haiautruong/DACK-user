@@ -7,21 +7,18 @@ import {
   SignUpPage,
   UpdateTutor,
   DetailTutor,
-  StudentProfile
+  StudentProfile,
+  ListPolicies,
+  Policy
 } from './pages';
 import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
 import SliderShow from './components/SliderShow';
 
-const {
-  Header,
-  Footer,
-  // Sider,
-  Content
-} = Layout;
-// const { SubMenu } = Menu;
+const { Header, Footer, Content } = Layout;
 const cookies = new Cookies();
+
 const AppRouter = () => {
   const { t, i18n } = useTranslation();
   const [showLayout, setshowLayout] = useState(false);
@@ -98,6 +95,12 @@ const AppRouter = () => {
               </Route>
               <Route exact path="/student-profile">
                 <StudentProfile setshowLayout={setshowLayout} />
+              </Route>
+              <Route exact path="/policy">
+                <ListPolicies setshowLayout={setshowLayout} />
+              </Route>
+              <Route exact path="/policy/:id">
+                <Policy setshowLayout={setshowLayout} />
               </Route>
               <Route exact path="/detail-tutor/:email">
                 <DetailTutor setshowLayout={setshowLayout} />

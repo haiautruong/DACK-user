@@ -2,17 +2,17 @@
 import React, {useEffect, useState} from 'react';
 import {Cookies} from 'react-cookie';
 import {Icon, Layout, Menu} from 'antd';
-import {withRouter} from 'react-router-dom';
-
+import {useHistory, withRouter} from 'react-router-dom';
 import UpdateInfoForm from '../components/student/profile';
 
 const cookies = new Cookies();
-
-const {Sider} = Layout;
+const { Sider } = Layout;
 
 const StudentProfile = ({setshowLayout}) => {
   const [student, setStudent] = useState({});
   const [, setIsShowUpdate] = useState(false);
+
+  const history = useHistory();
 
   const currUser = cookies.get('CURR_USER');
 
@@ -25,6 +25,14 @@ const StudentProfile = ({setshowLayout}) => {
     setStudent(currUser);
   }, []);
 
+  const navigation = key => {
+    if (key === '1') {
+      history.push('/student-profile');
+    } else if (key === '2') {
+      history.push('/policy');
+    }
+  };
+
   return (
     <div style={{display: 'flex', flexDirection: 'row', height: '100%'}}>
       <div style={{background: '#001529'}}>
@@ -32,7 +40,12 @@ const StudentProfile = ({setshowLayout}) => {
           breakpoint="lg"
           collapsedWidth="0"
         >
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            onSelect={({ key }) => navigation(key)}
+          >
             <Menu.Item key="1">
               <Icon type="user"/>
               <span className="nav-text">Personal Info</span>

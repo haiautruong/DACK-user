@@ -49,6 +49,14 @@ const UpdateTutor = ({ setshowLayout }) => {
     }
   }, []);
 
+  const navigation = key => {
+    if (key === '1') {
+      history.push('/teacher-profile');
+    } else if (key === '2') {
+      history.push('/policy');
+    }
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
       <div style={{ background: '#001529' }}>
@@ -56,7 +64,12 @@ const UpdateTutor = ({ setshowLayout }) => {
           breakpoint="lg"
           collapsedWidth="0"
         >
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            onSelect={({ key }) => navigation(key)}
+          >
             <Menu.Item key="1">
               <Icon type="user" />
               <span className="nav-text">Personal Info</span>

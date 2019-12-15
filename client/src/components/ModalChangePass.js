@@ -2,39 +2,66 @@ import React, { useState } from 'react';
 import { Modal, Form, Input } from 'antd';
 
 const ModalChangePass = props => {
-  console.log(props.isOpen);
-  const [visible, setVisible] = useState(props.isOpen);
   const { getFieldDecorator } = props.form;
-  const compareToFirstPassword = () => {};
-  const validateToNextPassword = () => {};
+  const [confirmDirty, setConfirmDirty] = useState(false);
 
-  const handleConfirmBlur = () => {};
+  const handleConfirmBlur = e => {
+    const { value } = e.target;
+    setConfirmDirty(!!value);
+  };
+
+  const updatePass = e => {
+    e.preventDefault();
+    props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+
+        setConfirmDirty(false);
+        props.form.resetFields();
+      }
+    });
+
+    props.setShowModalChangePass(false);
+  };
+
+  const compareToFirstPassword = (rule, value, callback) => {
+    const { form } = props;
+    if (value && value !== form.getFieldValue('newPassword')) {
+      callback('Two passwords that you enter is inconsistent!');
+    } else {
+      callback();
+    }
+  };
+
+  const validateToNextPassword = (rule, value, callback) => {
+    const { form } = props;
+    if (value && confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+    }
+    callback();
+  };
 
   return (
     <div>
       <Modal
         title="Change your password"
-        visible={visible}
-        onOk={() => setVisible(false)}
-        onCancel={() => setVisible(false)}
+        visible={props.isOpen}
+        onOk={updatePass}
+        onCancel={() => props.setShowModalChangePass(false)}
       >
         <Form>
-          <Form.Item label="E-mail">
-            {getFieldDecorator('email', {
+          <Form.Item label="Current password">
+            {getFieldDecorator('currentPass', {
               rules: [
                 {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!'
-                },
-                {
                   required: true,
-                  message: 'Please input your E-mail!'
+                  message: 'Please input your current password!'
                 }
               ]
             })(<Input />)}
           </Form.Item>
-          <Form.Item label="Password" hasFeedback>
-            {getFieldDecorator('password', {
+          <Form.Item label="New password" hasFeedback>
+            {getFieldDecorator('newPassword', {
               rules: [
                 {
                   required: true,
@@ -46,7 +73,7 @@ const ModalChangePass = props => {
               ]
             })(<Input.Password />)}
           </Form.Item>
-          <Form.Item label="Confirm Password" hasFeedback>
+          <Form.Item label="Confirm password" hasFeedback>
             {getFieldDecorator('confirm', {
               rules: [
                 {

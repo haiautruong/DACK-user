@@ -1,9 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { 
-  // useHistory, 
-  withRouter, useParams } from 'react-router-dom';
+import { withRouter, useParams } from 'react-router-dom';
 import { renderStar, formatCurrency, renderTags } from '../utils/helper';
 import { Row, Card, Col, Button } from 'antd';
 import { tutorApi } from '../api';
@@ -29,10 +27,6 @@ const DetailTutorPage = ({ setshowLayout }) => {
         console.log('error get list tutor', error);
       });
   }, []);
-
-  // const goHome = () => {
-  //   history.push('/');
-  // };
 
   const grid33 = {
     width: '33.33%',
@@ -109,7 +103,7 @@ const mapStateToProps = state => ({
   user: state.authReducer.user
 });
 
-const mapDispatchToProps =() => ({});
+const mapDispatchToProps = () => ({});
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(DetailTutorPage)

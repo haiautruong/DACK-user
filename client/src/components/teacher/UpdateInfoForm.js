@@ -31,25 +31,22 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
   const dispatch = useDispatch();
 
   const updateInfo = async () => {
-    const formData = new FormData();
+    // console.log('avatar', avatarFile.originFileObj);
 
-    if (avatarFile) {
-      formData.append('file', avatarFile.originFileObj);
-    }
+    const data = {
+      email: user.email,
+      fullName,
+      address,
+      phoneNumber,
+      pricePerHour,
+      canTeachingPlaces: JSON.stringify(canTeachingPlaces),
+      skills: JSON.stringify(skills),
+      selfDescription
+      // avatar,
+      // avatarFile
+    };
 
-    formData.append('email', user.email);
-    formData.append('fullName', fullName);
-    formData.append('address', address);
-    formData.append('avatar', user.avatar);
-    formData.append('phoneNumber', phoneNumber);
-    formData.append('pricePerHour', pricePerHour);
-    formData.append('skills', JSON.stringify(skills));
-    formData.append('canTeachingPlaces', JSON.stringify(canTeachingPlaces));
-    formData.append('selfDescription', selfDescription);
-
-    console.log('formData', formData);
-
-    dispatch(updateUserInfo(formData));
+    dispatch(updateUserInfo(data));
 
     setIsShowUpdate(false);
   };

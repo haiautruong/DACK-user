@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Cookies} from 'react-cookie';
+import { Cookies } from 'react-cookie';
 
 const API_URL = 'http://167.179.80.90:3004';
 
@@ -26,19 +26,19 @@ const login = (email, password, type) => {
   });
 };
 
-const updateInfo = (userData) => {
+const updateInfo = userData => {
   const cookies = new Cookies();
   const token = cookies.get('MY_TOKEN');
 
   return new Promise((resolve, reject) => {
-    axios.post(`${API_URL}/private/teachers/${userData.get('email')}`,
-      userData,
-      {
+    axios
+      .post(`${API_URL}/private/teachers/${userData.email}`, userData, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`
         },
         timeout: 20000
-      }).then(data => resolve(data.data))
+      })
+      .then(data => resolve(data.data))
       .catch(error => {
         reject(error);
       });

@@ -100,28 +100,26 @@ passport.use(new FacebookStrategy({
     async function (req, accessToken, refreshToken, profile, cb) {
         try {
             if (profile.id) {
+                console.log(profile);
                 const type = parseInt(req.query.state);
 
                 let user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, profile.emails[0].value, UserModel.getUser);
 
-                if (user) {
-                    user.type = type;
-                    return cb(null, user);
-                } else {
+                if (!user) {
                     const newUser = {};
                     newUser.email = profile.emails[0].value;
                     newUser.password = '123';
-                    newUser.address = 'Chưa cập nhật';
+                    newUser.address = '';
                     newUser.phoneNumber = '';
-                    newUser.fullName = 'Chưa cập nhật';
+                    newUser.fullName = profile.displayName;
                     newUser.avatar = profile.photos[0].value;
                     newUser.type = type;
 
                     await UserModel.createUser(newUser);
                     user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, profile.emails[0].value, UserModel.getUser);
-
-                    return cb(null, user);
                 }
+
+                return cb(null, user);
             }
         } catch (e) {
             console.error(e);
@@ -141,28 +139,26 @@ passport.use(new GoogleStrategy({
     async function (req, accessToken, refreshToken, profile, cb) {
         try {
             if (profile.id) {
+                console.log(profile);
                 const type = parseInt(req.query.state);
 
                 let user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, profile.emails[0].value, UserModel.getUser);
 
-                if (user) {
-                    user.type = type;
-                    return cb(null, user);
-                } else {
+                if (!user) {
                     const newUser = {};
                     newUser.email = profile.emails[0].value;
                     newUser.password = '123';
-                    newUser.address = 'Chưa cập nhật';
+                    newUser.address = '';
                     newUser.phoneNumber = '';
-                    newUser.fullName = 'Chưa cập nhật';
+                    newUser.fullName = profile.displayName;
                     newUser.avatar = profile.photos[0].value;
                     newUser.type = type;
 
                     await UserModel.createUser(newUser);
                     user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, profile.emails[0].value, UserModel.getUser);
-
-                    return cb(null, user);
                 }
+
+                return cb(null, user);
             } else {
                 return cb(null, false);
             }

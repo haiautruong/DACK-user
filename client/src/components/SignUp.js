@@ -82,7 +82,7 @@ const SignUp = ({ login }) => {
             if (type === 2) {
               history.push('/');
             } else {
-              history.push('/update-tutor');
+              history.push('/teacher-profile');
             }
           } else {
             console.log('Auto login fail');

@@ -1,8 +1,8 @@
 /* eslint-disable no-async-promise-executor */
-import {Cookies} from 'react-cookie';
+import { Cookies } from 'react-cookie';
 
-import {authApi} from '../../api';
-import {doLogin, doLoginFail, doLoginSuccess, doLogout} from './auth.action';
+import { authApi } from '../../api';
+import { doLogin, doLoginFail, doLoginSuccess, doLogout } from './auth.action';
 
 const cookies = new Cookies();
 
@@ -10,7 +10,7 @@ export const login = (email, password, type) => dispatch =>
   new Promise(async (resolve, reject) => {
     dispatch(doLogin(email, password, type));
     const res = await authApi.login(email, password, type);
-    console.log('res', res);
+    console.log('res login', res);
     if (res.returnCode === 1) {
       const cookies = new Cookies();
       cookies.set('MY_TOKEN', res.data.token);
@@ -26,7 +26,7 @@ export const logout = () => dispatch => {
   cookies.set('CURR_USER', '');
 };
 
-export const updateUserInfo = (userData) => dispatch =>
+export const updateUserInfo = userData => dispatch =>
   new Promise(async (resolve, reject) => {
     const res = await authApi.updateInfo(userData);
     if (res.returnCode === 1) {
@@ -38,4 +38,3 @@ export const updateUserInfo = (userData) => dispatch =>
     }
     window.location.reload();
   });
-

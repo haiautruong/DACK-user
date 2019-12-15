@@ -6,19 +6,20 @@ import {
   LoginPage,
   SignUpPage,
   UpdateTutor,
-  DetailTutor
+  DetailTutor,
+  StudentProfile
 } from './pages';
 import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
-// import logo from './assets/logo.png';
 import SliderShow from './components/SliderShow';
 
-const { 
-  Header, 
-  Footer, 
-  // Sider, 
-  Content } = Layout;
+const {
+  Header,
+  Footer,
+  // Sider,
+  Content
+} = Layout;
 // const { SubMenu } = Menu;
 const cookies = new Cookies();
 const AppRouter = () => {
@@ -44,7 +45,15 @@ const AppRouter = () => {
               overlay={() => (
                 <Menu>
                   <Menu.Item key="0">
-                    <Link to="/update-tutor">My Profile</Link>
+                    <Link
+                      to={
+                        user.type === 1
+                          ? '/teacher-profile'
+                          : '/student-profile'
+                      }
+                    >
+                      My Profile
+                    </Link>
                   </Menu.Item>
                   <Menu.Item key="1">
                     <Link to="/">Settings</Link>
@@ -84,8 +93,11 @@ const AppRouter = () => {
               <Route exact path="/">
                 <HomePage t={t} i18n={i18n} setshowLayout={setshowLayout} />
               </Route>
-              <Route exact path="/update-tutor">
+              <Route exact path="/teacher-profile">
                 <UpdateTutor setshowLayout={setshowLayout} />
+              </Route>
+              <Route exact path="/student-profile">
+                <StudentProfile setshowLayout={setshowLayout} />
               </Route>
               <Route exact path="/detail-tutor/:email">
                 <DetailTutor setshowLayout={setshowLayout} />
@@ -108,7 +120,6 @@ const AppRouter = () => {
 
 // const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-  // mapStateToProps, 
-  // mapDispatchToProps
-)(AppRouter);
+export default connect()(AppRouter);
+// mapStateToProps,
+// mapDispatchToProps

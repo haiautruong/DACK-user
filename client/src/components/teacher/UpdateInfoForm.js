@@ -77,7 +77,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
         <Button
           onClick={() => setShowModalChangePass(true)}
           block
-          type="primary"
+          className="btn-register"
         >
           Change Password ?
         </Button>

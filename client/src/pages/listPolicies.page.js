@@ -1,31 +1,33 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { Cookies } from 'react-cookie';
-import { Button, Icon, Layout, Menu, Row, Col, Card } from 'antd';
+import { Pagination, Icon, Layout, Menu, Row, Col, Card } from 'antd';
 import { useHistory, withRouter } from 'react-router-dom';
-import { renderStar, formatCurrency, renderTags } from '../utils/helper';
+import CardPolicy from '../components/CardPolicy';
+import { ITEM_PER_PAGE } from '../constant';
 import { studentApi } from '../api';
 
-import UpdateInfoForm from '../components/student/profile';
-
 const cookies = new Cookies();
-
 const { Sider } = Layout;
+const currUser = cookies.get('CURR_USER');
 
-const StudentProfile = ({ setshowLayout }) => {
-  const [student, setStudent] = useState({});
-
+const Policy = ({ setshowLayout }) => {
   const history = useHistory();
-
-  const currUser = cookies.get('CURR_USER');
+  const [policies, setPolices] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [total, setTotal] = useState(policies.length);
 
   useEffect(() => {
     async function fetchLayout() {
       await setshowLayout(true);
     }
     fetchLayout();
-    setStudent(currUser);
+    setTotal(1);
   }, []);
+
+  const onChangePagination = page => {
+    setCurrentPage(page);
+  };
 
   const navigation = key => {
     if (key === '1') {
@@ -35,19 +37,24 @@ const StudentProfile = ({ setshowLayout }) => {
     }
   };
 
+  const renderListPolicy = () => {
+    return policies.map(policy => {
+      return (
+        <Col span={6}>
+          <CardPolicy />
+        </Col>
+      );
+    });
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
       <div style={{ background: '#001529' }}>
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-          onBreakpoint={broken => {}}
-          onCollapse={(collapsed, type) => {}}
-        >
+        <Sider breakpoint="lg" collapsedWidth="0">
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['2']}
             onSelect={({ key }) => navigation(key)}
           >
             <Menu.Item key="1">
@@ -65,11 +72,26 @@ const StudentProfile = ({ setshowLayout }) => {
           </Menu>
         </Sider>
       </div>
-      <div>
-        <UpdateInfoForm user={student} />
+      <div className="container-info">
+        {policies.length > 0 ? (
+          <div>
+            <Row className="container-policy" gutter={16}>
+              {renderListPolicy()}
+            </Row>
+            <Pagination
+              current={currentPage}
+              onChange={onChangePagination}
+              total={total}
+              setTotal={setTotal}
+              defaultPageSize={ITEM_PER_PAGE}
+            />
+          </div>
+        ) : (
+          'No policy found'
+        )}
       </div>
     </div>
   );
 };
 
-export default withRouter(StudentProfile);
+export default withRouter(Policy);

@@ -1,15 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Cookies } from 'react-cookie';
-import { Pagination, Icon, Layout, Menu, Row, Col, Card } from 'antd';
+import { Pagination, Icon, Layout, Menu, Row, Col } from 'antd';
 import { useHistory, withRouter } from 'react-router-dom';
 import CardPolicy from '../components/CardPolicy';
 import { ITEM_PER_PAGE } from '../constant';
-import { studentApi } from '../api';
-
-const cookies = new Cookies();
 const { Sider } = Layout;
-const currUser = cookies.get('CURR_USER');
 
 const ListPolicies = ({ setshowLayout }) => {
   const history = useHistory();
@@ -23,6 +18,7 @@ const ListPolicies = ({ setshowLayout }) => {
     }
     fetchLayout();
     setTotal(1);
+    setPolices([]);
   }, []);
 
   const onChangePagination = page => {
@@ -38,10 +34,10 @@ const ListPolicies = ({ setshowLayout }) => {
   };
 
   const renderListPolicy = () => {
-    return policies.map(policy => {
+    return policies.map((policy, index) => {
       return (
-        <Col span={6}>
-          <CardPolicy />
+        <Col key={index} span={6}>
+          <CardPolicy id='' code='' status='' tutorName='' studentName='' subject />
         </Col>
       );
     });

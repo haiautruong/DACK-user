@@ -63,8 +63,6 @@ const UpdateTutor = ({ setshowLayout }) => {
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
-          onBreakpoint={broken => {}}
-          onCollapse={(collapsed, type) => {}}
         >
           <Menu
             theme="dark"

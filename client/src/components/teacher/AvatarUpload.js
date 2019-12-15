@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types, react/display-name */
 import React from 'react';
-import { Button, Upload, Icon } from 'antd';
+import { Button, Upload } from 'antd';
 
 function getBase64(img, callback) {
   const reader = new FileReader();

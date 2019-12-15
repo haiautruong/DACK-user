@@ -1,12 +1,10 @@
 import React from 'react';
-import { Card, Avatar, Row, Col } from 'antd';
-import { renderStar, formatCurrency, renderTags } from '../utils/helper';
+import { Card } from 'antd';
 import { useHistory } from 'react-router-dom';
 import '../style/component/cardTutor.scss';
 
-const { Meta } = Card;
 
-const CardPolicy = ({ id, code, status, tutorName, studentName, subject }) => {
+const CardPolicy = (id, code, status, tutorName, studentName, subject ) => {
   const history = useHistory();
 
   const handleOnCard = () => {

@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { Cookies } from 'react-cookie';
-import { Button, Icon, Layout, Menu, Row, Col, Card } from 'antd';
+import { Icon, Layout, Menu} from 'antd';
 import { useHistory, withRouter } from 'react-router-dom';
-import { renderStar, formatCurrency, renderTags } from '../utils/helper';
-import { studentApi } from '../api';
 
 import UpdateInfoForm from '../components/student/profile';
 
@@ -41,8 +39,6 @@ const StudentProfile = ({ setshowLayout }) => {
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
-          onBreakpoint={broken => {}}
-          onCollapse={(collapsed, type) => {}}
         >
           <Menu
             theme="dark"

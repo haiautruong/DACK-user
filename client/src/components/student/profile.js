@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Col, Icon, Input, Row, Select } from 'antd';
+import { Button, Col, Icon, Input, Row } from 'antd';
 import AvatarUpload from '../teacher/AvatarUpload';
 import ModalChangePass from '../ModalChangePass';
 import { updateUserInfo } from '../../reducers/auth.reducer';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const UpdateInfoForm = ({ user }) => {
   const [avatar, setAvatar] = useState('');
@@ -31,7 +31,8 @@ const UpdateInfoForm = ({ user }) => {
       email: user.email,
       fullName,
       address,
-      phoneNumber
+      phoneNumber,
+      avatarFile
     };
 
     dispatch(updateUserInfo(data));

@@ -41,9 +41,9 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
       pricePerHour,
       canTeachingPlaces: JSON.stringify(canTeachingPlaces),
       skills: JSON.stringify(skills),
-      selfDescription
+      selfDescription,
       // avatar,
-      // avatarFile
+      avatarFile
     };
 
     dispatch(updateUserInfo(data));

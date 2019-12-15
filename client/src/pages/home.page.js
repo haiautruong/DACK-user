@@ -13,7 +13,7 @@ import {
   Pagination
 } from 'antd';
 import { logout } from '../reducers/auth.reducer';
-import { homeApi, tutorApi } from '../api';
+import { homeApi } from '../api';
 import CardTutor from '../components/CardTutor';
 import SkillFilter from '../components/filter/SkillFilter';
 import PlaceFilter from '../components/filter/PlaceFilter';

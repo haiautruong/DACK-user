@@ -5,16 +5,17 @@ import { Button, Col, Icon, Input, Row, Select } from 'antd';
 import AvatarUpload from '../teacher/AvatarUpload';
 import ModalChangePass from '../ModalChangePass';
 import { updateUserInfo } from '../../reducers/auth.reducer';
+import { useHistory, useLocation } from 'react-router-dom';
 
-const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
+const UpdateInfoForm = ({ user }) => {
   const [avatar, setAvatar] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-
   const [avatarFile, setAvatarFile] = useState(null);
   const [showModalChangePass, setShowModalChangePass] = useState(false);
+  const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
     setPhoneNumber(user.phoneNumber);
@@ -34,12 +35,11 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
     };
 
     dispatch(updateUserInfo(data));
-
-    setIsShowUpdate(false);
+    window.location.reload();
   };
 
   const cancel = () => {
-    setIsShowUpdate(false);
+    history.push('/');
   };
 
   useEffect(() => {}, []);

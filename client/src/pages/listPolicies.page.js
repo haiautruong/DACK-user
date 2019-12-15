@@ -11,7 +11,7 @@ const cookies = new Cookies();
 const { Sider } = Layout;
 const currUser = cookies.get('CURR_USER');
 
-const Policy = ({ setshowLayout }) => {
+const ListPolicies = ({ setshowLayout }) => {
   const history = useHistory();
   const [policies, setPolices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -94,4 +94,4 @@ const Policy = ({ setshowLayout }) => {
   );
 };
 
-export default withRouter(Policy);
+export default withRouter(ListPolicies);

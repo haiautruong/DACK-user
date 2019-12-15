@@ -6,12 +6,12 @@ import {
   LoginPage,
   SignUpPage,
   UpdateTutor,
-  DetailTutor
+  DetailTutor,
+  StudentProfile
 } from './pages';
 import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
-// import logo from './assets/logo.png';
 import SliderShow from './components/SliderShow';
 
 const {
@@ -95,6 +95,9 @@ const AppRouter = () => {
               </Route>
               <Route exact path="/teacher-profile">
                 <UpdateTutor setshowLayout={setshowLayout} />
+              </Route>
+              <Route exact path="/student-profile">
+                <StudentProfile setshowLayout={setshowLayout} />
               </Route>
               <Route exact path="/detail-tutor/:email">
                 <DetailTutor setshowLayout={setshowLayout} />

@@ -48,7 +48,7 @@ const Login = ({ login }) => {
           if (type === 2) {
             history.push('/');
           } else {
-            history.push('/update-tutor');
+            history.push('/teacher-profile');
           }
         })
         .catch(err => {
@@ -84,7 +84,7 @@ const Login = ({ login }) => {
           if (type === 2) {
             history.push('/');
           } else {
-            history.push('/update-tutor');
+            history.push('/teacher-profile');
           }
         } else {
           document.getElementsByClassName('notify')[0].classList.remove('hide');
@@ -112,7 +112,7 @@ const Login = ({ login }) => {
           if (type === 2) {
             history.push('/');
           } else {
-            history.push('/update-tutor');
+            history.push('/teacher-profile');
           }
         } else {
           document.getElementsByClassName('notify')[0].classList.remove('hide');

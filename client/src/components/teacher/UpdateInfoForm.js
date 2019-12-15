@@ -31,22 +31,23 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
   const dispatch = useDispatch();
 
   const updateInfo = async () => {
-    // console.log('avatar', avatarFile.originFileObj);
+    const formData = new FormData();
 
-    const data = {
-      email: user.email,
-      fullName,
-      address,
-      phoneNumber,
-      pricePerHour,
-      canTeachingPlaces: JSON.stringify(canTeachingPlaces),
-      skills: JSON.stringify(skills),
-      selfDescription
-      // avatar,
-      // avatarFile
-    };
+    if (avatarFile) {
+      formData.append('file', avatarFile.originFileObj);
+    }
 
-    dispatch(updateUserInfo(data));
+    formData.append('email', user.email);
+    formData.append('fullName', fullName);
+    formData.append('address', address);
+    formData.append('avatar', user.avatar);
+    formData.append('phoneNumber', phoneNumber);
+    formData.append('pricePerHour', pricePerHour);
+    formData.append('skills', JSON.stringify(skills));
+    formData.append('canTeachingPlaces', JSON.stringify(canTeachingPlaces));
+    formData.append('selfDescription', selfDescription);
+
+    dispatch(updateUserInfo(formData));
 
     setIsShowUpdate(false);
   };
@@ -101,11 +102,11 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
           type="text"
           value={fullName}
           onChange={e => setFullName(e.target.value)}
-          placeholder="Họ tên"
+          placeholder="Full Name"
         />
         <Input
           style={{ marginBottom: 12 }}
-          prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<Icon type="home" style={{ color: 'rgba(0,0,0,.25)' }} />}
           name="address"
           type="text"
           value={address}
@@ -114,16 +115,16 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
         />
         <Input
           style={{ marginBottom: 12 }}
-          prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
           name="phoneNumber"
           type="text"
           value={phoneNumber}
           onChange={e => setPhoneNumber(e.target.value)}
-          placeholder="Address"
+          placeholder="Phone Number"
         />
         <Input
           style={{ marginBottom: 12 }}
-          prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<Icon type="dollar" style={{ color: 'rgba(0,0,0,.25)' }} />}
           name="pricePerHour"
           type="text"
           value={pricePerHour}
@@ -165,7 +166,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
         <TextArea
           row={4}
           style={{ marginBottom: 12 }}
-          prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<Icon type="info-circle" style={{ color: 'rgba(0,0,0,.25)' }} />}
           name="selfDescription"
           type="text"
           value={selfDescription}

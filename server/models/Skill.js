@@ -2,7 +2,7 @@ const conn = require('../utilities/mysql');
 
 module.exports.getAllSkill = async () => {
     const [res, f] = await conn.getConnection()
-        .query('SELECT * FROM Skill WHERE isDeleted = ?', [0])
+        .query('SELECT * FROM Skill')
         .then(([rows, fields]) => {
             return [rows, fields];
         })

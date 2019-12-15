@@ -80,7 +80,6 @@ const Login = ({ login }) => {
           const cookies = new Cookies();
           cookies.set('MY_TOKEN', data.data.token);
           cookies.set('CURR_USER', data.data.user);
-          login(data.data.user.email, '123', type);
           if (type === 2) {
             history.push('/');
           } else {
@@ -108,7 +107,6 @@ const Login = ({ login }) => {
           const cookies = new Cookies();
           cookies.set('MY_TOKEN', data.data.token);
           cookies.set('CURR_USER', data.data.user);
-          login(data.data.user.email, '123', type);
           if (type === 2) {
             history.push('/');
           } else {

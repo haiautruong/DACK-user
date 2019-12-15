@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
-import { Cookies } from 'react-cookie';
-import { Button, Icon, Layout, Menu, Row, Col, Card } from 'antd';
-import { useHistory, withRouter } from 'react-router-dom';
-import { renderStar, formatCurrency, renderTags } from '../utils/helper';
-import { tutorApi } from '../api';
+import React, {useEffect, useState} from 'react';
+import {Cookies} from 'react-cookie';
+import {Button, Card, Col, Icon, Layout, Menu, Row} from 'antd';
+import {useHistory, withRouter} from 'react-router-dom';
+import {formatCurrency, renderStar, renderTags} from '../utils/helper';
+import {tutorApi} from '../api';
 
 import UpdateInfoForm from '../components/teacher/UpdateInfoForm';
 
@@ -55,8 +55,6 @@ const UpdateTutor = ({ setshowLayout }) => {
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
-          onBreakpoint={broken => {}}
-          onCollapse={(collapsed, type) => {}}
         >
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
             <Menu.Item key="1">

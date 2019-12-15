@@ -42,7 +42,7 @@ const getAsync = (key) => {
 
             })
         } catch (e) {
-            console.error(`Redis getAsync key [${key}] | err: ${err}`);
+            console.error(`Redis getAsync key [${key}] | err: ${e}`);
             reject(null);
         }
     })
@@ -91,8 +91,7 @@ const REDIS_KEY = {
     OLD_CACHE_KEY: 'OLD_CACHE_KEY',
     ALL_TEACHER: 'ALL_TEACHER',
     ALL_SKILL: 'ALL_SKILL',
-    TEACHER: 'TEACHER_',
-    STUDENT: 'STUDENT_',
+    USER: 'USER_',
 };
 
 module.exports = {

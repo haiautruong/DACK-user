@@ -1,20 +1,11 @@
 /* eslint-disable react/prop-types */
-<<<<<<< HEAD
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {Button, Col, Icon, Input, Row} from 'antd';
 import AvatarUpload from '../teacher/AvatarUpload';
 import ModalChangePass from '../ModalChangePass';
 import {updateUserInfo} from '../../reducers/auth.reducer';
-=======
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Button, Col, Icon, Input, Row } from 'antd';
-import AvatarUpload from '../teacher/AvatarUpload';
-import ModalChangePass from '../ModalChangePass';
-import { updateUserInfo } from '../../reducers/auth.reducer';
-import { useHistory } from 'react-router-dom';
->>>>>>> 28b7ebd05a621fef42f8b2c74191f642c1cd0be1
+import {useHistory} from 'react-router-dom';
 
 const UpdateInfoForm = ({ user }) => {
   const [avatar, setAvatar] = useState('');
@@ -22,12 +13,7 @@ const UpdateInfoForm = ({ user }) => {
   const [address, setAddress] = useState('');
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-<<<<<<< HEAD
-
-  const [, setAvatarFile] = useState(null);
-=======
   const [avatarFile, setAvatarFile] = useState(null);
->>>>>>> 28b7ebd05a621fef42f8b2c74191f642c1cd0be1
   const [showModalChangePass, setShowModalChangePass] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();

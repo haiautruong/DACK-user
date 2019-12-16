@@ -34,7 +34,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
     const formData = new FormData();
 
     if (avatarFile) {
-          formData.append('file', avatarFile.originFileObj);
+      formData.append('file', avatarFile.originFileObj);
     }
     formData.append('email', user.email);
     formData.append('fullName', fullName);

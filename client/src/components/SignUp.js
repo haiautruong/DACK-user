@@ -83,6 +83,7 @@ const SignUp = ({ login }) => {
               history.push('/');
             } else {
               history.push('/teacher-profile');
+              console.log('res', res);
             }
           } else {
             console.log('Auto login fail');
@@ -209,4 +210,7 @@ const mapDispatchToProps = dispatch => ({
   login: (username, password, type) => dispatch(login(username, password, type))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUp);

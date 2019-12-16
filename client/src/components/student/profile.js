@@ -49,7 +49,10 @@ const UpdateInfoForm = ({ user }) => {
     <Row className="container-tutors">
       <Col span={5}>
         <AvatarUpload
-          avatar={avatar}
+          avatar={
+            avatar ||
+            'https://www.speakingtigerbooks.com/wp-content/uploads/2017/05/default-avatar.png'
+          }
           setAvatar={setAvatar}
           setFile={setAvatarFile}
         />

@@ -6,22 +6,20 @@ import {
   LoginPage,
   SignUpPage,
   UpdateTutor,
-  DetailTutor
+  DetailTutor,
+  StudentProfile,
+  ListPolicies,
+  Policy
 } from './pages';
 import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
-// import logo from './assets/logo.png';
 import SliderShow from './components/SliderShow';
 import { TeacherRoute, StudentRoute } from './components';
 
-const { 
-  Header, 
-  Footer, 
-  // Sider, 
-  Content } = Layout;
-// const { SubMenu } = Menu;
+const { Header, Footer, Content } = Layout;
 const cookies = new Cookies();
+
 const AppRouter = () => {
   const { t, i18n } = useTranslation();
   const [showLayout, setshowLayout] = useState(false);
@@ -45,7 +43,15 @@ const AppRouter = () => {
               overlay={() => (
                 <Menu>
                   <Menu.Item key="0">
-                    <Link to="/update-tutor">My Profile</Link>
+                    <Link
+                      to={
+                        user.type === 1
+                          ? '/teacher-profile'
+                          : '/student-profile'
+                      }
+                    >
+                      My Profile
+                    </Link>
                   </Menu.Item>
                   <Menu.Item key="1">
                     <Link to="/">Settings</Link>
@@ -100,6 +106,21 @@ const AppRouter = () => {
                 redirect={'/'}
               >
               </TeacherRoute>
+              <TeacherRoute exact path="/teacher-profile">
+                <UpdateTutor setshowLayout={setshowLayout} />
+              </TeacherRoute>
+              <StudentRoute exact path="/student-profile">
+                <StudentProfile setshowLayout={setshowLayout} />
+              </StudentRoute>
+              <Route exact path="/policy">
+                <ListPolicies setshowLayout={setshowLayout} />
+              </Route>
+              <Route exact path="/policy/:id">
+                <Policy setshowLayout={setshowLayout} />
+              </Route>
+              <TeacherRoute exact path="/detail-tutor/:email">
+                <DetailTutor setshowLayout={setshowLayout} />
+              </TeacherRoute>
             </Switch>
           </Content>
         </Layout>
@@ -118,7 +139,6 @@ const AppRouter = () => {
 
 // const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-  // mapStateToProps, 
-  // mapDispatchToProps
-)(AppRouter);
+export default connect()(AppRouter);
+// mapStateToProps,
+// mapDispatchToProps

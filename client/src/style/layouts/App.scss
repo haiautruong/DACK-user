@@ -75,3 +75,26 @@
 .user {
   float: right;
 }
+
+.btn-camera {
+  background-color: transparent !important;
+  border: none !important;
+  font-size: 50px !important;
+  color: #455dc5 !important;
+  &:hover {
+    color: #000 !important;
+  }
+}
+
+.container-info {
+  width: 100%;
+  padding: 20px;
+}
+
+.container-policy {
+  height: 70vh !important;
+}
+
+.card-policy {
+  margin-bottom: 16px !important;
+}

@@ -1,18 +1,25 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { 
-  // useHistory, 
-  useLocation, withRouter } from 'react-router-dom';
-import { Col, Row, 
-  // Select, 
-  Pagination } from 'antd';
+import {
+  // useHistory,
+  useLocation,
+  withRouter
+} from 'react-router-dom';
+import {
+  Col,
+  Row,
+  // Select,
+  Pagination
+} from 'antd';
 import { logout } from '../reducers/auth.reducer';
 import { homeApi } from '../api';
 import CardTutor from '../components/CardTutor';
 import SkillFilter from '../components/filter/SkillFilter';
 import PlaceFilter from '../components/filter/PlaceFilter';
 import PriceFilter from '../components/filter/PriceFilter';
+import { ITEM_PER_PAGE } from '../constant';
+import { sliceArray } from '../utils/helper';
 
 // const { Option } = Select;
 
@@ -23,7 +30,7 @@ const HomePage = ({ setshowLayout }) => {
   const [tutors, setTutors] = useState([]);
   const [filteredTutors, setFilteredTutor] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [total, setTotal] = useState(40);
+  const [total, setTotal] = useState(filteredTutors.length);
 
   const [skills, setSkills] = useState([]);
 
@@ -46,6 +53,7 @@ const HomePage = ({ setshowLayout }) => {
           console.log('tutors', result.data.tutors);
           setTutors(result.data.tutors);
           setFilteredTutor(result.data.tutors);
+          setTotal(result.data.tutors.length);
         }
       })
       .catch(error => {
@@ -70,32 +78,39 @@ const HomePage = ({ setshowLayout }) => {
   const handleChangeSkillFilter = selectedSkills => {
     if (selectedSkills.length === 0) {
       setFilteredTutor(tutors);
+      setTotal(tutors.length);
       return;
     }
 
     let result = [];
     for (let s of selectedSkills) {
       for (let t of tutors) {
-        if (!result.includes(t) && t.skills.includes(s)) {result.push(t);}
+        if (!result.includes(t) && t.skills.includes(s)) {
+          result.push(t);
+        }
       }
     }
     setFilteredTutor(result);
+    setTotal(result.length);
   };
 
   const handleChangePlaceFilter = selectedPlaces => {
     if (selectedPlaces.length === 0) {
       setFilteredTutor(tutors);
+      setTotal(tutors.length);
       return;
     }
 
     let result = [];
     for (let s of selectedPlaces) {
       for (let t of tutors) {
-        if (!result.includes(t) && t.canTeachingPlaces.includes(s))
-        {result.push(t);}
+        if (!result.includes(t) && t.canTeachingPlaces.includes(s)) {
+          result.push(t);
+        }
       }
     }
     setFilteredTutor(result);
+    setTotal(result.length);
   };
 
   const handleChangePriceFilter = values => {
@@ -103,15 +118,19 @@ const HomePage = ({ setshowLayout }) => {
     const endPrice = values[1] * 1000;
     let result = [];
     for (let t of tutors) {
-      if (t.pricePerHour >= startPrice && t.pricePerHour <= endPrice)
-      {result.push(t);}
+      if (t.pricePerHour >= startPrice && t.pricePerHour <= endPrice) {
+        result.push(t);
+      }
     }
 
     setFilteredTutor(result);
   };
 
-  const renderListTutor = (list = []) => {
-    return list.map((element, key) => {
+  const renderListTutor = (list = [], page) => {
+    const start = (page - 1) * ITEM_PER_PAGE;
+    const end = start + ITEM_PER_PAGE;
+    const subList = sliceArray(list, start, end);
+    return subList.map((element, key) => {
       return (
         <Col key={key} span={6}>
           <CardTutor {...element} />
@@ -133,8 +152,16 @@ const HomePage = ({ setshowLayout }) => {
           <PriceFilter handleChange={handleChangePriceFilter} />
         </Col>
       </Row>
-      <Row className="container-tutors">{renderListTutor(filteredTutors)}</Row>
-      <Pagination current={currentPage} onChange={onChange} total={total} setTotal={setTotal}/>
+      <Row className="container-tutors">
+        {renderListTutor(filteredTutors, currentPage)}
+      </Row>
+      <Pagination
+        current={currentPage}
+        onChange={onChange}
+        total={total}
+        setTotal={setTotal}
+        defaultPageSize={ITEM_PER_PAGE}
+      />
     </div>
   );
 };

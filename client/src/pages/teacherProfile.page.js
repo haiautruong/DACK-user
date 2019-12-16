@@ -2,9 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Cookies } from 'react-cookie';
 import { Button, Icon, Layout, Menu, Row, Col, Card } from 'antd';
-import { useHistory, 
-  withRouter 
-} from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import { renderStar, formatCurrency, renderTags } from '../utils/helper';
 import { tutorApi } from '../api';
 
@@ -12,9 +10,7 @@ import UpdateInfoForm from '../components/teacher/UpdateInfoForm';
 
 const cookies = new Cookies();
 
-const { 
-  // Footer, 
-  Sider } = Layout;
+const { Sider } = Layout;
 const grid33 = {
   width: '33.33%',
   boxShadow: 'none'
@@ -53,10 +49,13 @@ const UpdateTutor = ({ setshowLayout }) => {
     }
   }, []);
 
-  // const handleShowFormUpdate = () => {
-  //   setIsShowUpdate(true);
-  //   // <UpdateInfoForm user={curr_user} />
-  // };
+  const navigation = key => {
+    if (key === '1') {
+      history.push('/teacher-profile');
+    } else if (key === '2') {
+      history.push('/policy');
+    }
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
@@ -64,14 +63,13 @@ const UpdateTutor = ({ setshowLayout }) => {
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
-          onBreakpoint={broken => {
-            console.log(broken);
-          }}
-          onCollapse={(collapsed, type) => {
-            console.log(collapsed, type);
-          }}
         >
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            onSelect={({ key }) => navigation(key)}
+          >
             <Menu.Item key="1">
               <Icon type="user" />
               <span className="nav-text">Personal Info</span>

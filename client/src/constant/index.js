@@ -43,4 +43,4 @@ export const PROVINCES = [
 
 export const ITEM_PER_PAGE = 8;
 
-export const API_URL = 'http://localhost:3004';
+export const API_URL = 'http:http://167.179.80.90:3004';

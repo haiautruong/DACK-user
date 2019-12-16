@@ -29,7 +29,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
   const [showModalChangePass, setShowModalChangePass] = useState(false);
 
   const dispatch = useDispatch();
-
+  console.log('avata', user.avater);
   const updateInfo = async () => {
     // console.log('avatar', avatarFile.originFileObj);
 

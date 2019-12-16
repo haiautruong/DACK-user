@@ -78,7 +78,10 @@
 }
 
 //end 575px
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 500px) {
+  .col {
+    width: 100% !important;
+  }
 }
 
 //end 480px
@@ -95,4 +98,9 @@
 //end 400px
 
 @media screen and (max-width: 320px) {
+  .col {
+    width: 100% !important;
+  }
+  .card-tutor {
+  }
 }

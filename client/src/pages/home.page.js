@@ -131,7 +131,7 @@ const HomePage = ({ setshowLayout }) => {
     const subList = sliceArray(list, start, end);
     return subList.map((element, key) => {
       return (
-        <Col key={key} span={6}>
+        <Col className="col" key={key} xs={12} md={8} xl={6}>
           <CardTutor {...element} />
         </Col>
       );
@@ -155,6 +155,7 @@ const HomePage = ({ setshowLayout }) => {
         {renderListTutor(filteredTutors, currentPage)}
       </Row>
       <Pagination
+        className="pagination"
         current={currentPage}
         onChange={onChange}
         total={total}
@@ -174,5 +175,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(HomePage)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(HomePage)
 );

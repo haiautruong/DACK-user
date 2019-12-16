@@ -31,13 +31,10 @@ router.get('/facebook/callback',
 
         const token = jwt.sign({
             email: user.email,
-            fullName: user.fullName,
-            phoneNumber: user.phoneNumber,
-            address: user.address,
             type: user.type
         }, '1612145');
 
-        const {password, facebookID, googleID, updDate, ...newUser} = req.user;
+        const {password, updDate, ...newUser} = req.user;
 
         responseHTML = responseHTML.replace('%value%', JSON.stringify({
             returnCode: 1,
@@ -76,13 +73,10 @@ router.get('/google/callback',
 
         const token = jwt.sign({
             email: user.email,
-            fullName: user.fullName,
-            phoneNumber: user.phoneNumber,
-            address: user.address,
             type: user.type
         }, '1612145');
 
-        const {password, facebookID, googleID, updDate, ...newUser} = req.user;
+        const {password, updDate, ...newUser} = req.user;
 
         responseHTML = responseHTML.replace('%value%', JSON.stringify({
             returnCode: 1,

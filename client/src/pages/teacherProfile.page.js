@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
-import { Cookies } from 'react-cookie';
-import { Button, Icon, Layout, Menu, Row, Col, Card } from 'antd';
-import { useHistory, withRouter } from 'react-router-dom';
-import { renderStar, formatCurrency, renderTags } from '../utils/helper';
-import { tutorApi } from '../api';
+import React, {useEffect, useState} from 'react';
+import {Cookies} from 'react-cookie';
+import {Button, Card, Col, Icon, Layout, Menu, Row} from 'antd';
+import {useHistory, withRouter} from 'react-router-dom';
+import {formatCurrency, renderStar, renderTags} from '../utils/helper';
+import {tutorApi} from '../api';
 
 import UpdateInfoForm from '../components/teacher/UpdateInfoForm';
 
 const cookies = new Cookies();
+const currUser = cookies.get('CURR_USER');
 
 const { Sider } = Layout;
 const grid33 = {
@@ -21,12 +22,10 @@ const grid100 = {
 };
 
 const UpdateTutor = ({ setshowLayout }) => {
-  const [tutor, setTutor] = useState({});
+  const [tutor, setTutor] = useState(currUser);
   const [isShowUpdate, setIsShowUpdate] = useState(false);
 
   const history = useHistory();
-
-  const currUser = cookies.get('CURR_USER');
 
   useEffect(() => {
     async function fetchLayout() {
@@ -57,13 +56,11 @@ const UpdateTutor = ({ setshowLayout }) => {
     }
   };
 
+  console.log('skills', tutor.skills, 'places', tutor.canTeachingPlaces);
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
       <div style={{ background: '#001529' }}>
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-        >
+        <Sider breakpoint="lg" collapsedWidth="0">
           <Menu
             theme="dark"
             mode="inline"
@@ -90,7 +87,7 @@ const UpdateTutor = ({ setshowLayout }) => {
           <UpdateInfoForm user={tutor} setIsShowUpdate={setIsShowUpdate} />
         ) : (
           <Row className="container-tutors">
-            <Col span={5}>
+            <Col span={7}>
               <Card
                 style={{
                   width: '100%',
@@ -98,7 +95,15 @@ const UpdateTutor = ({ setshowLayout }) => {
                   textAlign: 'center',
                   position: 'relative'
                 }}
-                cover={<img alt="" src={tutor.avatar} />}
+                cover={
+                  <img
+                    alt=""
+                    src={
+                      tutor.avatar ||
+                      'https://www.speakingtigerbooks.com/wp-content/uploads/2017/05/default-avatar.png'
+                    }
+                  />
+                }
                 bordered={false}
               >
                 <div>{renderStar(tutor.rating)}</div>
@@ -114,7 +119,7 @@ const UpdateTutor = ({ setshowLayout }) => {
                 </div>
               </Card>
             </Col>
-            <Col span={19}>
+            <Col span={17}>
               <Card
                 bordered={false}
                 style={{ width: '100%', height: 'calc(100vh - 130px)' }}
@@ -133,18 +138,39 @@ const UpdateTutor = ({ setshowLayout }) => {
                 <Card.Grid hoverable={false} style={grid33}>
                   <p className="text-small">Price per hour</p>
                   <div className="value">
-                    {formatCurrency(tutor.pricePerHour)}
+                    {tutor.pricePerHour ? (
+                      formatCurrency(tutor.pricePerHour)
+                    ) : (
+                      <span className="notify">Need to update</span>
+                    )}
                   </div>
                   <p className="text-small">Skills</p>
-                  <div className="value">{renderTags(tutor.skills)}</div>
+                  <div className="value">
+                    {tutor.skills && tutor.skills.length !== 0 ? (
+                      renderTags(tutor.skills)
+                    ) : (
+                      <span className="notify">Need to update</span>
+                    )}
+                  </div>
                   <p className="text-small">Teaching places</p>
                   <div className="value">
-                    {renderTags(tutor.canTeachingPlaces, false)}
+                    {tutor.canTeachingPlaces &&
+                    tutor.canTeachingPlaces.length !== 0 ? (
+                        renderTags(tutor.canTeachingPlaces, false)
+                      ) : (
+                        <span className="notify">Need to update</span>
+                      )}
                   </div>
                 </Card.Grid>
                 <Card.Grid hoverable={false} style={grid100}>
                   <p className="text-small">Self description</p>
-                  <div>{tutor.selfDescription}</div>
+                  <div>
+                    {tutor.selfDescription ? (
+                      tutor.selfDescription
+                    ) : (
+                      <span className="notify">Need to update</span>
+                    )}
+                  </div>
                 </Card.Grid>
               </Card>
             </Col>

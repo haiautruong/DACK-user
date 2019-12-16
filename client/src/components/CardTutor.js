@@ -43,9 +43,19 @@ const CardTutor = ({
         description={renderPriceAndStar()}
       />
       <p className="text-small title">Skills</p>
-      <Meta description={renderTags(skills)} />
+      <Meta
+        description={
+          skills && skills.length !== 0 ? renderTags(skills) : 'Udating'
+        }
+      />
       <p className="text-small title">Teaching places</p>
-      <Meta description={renderTags(canTeachingPlaces, false)} />
+      <Meta
+        description={
+          canTeachingPlaces && canTeachingPlaces.length !== 0
+            ? renderTags(canTeachingPlaces, false)
+            : 'Updating'
+        }
+      />
     </Card>
   );
 };

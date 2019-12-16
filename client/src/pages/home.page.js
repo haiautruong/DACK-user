@@ -1,25 +1,16 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import {
-  // useHistory,
-  useLocation,
-  withRouter
-} from 'react-router-dom';
-import {
-  Col,
-  Row,
-  // Select,
-  Pagination
-} from 'antd';
-import { logout } from '../reducers/auth.reducer';
-import { homeApi } from '../api';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {useLocation, withRouter} from 'react-router-dom';
+import {Col, Pagination, Row} from 'antd';
+import {logout} from '../reducers/auth.reducer';
+import {homeApi} from '../api';
 import CardTutor from '../components/CardTutor';
 import SkillFilter from '../components/filter/SkillFilter';
 import PlaceFilter from '../components/filter/PlaceFilter';
 import PriceFilter from '../components/filter/PriceFilter';
-import { ITEM_PER_PAGE } from '../constant';
-import { sliceArray } from '../utils/helper';
+import {ITEM_PER_PAGE} from '../constant';
+import {sliceArray} from '../utils/helper';
 
 // const { Option } = Select;
 
@@ -132,7 +123,7 @@ const HomePage = ({ setshowLayout }) => {
     const subList = sliceArray(list, start, end);
     return subList.map((element, key) => {
       return (
-        <Col key={key} span={6}>
+        <Col className="col" key={key} xs={12} md={8} xl={6}>
           <CardTutor {...element} />
         </Col>
       );
@@ -156,6 +147,7 @@ const HomePage = ({ setshowLayout }) => {
         {renderListTutor(filteredTutors, currentPage)}
       </Row>
       <Pagination
+        className="pagination"
         current={currentPage}
         onChange={onChange}
         total={total}
@@ -175,5 +167,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(HomePage)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(HomePage)
 );

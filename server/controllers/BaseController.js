@@ -1,7 +1,6 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const teacherModel = require('../models/Teacher');
-const studentModel = require('../models/Student');
+const userModel = require('../models/User');
 const redis = require('../utilities/redis');
 
 exports.login = function (req, res, next) {
@@ -42,7 +41,7 @@ exports.login = function (req, res, next) {
     })(req, res);
 };
 
-exports.signup = async function (req, res, next) {
+exports.signUp = async function (req, res, next) {
     try {
         const user = req.body;
         const type = user.type;
@@ -54,12 +53,7 @@ exports.signup = async function (req, res, next) {
             });
         }
 
-        let find = null;
-        if (type === 1) {
-            find = await redis.getAsyncWithCallback(redis.REDIS_KEY.TEACHER, user.email, teacherModel.getUser);
-        } else if (type === 2) {
-            find = await redis.getAsyncWithCallback(redis.REDIS_KEY.STUDENT, user.email, studentModel.getUser);
-        }
+        const find = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, user.email, userModel.getUser);
 
         if (find != null) {
             return res.json({
@@ -68,12 +62,7 @@ exports.signup = async function (req, res, next) {
             });
         }
 
-        let result = null;
-        if (type === 1) {
-            result = await teacherModel.createUser(user);
-        } else if (type === 2) {
-            result = await studentModel.createUser(user);
-        }
+        const result = await userModel.createUser(user);
 
         if (result != null && result.affectedRows === 1) {
             const token = jwt.sign({

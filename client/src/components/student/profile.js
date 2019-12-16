@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Button, Col, Icon, Input, Row } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {Button, Col, Icon, Input, Row} from 'antd';
 import AvatarUpload from '../teacher/AvatarUpload';
 import ModalChangePass from '../ModalChangePass';
-import { updateUserInfo } from '../../reducers/auth.reducer';
-import { useHistory } from 'react-router-dom';
+import {updateUserInfo} from '../../reducers/auth.reducer';
+import {useHistory} from 'react-router-dom';
 
 const UpdateInfoForm = ({ user }) => {
   const [avatar, setAvatar] = useState('');
@@ -49,7 +49,10 @@ const UpdateInfoForm = ({ user }) => {
     <Row className="container-tutors">
       <Col span={5}>
         <AvatarUpload
-          avatar={avatar}
+          avatar={
+            avatar ||
+            'https://www.speakingtigerbooks.com/wp-content/uploads/2017/05/default-avatar.png'
+          }
           setAvatar={setAvatar}
           setFile={setAvatarFile}
         />

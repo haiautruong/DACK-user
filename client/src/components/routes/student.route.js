@@ -6,10 +6,10 @@ import {Cookies} from 'react-cookie';
 const cookies = new Cookies();
 
 
-const StudentRoute = ({component: Component, redirect, setshowLayout }) => {
+const StudentRoute = ({path, component: Component, redirect, setshowLayout }) => {
   const user = cookies.get('CURR_USER');
   return (
-    <Route>
+    <Route path={path}>
       {
         user.type === 2 ? 
           <Component setshowLayout={setshowLayout}/>

@@ -92,25 +92,17 @@ const AppRouter = () => {
                 <HomePage t={t} i18n={i18n} setshowLayout={setshowLayout} />
               </Route>
               <TeacherRoute 
-                path="/update-tutor"
+                path="/teacher-profile"
                 component={UpdateTutor}
                 setshowLayout={setshowLayout}
                 redirect={'/'}
-              >
-                <UpdateTutor  />
+                >
               </TeacherRoute>
-              <TeacherRoute 
-                path="/detail-tutor/:email"
-                component={TeacherRoute}
+              <StudentRoute 
+                path="/student-profile"
+                component={StudentProfile}
                 setshowLayout={setshowLayout}
-                redirect={'/'}
-              >
-              </TeacherRoute>
-              <TeacherRoute exact path="/teacher-profile">
-                <UpdateTutor setshowLayout={setshowLayout} />
-              </TeacherRoute>
-              <StudentRoute exact path="/student-profile">
-                <StudentProfile setshowLayout={setshowLayout} />
+                redirect={'/'}>
               </StudentRoute>
               <Route exact path="/policy">
                 <ListPolicies setshowLayout={setshowLayout} />
@@ -118,9 +110,9 @@ const AppRouter = () => {
               <Route exact path="/policy/:id">
                 <Policy setshowLayout={setshowLayout} />
               </Route>
-              <TeacherRoute exact path="/detail-tutor/:email">
+              <Route exact path="/detail-tutor/:email">
                 <DetailTutor setshowLayout={setshowLayout} />
-              </TeacherRoute>
+              </Route>
             </Switch>
           </Content>
         </Layout>

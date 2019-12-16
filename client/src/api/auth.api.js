@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
-
 import { API_URL } from '../constant';
 
 
@@ -30,7 +29,7 @@ const login = (email, password, type) => {
 const updateInfo = userData => {
   const cookies = new Cookies();
   const token = cookies.get('MY_TOKEN');
-
+  console.log('here');
   return new Promise((resolve, reject) => {
     axios
       .post(`${API_URL}/private/teachers/${userData.get('email')}`, userData, {

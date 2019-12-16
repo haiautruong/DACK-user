@@ -29,7 +29,6 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
   const [showModalChangePass, setShowModalChangePass] = useState(false);
 
   const dispatch = useDispatch();
-  console.log('avata', user.avater);
   const updateInfo = async () => {
     const formData = new FormData();
 
@@ -46,8 +45,11 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
     formData.append('canTeachingPlaces', JSON.stringify(canTeachingPlaces));
     formData.append('selfDescription', selfDescription);
 
-    dispatch(updateUserInfo(formData));
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ', ' + pair[1]);
+    // }
 
+    dispatch(updateUserInfo(formData));
     setIsShowUpdate(false);
   };
 
@@ -173,7 +175,9 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
         <TextArea
           row={4}
           style={{ marginBottom: 12 }}
-          prefix={<Icon type="info-circle" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={
+            <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.25)' }} />
+          }
           name="selfDescription"
           type="text"
           value={selfDescription}

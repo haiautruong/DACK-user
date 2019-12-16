@@ -96,7 +96,7 @@ const AppRouter = () => {
                 component={UpdateTutor}
                 setshowLayout={setshowLayout}
                 redirect={'/'}
-                >
+              >
               </TeacherRoute>
               <StudentRoute 
                 path="/student-profile"

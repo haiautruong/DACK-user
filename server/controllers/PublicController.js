@@ -4,15 +4,15 @@ const redis = require('../utilities/redis');
 
 exports.getAllTeacher = async function (req, res, next) {
     try {
-        let tutors = await redis.getAsyncWithCallback(redis.REDIS_KEY.ALL_TEACHER, '' , teacherModel.getAllUser);
-        if (!tutors)
-            tutors = [];
+        let teachers = await redis.getAsyncWithCallback(redis.REDIS_KEY.ALL_TEACHER, '' , teacherModel.getAllTeacher);
+        if (!teachers)
+            teachers = [];
 
         res.json({
             returnCode: 1,
             returnMessage: "Success",
             data: {
-                tutors
+                tutors: teachers
             }
         })
 
@@ -29,7 +29,7 @@ exports.getTeacher = async function (req, res, next) {
     try {
         const email = req.params.email;
 
-        const teacher = await redis.getAsyncWithCallback(redis.REDIS_KEY.TEACHER , email, teacherModel.getUser);
+        const teacher = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER , email, teacherModel.getTeacher);
         if (!teacher || teacher.status === 0){
             return res.json({
                 returnCode: -3,
@@ -37,13 +37,10 @@ exports.getTeacher = async function (req, res, next) {
             });
         }
 
-        delete teacher.password;
-        delete teacher.updDate;
         teacher.canTeachingPlaces = JSON.parse(teacher.canTeachingPlaces);
         teacher.skills = JSON.parse(teacher.skills);
 
-        console.log(teacher);
-        res.json({
+        return res.json({
             returnCode: 1,
             returnMessage: "Success",
             data: teacher

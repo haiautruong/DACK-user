@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 
-const API_URL = 'http://167.179.80.90:3004';
+const API_URL = 'http://localhost:3004';
 
 const login = (email, password, type) => {
   return new Promise((resolve, reject) => {
@@ -32,7 +32,7 @@ const updateInfo = userData => {
 
   return new Promise((resolve, reject) => {
     axios
-      .post(`${API_URL}/private/teachers/${userData.email}`, userData, {
+      .post(`${API_URL}/private/teachers/${userData.get('email')}`, userData, {
         headers: {
           Authorization: `Bearer ${token}`
         },

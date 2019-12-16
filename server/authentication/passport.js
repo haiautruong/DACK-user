@@ -1,7 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const TeacherModel = require('../models/Teacher');
-const StudentModel = require('../models/Student');
+const UserModel = require('../models/User');
 const bcrypt = require('bcryptjs');
 const passportJWT = require("passport-jwt");
 const JWTStrategy = passportJWT.Strategy;
@@ -34,14 +33,9 @@ passport.use(new LocalStrategy({
             });
         }
 
-        let user = null;
-        if (req.body.type === 1) {
-            user = await redis.getAsyncWithCallback(redis.REDIS_KEY.TEACHER, username, TeacherModel.getUser);
-        } else if (req.body.type === 2) {
-            user = await redis.getAsyncWithCallback(redis.REDIS_KEY.STUDENT, username, StudentModel.getUser);
-        }
+        let user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, username, UserModel.getUser);
 
-        if (!user) {
+        if (!user || user.type !== req.body.type) {
             return cb(null, false, {
                 returnCode: -3,
                 returnMessage: `User ${username} Not Found`
@@ -79,12 +73,8 @@ passport.use(new JWTStrategy({
     },
     async function (jwtPayload, next) {
         try {
-            let user = null;
-            if (jwtPayload.type === 1) {
-                user = await redis.getAsyncWithCallback(redis.REDIS_KEY.TEACHER, jwtPayload.email, TeacherModel.getUser);
-            } else if (jwtPayload.type === 2) {
-                user = await redis.getAsyncWithCallback(redis.REDIS_KEY.STUDENT, jwtPayload.email, StudentModel.getUser);
-            }
+            let user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, jwtPayload.email, UserModel.getUser);
+
             if (user) {
                 next(null, user);
             } else {
@@ -110,36 +100,26 @@ passport.use(new FacebookStrategy({
     async function (req, accessToken, refreshToken, profile, cb) {
         try {
             if (profile.id) {
+                console.log(profile);
                 const type = parseInt(req.query.state);
-                let user = null;
-                if (type === 1) {
-                    user = await redis.getAsyncWithCallback(redis.REDIS_KEY.TEACHER, profile.emails[0].value, TeacherModel.getUser);
-                } else if (type === 2) {
-                    user = await redis.getAsyncWithCallback(redis.REDIS_KEY.STUDENT, profile.emails[0].value, StudentModel.getUser);
-                }
 
-                if (user) {
-                    user.type = type;
-                    return cb(null, user);
-                } else {
+                let user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, profile.emails[0].value, UserModel.getUser);
+
+                if (!user) {
                     const newUser = {};
                     newUser.email = profile.emails[0].value;
                     newUser.password = '123';
                     newUser.address = '';
                     newUser.phoneNumber = '';
-                    newUser.fullName = '';
+                    newUser.fullName = profile.displayName;
                     newUser.avatar = profile.photos[0].value;
+                    newUser.type = type;
 
-                    if (type === 1) {
-                        await TeacherModel.createUser(newUser);
-                        user = await redis.getAsyncWithCallback(redis.REDIS_KEY.TEACHER, profile.emails[0].value, TeacherModel.getUser);
-                    } else if (type === 2) {
-                        await StudentModel.createUser(newUser);
-                        user = await redis.getAsyncWithCallback(redis.REDIS_KEY.STUDENT, profile.emails[0].value, StudentModel.getUser);
-                    }
-                    return cb(null, user);
-
+                    await UserModel.createUser(newUser);
+                    user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, profile.emails[0].value, UserModel.getUser);
                 }
+
+                return cb(null, user);
             }
         } catch (e) {
             console.error(e);
@@ -159,36 +139,26 @@ passport.use(new GoogleStrategy({
     async function (req, accessToken, refreshToken, profile, cb) {
         try {
             if (profile.id) {
+                console.log(profile);
                 const type = parseInt(req.query.state);
-                let user = null;
-                if (type === 1) {
-                    user = await redis.getAsyncWithCallback(redis.REDIS_KEY.TEACHER, profile.emails[0].value, TeacherModel.getUser);
-                } else if (type === 2) {
-                    user = await redis.getAsyncWithCallback(redis.REDIS_KEY.STUDENT, profile.emails[0].value, StudentModel.getUser);
-                }
 
-                if (user) {
-                    user.type = type;
-                    return cb(null, user);
-                } else {
+                let user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, profile.emails[0].value, UserModel.getUser);
+
+                if (!user) {
                     const newUser = {};
                     newUser.email = profile.emails[0].value;
                     newUser.password = '123';
                     newUser.address = '';
                     newUser.phoneNumber = '';
-                    newUser.fullName = '';
+                    newUser.fullName = profile.displayName;
                     newUser.avatar = profile.photos[0].value;
+                    newUser.type = type;
 
-                    if (type === 1) {
-                        await TeacherModel.createUser(newUser);
-                        user = await redis.getAsyncWithCallback(redis.REDIS_KEY.TEACHER, profile.emails[0].value, TeacherModel.getUser);
-                    } else if (type === 2) {
-                        await StudentModel.createUser(newUser);
-                        user = await redis.getAsyncWithCallback(redis.REDIS_KEY.STUDENT, profile.emails[0].value, StudentModel.getUser);
-                    }
-                    return cb(null, user);
-
+                    await UserModel.createUser(newUser);
+                    user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, profile.emails[0].value, UserModel.getUser);
                 }
+
+                return cb(null, user);
             } else {
                 return cb(null, false);
             }

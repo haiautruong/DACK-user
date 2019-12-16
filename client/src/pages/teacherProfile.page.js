@@ -82,12 +82,12 @@ const UpdateTutor = ({ setshowLayout }) => {
           </Menu>
         </Sider>
       </div>
-      <div>
+      <div style={{ width: '100%', padding: 10, overflow: 'auto' }}>
         {isShowUpdate ? (
           <UpdateInfoForm user={tutor} setIsShowUpdate={setIsShowUpdate} />
         ) : (
-          <Row className="container-tutors">
-            <Col span={7}>
+          <Row>
+            <Col span={6}>
               <Card
                 style={{
                   width: '100%',
@@ -119,7 +119,7 @@ const UpdateTutor = ({ setshowLayout }) => {
                 </div>
               </Card>
             </Col>
-            <Col span={17}>
+            <Col style={{ height: '100%' }} span={18}>
               <Card
                 bordered={false}
                 style={{ width: '100%', height: 'calc(100vh - 130px)' }}

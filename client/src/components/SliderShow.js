@@ -20,7 +20,9 @@ const SliderShow = () => {
       if (slideIndex > elements.length) {
         slideIndex = 1;
       }
-      elements[slideIndex - 1].style.display = 'block';
+      if (elements[slideIndex - 1]) {
+        elements[slideIndex - 1].style.display = 'block';
+      }
       setTimeout(handleCarousel, 2000);
     }
   };

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { API_URL } from '../constant';
 
+
 const login = (email, password, type) => {
   return new Promise((resolve, reject) => {
     axios({

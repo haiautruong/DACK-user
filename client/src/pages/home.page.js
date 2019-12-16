@@ -41,6 +41,7 @@ const HomePage = ({ setshowLayout }) => {
       .getListTutors()
       .then(result => {
         if (result.returnCode === 1) {
+          console.log('tutors', result.data.tutors);
           setTutors(result.data.tutors);
           setFilteredTutor(result.data.tutors);
           setTotal(result.data.tutors.length);

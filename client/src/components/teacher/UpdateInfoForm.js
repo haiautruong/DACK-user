@@ -64,7 +64,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
   }, []);
 
   return (
-    <Row className="container-tutors">
+    <Row style={{ padding: 10 }}>
       <Col span={5}>
         <AvatarUpload
           avatar={avatar}
@@ -86,6 +86,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
         />
       </Col>
       <Col span={18} offset={1}>
+        <span>Email</span>
         <Input
           style={{ marginBottom: 12 }}
           prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -94,6 +95,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
           defaultValue={user.email}
           disabled
         />
+        <span>Fullname</span>
         <Input
           style={{ marginBottom: 12 }}
           prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -103,33 +105,37 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
           onChange={e => setFullName(e.target.value)}
           placeholder="Họ tên"
         />
+        <span>Address</span>
         <Input
           style={{ marginBottom: 12 }}
-          prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<Icon type="home" style={{ color: 'rgba(0,0,0,.25)' }} />}
           name="address"
           type="text"
           value={address}
           onChange={e => setAddress(e.target.value)}
           placeholder="Address"
         />
+        <span>Phone number</span>
         <Input
           style={{ marginBottom: 12 }}
-          prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
           name="phoneNumber"
           type="text"
           value={phoneNumber}
           onChange={e => setPhoneNumber(e.target.value)}
           placeholder="Address"
         />
+        <span>Price per hour</span>
         <Input
           style={{ marginBottom: 12 }}
-          prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          prefix={<Icon type="dollar" style={{ color: 'rgba(0,0,0,.25)' }} />}
           name="pricePerHour"
           type="text"
           value={pricePerHour}
           onChange={e => setPricePerHour(e.target.value)}
           placeholder="Price Per Hour"
         />
+        <span>Skills</span>
         <Select
           mode="multiple"
           style={{
@@ -146,6 +152,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
             <Option key={skill.skillName}>{skill.skillName}</Option>
           ))}
         </Select>
+        <span>Teaching places</span>
         <Select
           mode="multiple"
           style={{
@@ -162,6 +169,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
             <Option key={province}>{province}</Option>
           ))}
         </Select>
+        <span>Self description</span>
         <TextArea
           row={4}
           style={{ marginBottom: 12 }}

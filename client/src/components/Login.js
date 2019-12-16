@@ -52,7 +52,9 @@ const Login = ({ login }) => {
           }
         })
         .catch(err => {
-          document.getElementsByClassName('notify')[0].classList.remove('hide');
+          if (document.getElementById('notify')) {
+            document.getElementById('notify').classList.remove('hide');
+          }
         });
     }
   };
@@ -86,7 +88,9 @@ const Login = ({ login }) => {
             history.push('/teacher-profile');
           }
         } else {
-          document.getElementsByClassName('notify')[0].classList.remove('hide');
+          if (document.getElementById('notify')) {
+            document.getElementById('notify').classList.remove('hide');
+          }
         }
       }
     });
@@ -113,7 +117,9 @@ const Login = ({ login }) => {
             history.push('/teacher-profile');
           }
         } else {
-          document.getElementsByClassName('notify')[0].classList.remove('hide');
+          if (document.getElementById('notify')) {
+            document.getElementById('notify').classList.remove('hide');
+          }
         }
       }
     });
@@ -136,7 +142,7 @@ const Login = ({ login }) => {
 
         <div className="signin-form">
           <h2 className="form-title">Sign in</h2>
-          <span className="notify hide">
+          <span id="notify" className="hide">
             Your email or password incorrect !
           </span>
           <div className="form-group">
@@ -213,4 +219,7 @@ const mapDispatchToProps = dispatch => ({
   login: (username, password, type) => dispatch(login(username, password, type))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

@@ -18,14 +18,16 @@
   .text-small {
     margin: 0;
   }
-  .btn-register {
-    background-color: #455cc7;
-    color: white;
-    border: none;
-    &:hover {
-      border: 1px solid #455cc7;
-      background-color: transparent;
-      color: #455cc7;
-    }
+}
+
+.btn-register {
+  background-color: #455cc7 !important;
+  color: white !important;
+  border: none !important;
+  font-size: 14px !important;
+  &:hover {
+    border: 1px solid #455cc7 !important;
+    background-color: transparent !important;
+    color: #455cc7 !important;
   }
 }

@@ -23,7 +23,13 @@ const UpdateInfoForm = ({ user }) => {
     setFullName(user.fullName);
     setAddress(user.address);
     setEmail(user.email);
-  });
+  }, [
+    user.phoneNumber,
+    user.avatar,
+    user.fullName,
+    user.fullName,
+    user.address
+  ]);
   const updateInfo = async () => {
     // console.log('avatar', avatarFile.originFileObj);
 

@@ -85,6 +85,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
           setShowModalChangePass={setShowModalChangePass}
           currPass={''}
           type={1}
+          email={user.email}
         />
       </Col>
       <Col span={18} offset={1}>

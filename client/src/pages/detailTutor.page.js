@@ -82,15 +82,23 @@ const DetailTutorPage = ({ setshowLayout }) => {
               <p className="text-small">Price per hour</p>
               <div className="value">{formatCurrency(tutor.pricePerHour)}</div>
               <p className="text-small">Skills</p>
-              <div className="value">{renderTags(tutor.skills)}</div>
+              <div className="value">
+                {tutor.skills && tutor.skills.length !== 0
+                  ? renderTags(tutor.skills)
+                  : 'Updating...'}
+              </div>
               <p className="text-small">Teaching places</p>
               <div className="value">
-                {renderTags(tutor.canTeachingPlaces, false)}
+                {tutor.canTeachingPlaces && tutor.canTeachingPlaces.length !== 0
+                  ? renderTags(tutor.canTeachingPlaces, false)
+                  : 'Updating...'}
               </div>
             </Card.Grid>
             <Card.Grid hoverable={false} style={grid100}>
               <p className="text-small">Self description</p>
-              <div>{tutor.selfDescription}</div>
+              <div>
+                {tutor.selfDescription ? tutor.selfDescription : 'Updating...'}
+              </div>
             </Card.Grid>
           </Card>
         </Col>
@@ -106,5 +114,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = () => ({});
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DetailTutorPage)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(DetailTutorPage)
 );

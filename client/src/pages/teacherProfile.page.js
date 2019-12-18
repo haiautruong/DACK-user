@@ -56,7 +56,7 @@ const UpdateTutor = ({ setshowLayout }) => {
     }
   };
 
-  console.log('skills', tutor.skills, 'places', tutor.canTeachingPlaces);
+  // console.log('skills', tutor.skills, 'places', tutor.canTeachingPlaces);
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
       <div style={{ background: '#001529' }}>

@@ -12,6 +12,10 @@ const ListPolicies = ({ setshowLayout }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [total, setTotal] = useState(policies.length);
 
+  const fetchData = async () => {
+
+  };
+
   useEffect(() => {
     async function fetchLayout() {
       await setshowLayout(true);
@@ -19,6 +23,7 @@ const ListPolicies = ({ setshowLayout }) => {
     fetchLayout();
     setTotal(1);
     setPolices([]);
+    fetchData();
   }, []);
 
   const onChangePagination = page => {
@@ -27,7 +32,7 @@ const ListPolicies = ({ setshowLayout }) => {
 
   const navigation = key => {
     if (key === '1') {
-      history.push('/student-profile');
+      history.push('/teacher-profile');
     } else if (key === '2') {
       history.push('/policy');
     }

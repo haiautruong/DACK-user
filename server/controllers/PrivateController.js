@@ -23,15 +23,13 @@ exports.updateTeacherInfo = async function (req, res, next) {
         if (result != null && result.affectedRows === 1 && result2 != null && result2.affectedRows === 1) {
             redis.del(redis.REDIS_KEY.ALL_TEACHER);
             redis.del(redis.REDIS_KEY.USER + email);
-            //
-            // const user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, email, teacherModel.getTeacher);
-            // user.type = req.body.type;
-            // user.canTeachingPlaces = JSON.parse(user.canTeachingPlaces);
-            // user.skills = JSON.parse(user.skills);
+
+            const teacher = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, email, teacherModel.getTeacher);
 
             return res.json({
                 returnCode: 1,
-                returnMessage: "Success."
+                returnMessage: "Success.",
+                data: teacher
             });
         } else {
             return res.json({
@@ -65,15 +63,13 @@ exports.updateStudentInfo = async function (req, res, next) {
         if (result != null && result.affectedRows === 1) {
             redis.del(redis.REDIS_KEY.ALL_TEACHER);
             redis.del(redis.REDIS_KEY.USER + email);
-            //
-            // const user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, email, teacherModel.getTeacher);
-            // user.type = req.body.type;
-            // user.canTeachingPlaces = JSON.parse(user.canTeachingPlaces);
-            // user.skills = JSON.parse(user.skills);
+
+            const student = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, email, userModel.getUser);
 
             return res.json({
                 returnCode: 1,
-                returnMessage: "Success."
+                returnMessage: "Success.",
+                data: student
             });
         } else {
             return res.json({

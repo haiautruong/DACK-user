@@ -65,6 +65,7 @@ exports.signUp = async function (req, res, next) {
         const result = await userModel.createUser(user);
 
         if (result != null && result.affectedRows === 1) {
+            redis.del(redis.REDIS_KEY.ALL_TEACHER);
             const token = jwt.sign({
                 email: user.email,
                 type: type

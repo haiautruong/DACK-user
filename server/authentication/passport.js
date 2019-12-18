@@ -116,6 +116,7 @@ passport.use(new FacebookStrategy({
                     newUser.type = type;
 
                     await UserModel.createUser(newUser);
+                    redis.del(redis.REDIS_KEY.ALL_TEACHER);
                     user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, profile.emails[0].value, UserModel.getUser);
                 }
 
@@ -155,6 +156,7 @@ passport.use(new GoogleStrategy({
                     newUser.type = type;
 
                     await UserModel.createUser(newUser);
+                    redis.del(redis.REDIS_KEY.ALL_TEACHER);
                     user = await redis.getAsyncWithCallback(redis.REDIS_KEY.USER, profile.emails[0].value, UserModel.getUser);
                 }
 

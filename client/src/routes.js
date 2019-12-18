@@ -15,6 +15,7 @@ import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
 import SliderShow from './components/SliderShow';
+import { TeacherRoute, StudentRoute } from './components';
 
 const { Header, Footer, Content } = Layout;
 const cookies = new Cookies();
@@ -90,12 +91,19 @@ const AppRouter = () => {
               <Route exact path="/">
                 <HomePage t={t} i18n={i18n} setshowLayout={setshowLayout} />
               </Route>
-              <Route exact path="/teacher-profile">
-                <UpdateTutor setshowLayout={setshowLayout} />
-              </Route>
-              <Route exact path="/student-profile">
-                <StudentProfile setshowLayout={setshowLayout} />
-              </Route>
+              <TeacherRoute 
+                path="/teacher-profile"
+                component={UpdateTutor}
+                setshowLayout={setshowLayout}
+                redirect={'/'}
+              >
+              </TeacherRoute>
+              <StudentRoute 
+                path="/student-profile"
+                component={StudentProfile}
+                setshowLayout={setshowLayout}
+                redirect={'/'}>
+              </StudentRoute>
               <Route exact path="/policy">
                 <ListPolicies setshowLayout={setshowLayout} />
               </Route>

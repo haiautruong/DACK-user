@@ -15,7 +15,7 @@ export const renderStar = number => {
 };
 
 export const formatCurrency = number => {
-  const formater = new Intl.NumberFormat('vi-VND', {
+  const formater = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'VND',
     minimumFractionDigits: 0

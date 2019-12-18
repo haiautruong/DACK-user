@@ -1,10 +1,15 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { Modal, Form, Input } from 'antd';
+import { tutorApi } from '../api';
+import { studentApi } from '../api';
+import ModalComfirm from '../components/ModalComfirm';
 
 const ModalChangePass = props => {
   const { getFieldDecorator } = props.form;
   const [confirmDirty, setConfirmDirty] = useState(false);
+  const [openComfirm, setOpenComfirm] = useState(false);
+  const [message, setMessage] = useState('');
 
   const handleConfirmBlur = e => {
     const { value } = e.target;
@@ -15,14 +20,30 @@ const ModalChangePass = props => {
     e.preventDefault();
     props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        const target = props.type === 1 ? tutorApi : studentApi;
 
-        setConfirmDirty(false);
-        props.form.resetFields();
+        target
+          .changePass(props.email, values.currentPassword, values.newPassword)
+          .then(async res => {
+            if (res.returnCode === 1) {
+              await setMessage(res.returnMessage);
+              await setOpenComfirm(true);
+
+              if (res.returnMessage === 'Success') {
+                setConfirmDirty(false);
+                props.form.resetFields();
+                props.setShowModalChangePass(false);
+              }
+            } else {
+              setMessage(`Fail: ${res.returnMessage}`);
+              setOpenComfirm(true);
+            }
+          })
+          .catch(err => {
+            alert('Error: ', err);
+          });
       }
     });
-
-    props.setShowModalChangePass(false);
   };
 
   const compareToFirstPassword = (rule, value, callback) => {
@@ -50,16 +71,21 @@ const ModalChangePass = props => {
         onOk={updatePass}
         onCancel={() => props.setShowModalChangePass(false)}
       >
+        <ModalComfirm
+          open={openComfirm}
+          message={message}
+          setOpenComfirm={setOpenComfirm}
+        />
         <Form>
           <Form.Item label="Current password">
-            {getFieldDecorator('currentPass', {
+            {getFieldDecorator('currentPassword', {
               rules: [
                 {
                   required: true,
                   message: 'Please input your current password!'
                 }
               ]
-            })(<Input />)}
+            })(<Input.Password />)}
           </Form.Item>
           <Form.Item label="New password" hasFeedback>
             {getFieldDecorator('newPassword', {

@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, {useEffect, useState} from 'react';
-import {Cookies} from 'react-cookie';
-import {Button, Card, Col, Icon, Layout, Menu, Row} from 'antd';
-import {useHistory, withRouter} from 'react-router-dom';
-import {formatCurrency, renderStar, renderTags} from '../utils/helper';
-import {tutorApi} from '../api';
+import React, { useEffect, useState } from 'react';
+import { Cookies } from 'react-cookie';
+import { Button, Card, Col, Icon, Layout, Menu, Row } from 'antd';
+import { useHistory, withRouter } from 'react-router-dom';
+import { formatCurrency, renderStar, renderTags } from '../utils/helper';
+import { tutorApi } from '../api';
 
 import UpdateInfoForm from '../components/teacher/UpdateInfoForm';
 
@@ -12,8 +12,8 @@ const cookies = new Cookies();
 const currUser = cookies.get('CURR_USER');
 
 const { Sider } = Layout;
-const grid33 = {
-  width: '33.33%',
+const grid5 = {
+  width: '50%',
   boxShadow: 'none'
 };
 const grid100 = {
@@ -125,7 +125,7 @@ const UpdateTutor = ({ setshowLayout }) => {
                 style={{ width: '100%', height: 'calc(100vh - 130px)' }}
                 title="Information"
               >
-                <Card.Grid hoverable={false} style={grid33}>
+                <Card.Grid hoverable={false} style={grid5}>
                   <p className="text-small">Fullname</p>
                   <div className="value">{tutor.fullName}</div>
                   <p className="text-small">Phone</p>
@@ -135,7 +135,7 @@ const UpdateTutor = ({ setshowLayout }) => {
                   <p className="text-small">Email</p>
                   <div className="value">{tutor.email}</div>
                 </Card.Grid>
-                <Card.Grid hoverable={false} style={grid33}>
+                <Card.Grid hoverable={false} style={grid5}>
                   <p className="text-small">Price per hour</p>
                   <div className="value">
                     {tutor.pricePerHour ? (
@@ -156,10 +156,10 @@ const UpdateTutor = ({ setshowLayout }) => {
                   <div className="value">
                     {tutor.canTeachingPlaces &&
                     tutor.canTeachingPlaces.length !== 0 ? (
-                        renderTags(tutor.canTeachingPlaces, false)
-                      ) : (
-                        <span className="notify">Need to update</span>
-                      )}
+                      renderTags(tutor.canTeachingPlaces, false)
+                    ) : (
+                      <span className="notify">Need to update</span>
+                    )}
                   </div>
                 </Card.Grid>
                 <Card.Grid hoverable={false} style={grid100}>

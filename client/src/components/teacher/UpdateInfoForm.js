@@ -69,7 +69,11 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
     <Row style={{ padding: 10 }}>
       <Col span={5}>
         <AvatarUpload
-          avatar={avatar}
+          avatar={
+            avatar
+              ? avatar
+              : 'https://www.speakingtigerbooks.com/wp-content/uploads/2017/05/default-avatar.png'
+          }
           setAvatar={setAvatar}
           setFile={setAvatarFile}
         />

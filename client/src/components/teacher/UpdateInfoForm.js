@@ -45,11 +45,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
     formData.append('canTeachingPlaces', JSON.stringify(canTeachingPlaces));
     formData.append('selfDescription', selfDescription);
 
-    // for (var pair of formData.entries()) {
-    //   console.log(pair[0] + ', ' + pair[1]);
-    // }
-
-    dispatch(updateUserInfo(formData));
+    await dispatch(updateUserInfo(formData));
     setIsShowUpdate(false);
   };
 
@@ -198,7 +194,7 @@ const UpdateInfoForm = ({ user, setIsShowUpdate }) => {
         </Button>
         <Button
           type="primary"
-          className="button-shadow"
+          className="btn-register"
           style={{ float: 'right', marginTop: '5px' }}
           onClick={updateInfo}
         >

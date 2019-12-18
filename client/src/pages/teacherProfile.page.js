@@ -9,7 +9,17 @@ import { tutorApi } from '../api';
 import UpdateInfoForm from '../components/teacher/UpdateInfoForm';
 
 const cookies = new Cookies();
-const currUser = cookies.get('CURR_USER');
+
+const parseCookieUser = () => {
+  const cookieData = cookies.get('CURR_USER');
+  const skillsCurrUser = cookieData.skills;
+  const placesCurrUser = cookieData.canTeachingPlaces;
+  return {
+    ...cookieData,
+    skills: skillsCurrUser ? JSON.parse(skillsCurrUser) : [],
+    canTeachingPlaces: placesCurrUser ? JSON.parse(placesCurrUser) : []
+  };
+};
 
 const { Sider } = Layout;
 const grid5 = {
@@ -22,18 +32,17 @@ const grid100 = {
 };
 
 const UpdateTutor = ({ setshowLayout }) => {
-  const [tutor, setTutor] = useState(currUser);
+  const [tutor, setTutor] = useState(parseCookieUser());
   const [isShowUpdate, setIsShowUpdate] = useState(false);
 
   const history = useHistory();
-
   useEffect(() => {
     async function fetchLayout() {
       await setshowLayout(true);
     }
     fetchLayout();
     tutorApi
-      .getTutor(currUser.email)
+      .getTutor(tutor.email)
       .then(result => {
         if (result.returnCode === 1) {
           setTutor(result.data);
@@ -56,7 +65,14 @@ const UpdateTutor = ({ setshowLayout }) => {
     }
   };
 
-  console.log('skills', tutor.skills, 'places', tutor.canTeachingPlaces);
+  const renderTeachingPlaces = () => {
+    return tutor.canTeachingPlaces && tutor.canTeachingPlaces.length ? (
+      renderTags(tutor.canTeachingPlaces, false)
+    ) : (
+      <span className="notify">Need to update</span>
+    );
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
       <div style={{ background: '#001529' }}>
@@ -153,14 +169,7 @@ const UpdateTutor = ({ setshowLayout }) => {
                     )}
                   </div>
                   <p className="text-small">Teaching places</p>
-                  <div className="value">
-                    {tutor.canTeachingPlaces &&
-                    tutor.canTeachingPlaces.length !== 0 ? (
-                      renderTags(tutor.canTeachingPlaces, false)
-                    ) : (
-                      <span className="notify">Need to update</span>
-                    )}
-                  </div>
+                  <div className="value">{renderTeachingPlaces()}</div>
                 </Card.Grid>
                 <Card.Grid hoverable={false} style={grid100}>
                   <p className="text-small">Self description</p>

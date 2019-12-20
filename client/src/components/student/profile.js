@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {Button, Col, Icon, Input, Row} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Button, Col, Icon, Input, Row } from 'antd';
 import AvatarUpload from '../teacher/AvatarUpload';
 import ModalChangePass from '../ModalChangePass';
-import {updateUserInfo} from '../../reducers/auth.reducer';
-import {useHistory} from 'react-router-dom';
+import { updateUserInfo } from '../../reducers/auth.reducer';
+import { useHistory } from 'react-router-dom';
 
 const UpdateInfoForm = ({ user }) => {
   const [avatar, setAvatar] = useState('');
@@ -17,33 +17,39 @@ const UpdateInfoForm = ({ user }) => {
   const [showModalChangePass, setShowModalChangePass] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
+
   useEffect(() => {
     setPhoneNumber(user.phoneNumber);
     setAvatar(user.avatar);
     setFullName(user.fullName);
     setAddress(user.address);
     setEmail(user.email);
-  });
+  }, [
+    user.phoneNumber,
+    user.avatar,
+    user.fullName,
+    user.fullName,
+    user.address
+  ]);
+
   const updateInfo = async () => {
-    // console.log('avatar', avatarFile.originFileObj);
+    const formData = new FormData();
 
-    const data = {
-      email: user.email,
-      fullName,
-      address,
-      phoneNumber,
-      avatarFile
-    };
+    if (avatarFile) {
+      formData.append('file', avatarFile.originFileObj);
+    }
+    formData.append('email', user.email);
+    formData.append('fullName', fullName);
+    formData.append('address', address);
+    formData.append('avatar', user.avatar);
+    formData.append('phoneNumber', phoneNumber);
 
-    dispatch(updateUserInfo(data));
-    window.location.reload();
+    await dispatch(updateUserInfo(formData));
   };
 
   const cancel = () => {
     history.push('/');
   };
-
-  useEffect(() => {}, []);
 
   return (
     <Row className="container-tutors">
@@ -68,6 +74,7 @@ const UpdateInfoForm = ({ user }) => {
           setShowModalChangePass={setShowModalChangePass}
           currPass={''}
           type={2}
+          email={user.email}
         />
       </Col>
       <Col span={18} offset={1}>

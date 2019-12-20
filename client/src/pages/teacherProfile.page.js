@@ -1,19 +1,29 @@
 /* eslint-disable react/prop-types */
-import React, {useEffect, useState} from 'react';
-import {Cookies} from 'react-cookie';
-import {Button, Card, Col, Icon, Layout, Menu, Row} from 'antd';
-import {useHistory, withRouter} from 'react-router-dom';
-import {formatCurrency, renderStar, renderTags} from '../utils/helper';
-import {tutorApi} from '../api';
+import React, { useEffect, useState } from 'react';
+import { Cookies } from 'react-cookie';
+import { Button, Card, Col, Icon, Layout, Menu, Row } from 'antd';
+import { useHistory, withRouter } from 'react-router-dom';
+import { formatCurrency, renderStar, renderTags } from '../utils/helper';
+import { tutorApi } from '../api';
 
 import UpdateInfoForm from '../components/teacher/UpdateInfoForm';
 
 const cookies = new Cookies();
-const currUser = cookies.get('CURR_USER');
+
+const parseCookieUser = () => {
+  const cookieData = cookies.get('CURR_USER');
+  const skillsCurrUser = cookieData.skills;
+  const placesCurrUser = cookieData.canTeachingPlaces;
+  return {
+    ...cookieData,
+    skills: skillsCurrUser ? JSON.parse(skillsCurrUser) : [],
+    canTeachingPlaces: placesCurrUser ? JSON.parse(placesCurrUser) : []
+  };
+};
 
 const { Sider } = Layout;
-const grid33 = {
-  width: '33.33%',
+const grid5 = {
+  width: '50%',
   boxShadow: 'none'
 };
 const grid100 = {
@@ -22,18 +32,17 @@ const grid100 = {
 };
 
 const UpdateTutor = ({ setshowLayout }) => {
-  const [tutor, setTutor] = useState(currUser);
+  const [tutor, setTutor] = useState(parseCookieUser());
   const [isShowUpdate, setIsShowUpdate] = useState(false);
 
   const history = useHistory();
-
   useEffect(() => {
     async function fetchLayout() {
       await setshowLayout(true);
     }
     fetchLayout();
     tutorApi
-      .getTutor(currUser.email)
+      .getTutor(tutor.email)
       .then(result => {
         if (result.returnCode === 1) {
           setTutor(result.data);
@@ -53,10 +62,19 @@ const UpdateTutor = ({ setshowLayout }) => {
       history.push('/teacher-profile');
     } else if (key === '2') {
       history.push('/policy');
+    } else if (key === '3'){
+      history.push('/conversation');
     }
   };
 
-  // console.log('skills', tutor.skills, 'places', tutor.canTeachingPlaces);
+  const renderTeachingPlaces = () => {
+    return tutor.canTeachingPlaces && tutor.canTeachingPlaces.length ? (
+      renderTags(tutor.canTeachingPlaces, false)
+    ) : (
+      <span className="notify">Need to update</span>
+    );
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
       <div style={{ background: '#001529' }}>
@@ -125,7 +143,7 @@ const UpdateTutor = ({ setshowLayout }) => {
                 style={{ width: '100%', height: 'calc(100vh - 130px)' }}
                 title="Information"
               >
-                <Card.Grid hoverable={false} style={grid33}>
+                <Card.Grid hoverable={false} style={grid5}>
                   <p className="text-small">Fullname</p>
                   <div className="value">{tutor.fullName}</div>
                   <p className="text-small">Phone</p>
@@ -135,7 +153,7 @@ const UpdateTutor = ({ setshowLayout }) => {
                   <p className="text-small">Email</p>
                   <div className="value">{tutor.email}</div>
                 </Card.Grid>
-                <Card.Grid hoverable={false} style={grid33}>
+                <Card.Grid hoverable={false} style={grid5}>
                   <p className="text-small">Price per hour</p>
                   <div className="value">
                     {tutor.pricePerHour ? (
@@ -153,14 +171,7 @@ const UpdateTutor = ({ setshowLayout }) => {
                     )}
                   </div>
                   <p className="text-small">Teaching places</p>
-                  <div className="value">
-                    {tutor.canTeachingPlaces &&
-                    tutor.canTeachingPlaces.length !== 0 ? (
-                        renderTags(tutor.canTeachingPlaces, false)
-                      ) : (
-                        <span className="notify">Need to update</span>
-                      )}
-                  </div>
+                  <div className="value">{renderTeachingPlaces()}</div>
                 </Card.Grid>
                 <Card.Grid hoverable={false} style={grid100}>
                   <p className="text-small">Self description</p>

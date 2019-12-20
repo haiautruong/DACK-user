@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, useParams } from 'react-router-dom';
+import { withRouter, useParams, useHistory } from 'react-router-dom';
 import { renderStar, formatCurrency, renderTags } from '../utils/helper';
 import { Row, Card, Col, Button } from 'antd';
 import { tutorApi } from '../api';
-// const { Meta } = Card;
+import { Cookies } from 'react-cookie';
 
+const cookies = new Cookies();
 const DetailTutorPage = ({ setshowLayout }) => {
   const [tutor, setTutor] = useState({});
   let { email } = useParams();
-  // const history = useHistory();
+  const history = useHistory();
+
   useEffect(() => {
     async function fetchLayout() {
       await setshowLayout(true);
@@ -27,6 +29,11 @@ const DetailTutorPage = ({ setshowLayout }) => {
         console.log('error get list tutor', error);
       });
   }, []);
+
+  const linkToSettingContract = () => {
+    cookies.set('CURR_TUTOR', tutor);
+    history.push('/setting-contract');
+  };
 
   const grid33 = {
     width: '33.33%',
@@ -47,7 +54,16 @@ const DetailTutorPage = ({ setshowLayout }) => {
               textAlign: 'center',
               position: 'relative'
             }}
-            cover={<img alt="" src={tutor.avatar} />}
+            cover={
+              <img
+                alt=""
+                src={
+                  tutor.avatar && tutor.avatar !== 'undefined'
+                    ? tutor.avatar
+                    : 'https://www.speakingtigerbooks.com/wp-content/uploads/2017/05/default-avatar.png'
+                }
+              />
+            }
             bordered={false}
           >
             <div>{renderStar(tutor.rating)}</div>
@@ -56,6 +72,7 @@ const DetailTutorPage = ({ setshowLayout }) => {
                 className="btn-register"
                 style={{ width: '100%' }}
                 size="large"
+                onClick={linkToSettingContract}
               >
                 Register
               </Button>
@@ -82,15 +99,23 @@ const DetailTutorPage = ({ setshowLayout }) => {
               <p className="text-small">Price per hour</p>
               <div className="value">{formatCurrency(tutor.pricePerHour)}</div>
               <p className="text-small">Skills</p>
-              <div className="value">{renderTags(tutor.skills)}</div>
+              <div className="value">
+                {tutor.skills && tutor.skills.length !== 0
+                  ? renderTags(tutor.skills)
+                  : 'Updating...'}
+              </div>
               <p className="text-small">Teaching places</p>
               <div className="value">
-                {renderTags(tutor.canTeachingPlaces, false)}
+                {tutor.canTeachingPlaces && tutor.canTeachingPlaces.length !== 0
+                  ? renderTags(tutor.canTeachingPlaces, false)
+                  : 'Updating...'}
               </div>
             </Card.Grid>
             <Card.Grid hoverable={false} style={grid100}>
               <p className="text-small">Self description</p>
-              <div>{tutor.selfDescription}</div>
+              <div>
+                {tutor.selfDescription ? tutor.selfDescription : 'Updating...'}
+              </div>
             </Card.Grid>
           </Card>
         </Col>
@@ -106,5 +131,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = () => ({});
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DetailTutorPage)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(DetailTutorPage)
 );

@@ -3,7 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Pagination, Icon, Layout, Menu, Row, Col } from 'antd';
 import { useHistory, withRouter } from 'react-router-dom';
 import CardPolicy from '../components/CardPolicy';
-import { ITEM_PER_PAGE } from '../constant';
+import { ITEM_PER_PAGE_POLICY } from '../constant';
+import { tutorApi } from '../api';
+import { studentApi } from '../api';
+import { Cookies } from 'react-cookie';
+import { sliceArray } from '../utils/helper';
+
+const cookies = new Cookies();
 const { Sider } = Layout;
 
 const ListPolicies = ({ setshowLayout }) => {
@@ -11,6 +17,8 @@ const ListPolicies = ({ setshowLayout }) => {
   const [policies, setPolices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [total, setTotal] = useState(policies.length);
+  const user = cookies.get('CURR_USER');
+  const target = user.type === 1 ? tutorApi : studentApi;
 
   const fetchData = async () => {
 
@@ -21,9 +29,20 @@ const ListPolicies = ({ setshowLayout }) => {
       await setshowLayout(true);
     }
     fetchLayout();
-    setTotal(1);
-    setPolices([]);
-    fetchData();
+
+    target
+      .getListContracts(user.email)
+      .then(result => {
+        if (result.returnCode === 1) {
+          setPolices(result.data);
+          setTotal(result.data.length);
+        } else {
+          alert(result.returnMessage);
+        }
+      })
+      .catch(error => {
+        console.log('error get list tutor', error);
+      });
   }, []);
 
   const onChangePagination = page => {
@@ -32,21 +51,52 @@ const ListPolicies = ({ setshowLayout }) => {
 
   const navigation = key => {
     if (key === '1') {
-      history.push('/teacher-profile');
+      if (user.type === 1) {
+        history.push('/teacher-profile');
+      } else {
+        history.push('/student-profile');
+      }
     } else if (key === '2') {
       history.push('/policy');
+    } else if (key === '3'){
+      history.push('/conversation');
     }
   };
-
-  const renderListPolicy = () => {
-    return policies.map((policy, index) => {
+  const renderListPolicy = (list = [], page) => {
+    const start = (page - 1) * ITEM_PER_PAGE_POLICY;
+    const end = start + ITEM_PER_PAGE_POLICY;
+    const subList = sliceArray(list, start, end);
+    return subList.map((policy, key) => {
       return (
-        <Col key={index} span={6}>
-          <CardPolicy id='' code='' status='' tutorName='' studentName='' subject />
+        <Col className="col" key={key} xs={12} md={8} xl={8}>
+          <CardPolicy
+            id={policy.contractID}
+            status={policy.status}
+            teacherEmail={policy.teacherEmail}
+            studentEmail={policy.studentEmail}
+            subject={policy.subject}
+          />
         </Col>
       );
     });
   };
+
+  // const renderListPolicy = (list = [], page) => {
+  //   console.log('policies', policies);
+  //   return policies.map((policy, index) => {
+  //     return (
+  //       <Col key={index} span={8}>
+  //         <CardPolicy
+  //           id={policy.contractID}
+  //           status={policy.status}
+  //           teacherEmail={policy.teacherEmail}
+  //           studentEmail={policy.studentEmail}
+  //           subject={policy.subject}
+  //         />
+  //       </Col>
+  //     );
+  //   });
+  // };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
@@ -77,14 +127,14 @@ const ListPolicies = ({ setshowLayout }) => {
         {policies.length > 0 ? (
           <div>
             <Row className="container-policy" gutter={16}>
-              {renderListPolicy()}
+              {renderListPolicy(policies, currentPage)}
             </Row>
             <Pagination
               current={currentPage}
               onChange={onChangePagination}
               total={total}
               setTotal={setTotal}
-              defaultPageSize={ITEM_PER_PAGE}
+              defaultPageSize={ITEM_PER_PAGE_POLICY}
             />
           </div>
         ) : (

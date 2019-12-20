@@ -10,7 +10,6 @@ export const login = (email, password, type) => dispatch =>
   new Promise(async (resolve, reject) => {
     dispatch(doLogin(email, password, type));
     const res = await authApi.login(email, password, type);
-    console.log('res login', res);
     if (res.returnCode === 1) {
       const cookies = new Cookies();
       cookies.set('MY_TOKEN', res.data.token);
@@ -28,11 +27,12 @@ export const logout = () => dispatch => {
 
 export const updateUserInfo = userData => dispatch =>
   new Promise(async (resolve, reject) => {
-    const res = await authApi.updateInfo(userData);
+    const user = cookies.get('CURR_USER');
+    const res = await authApi.updateInfo(userData, user.type);
     if (res.returnCode === 1) {
       cookies.remove('CURR_USER');
-      cookies.set('CURR_USER', res.data.user);
-      resolve(dispatch(doLoginSuccess(res.data.user)));
+      cookies.set('CURR_USER', { ...res.data, type: user.type });
+      resolve(dispatch(doLoginSuccess(res.data)));
     } else {
       reject(dispatch(doLoginFail(res.returnMessage)));
     }

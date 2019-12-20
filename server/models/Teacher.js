@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 module.exports.getAllTeacher = async () => {
     const [res, f] = await conn.getConnection()
-        .query('SELECT U.fullName, U.phoneNumber, U.avatar, T.* FROM User U JOIN Teacher T ON U.email = T.email WHERE U.type=? AND U.status=?', [1, 1])
+        .query('SELECT U.fullName, U.phoneNumber, U.avatar, U.status, T.* FROM User U JOIN Teacher T ON U.email = T.email WHERE U.type=? AND U.status=?', [1, 1])
         .then(([rows, fields]) => {
             return [rows, fields];
         })

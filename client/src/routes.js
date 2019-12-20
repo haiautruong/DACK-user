@@ -9,13 +9,15 @@ import {
   DetailTutor,
   StudentProfile,
   ListPolicies,
-  Policy
+  Policy,
+  SettingContract
 } from './pages';
 import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
 import SliderShow from './components/SliderShow';
 import { TeacherRoute, StudentRoute } from './components';
+import Conversation from './pages/conversation.page';
 
 const { Header, Footer, Content } = Layout;
 const cookies = new Cookies();
@@ -50,7 +52,7 @@ const AppRouter = () => {
                           : '/student-profile'
                       }
                     >
-                      My Profile
+                                            My Profile
                     </Link>
                   </Menu.Item>
                   <Menu.Item key="1">
@@ -61,7 +63,7 @@ const AppRouter = () => {
                       onClick={async () => await cookies.set('CURR_USER', '')}
                       to="/login"
                     >
-                      Logout
+                                            Logout
                     </Link>
                   </Menu.Item>
                 </Menu>
@@ -75,7 +77,7 @@ const AppRouter = () => {
           </div>
           <Link to="/login" className={user ? 'hide' : ''}>
             <Button className="btn-signin" type="primary" size="large">
-              Sign in
+                            Sign in
             </Button>
           </Link>
         </Header>
@@ -91,19 +93,24 @@ const AppRouter = () => {
               <Route exact path="/">
                 <HomePage t={t} i18n={i18n} setshowLayout={setshowLayout} />
               </Route>
-              <TeacherRoute 
+              <TeacherRoute
                 path="/teacher-profile"
                 component={UpdateTutor}
                 setshowLayout={setshowLayout}
                 redirect={'/'}
-              >
-              </TeacherRoute>
-              <StudentRoute 
+              />
+              <StudentRoute
                 path="/student-profile"
                 component={StudentProfile}
                 setshowLayout={setshowLayout}
-                redirect={'/'}>
-              </StudentRoute>
+                redirect={'/'}
+              />
+              <StudentRoute
+                path="/setting-contract"
+                component={SettingContract}
+                setshowLayout={setshowLayout}
+                redirect={'/'}
+              />
               <Route exact path="/policy">
                 <ListPolicies setshowLayout={setshowLayout} />
               </Route>
@@ -113,6 +120,9 @@ const AppRouter = () => {
               <Route exact path="/detail-tutor/:email">
                 <DetailTutor setshowLayout={setshowLayout} />
               </Route>
+              <Route exact path="/conversation">
+                <Conversation setshowLayout={setshowLayout} />
+              </Route>
             </Switch>
           </Content>
         </Layout>
@@ -120,7 +130,7 @@ const AppRouter = () => {
           className={`${showLayout ? '' : 'hide'}`}
           style={{ textAlign: 'center', padding: '12px 50px' }}
         >
-          &copy; Copyright - HCMUS-2019
+                    &copy; Copyright - HCMUS-2019
         </Footer>
       </Layout>
     </Router>

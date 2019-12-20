@@ -38,7 +38,15 @@ const CardTutor = ({
       onClick={handleOnCard}
     >
       <Meta
-        avatar={<Avatar src={avatar} />}
+        avatar={
+          <Avatar
+            src={
+              avatar && avatar !== 'undefined'
+                ? avatar
+                : 'https://www.speakingtigerbooks.com/wp-content/uploads/2017/05/default-avatar.png'
+            }
+          />
+        }
         title={fullName}
         description={renderPriceAndStar()}
       />

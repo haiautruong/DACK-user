@@ -30,7 +30,7 @@
 .content {
   background: white;
   grid-row-start: 1;
-  grid-row-end: span 3;
+  grid-row-end: span 2;
 }
 
 .footer {

@@ -9,7 +9,7 @@ import CardTutor from '../components/CardTutor';
 import SkillFilter from '../components/filter/SkillFilter';
 import PlaceFilter from '../components/filter/PlaceFilter';
 import PriceFilter from '../components/filter/PriceFilter';
-import { ITEM_PER_PAGE } from '../constant';
+import { ITEM_PER_PAGE_HOME } from '../constant';
 import { sliceArray } from '../utils/helper';
 
 // const { Option } = Select;
@@ -117,8 +117,8 @@ const HomePage = ({ setshowLayout }) => {
   };
 
   const renderListTutor = (list = [], page) => {
-    const start = (page - 1) * ITEM_PER_PAGE;
-    const end = start + ITEM_PER_PAGE;
+    const start = (page - 1) * ITEM_PER_PAGE_HOME;
+    const end = start + ITEM_PER_PAGE_HOME;
     const subList = sliceArray(list, start, end);
     return subList.map((element, key) => {
       return (
@@ -151,7 +151,7 @@ const HomePage = ({ setshowLayout }) => {
         onChange={onChange}
         total={total}
         setTotal={setTotal}
-        defaultPageSize={ITEM_PER_PAGE}
+        defaultPageSize={ITEM_PER_PAGE_HOME}
       />
     </div>
   );

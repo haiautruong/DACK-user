@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, useParams } from 'react-router-dom';
+import { withRouter, useParams, useHistory } from 'react-router-dom';
 import { renderStar, formatCurrency, renderTags } from '../utils/helper';
 import { Row, Card, Col, Button } from 'antd';
 import { tutorApi } from '../api';
-// const { Meta } = Card;
+import { Cookies } from 'react-cookie';
 
+const cookies = new Cookies();
 const DetailTutorPage = ({ setshowLayout }) => {
   const [tutor, setTutor] = useState({});
   let { email } = useParams();
-  // const history = useHistory();
+  const history = useHistory();
+
   useEffect(() => {
     async function fetchLayout() {
       await setshowLayout(true);
@@ -27,6 +29,11 @@ const DetailTutorPage = ({ setshowLayout }) => {
         console.log('error get list tutor', error);
       });
   }, []);
+
+  const linkToSettingContract = () => {
+    cookies.set('CURR_TUTOR', tutor);
+    history.push('/setting-contract');
+  };
 
   const grid33 = {
     width: '33.33%',
@@ -56,6 +63,7 @@ const DetailTutorPage = ({ setshowLayout }) => {
                 className="btn-register"
                 style={{ width: '100%' }}
                 size="large"
+                onClick={linkToSettingContract}
               >
                 Register
               </Button>

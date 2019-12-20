@@ -3,10 +3,10 @@ export const REGEX_PHONE = /(09|01[2|6|8|9])+([0-9]{8})\b/;
 export const COLORS = [
   'purple',
   'green',
+  'blue',
   'orange',
   'cyan',
   'red',
-  'blue',
   'magenta',
   'volcano',
   'lime',
@@ -41,5 +41,7 @@ export const PROVINCES = [
   'Cần Giờ'
 ];
 
-export const ITEM_PER_PAGE = 8;
+export const ITEM_PER_PAGE_HOME = 8;
+export const ITEM_PER_PAGE_POLICY = 6;
+
 export const API_URL = 'http://167.179.80.90:3004';

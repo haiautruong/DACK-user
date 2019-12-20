@@ -41,7 +41,26 @@ const changePass = (email, oldPassword, newPassword) => {
   });
 };
 
+const getListContracts = email => {
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'get',
+      url: `${API_URL}/private/contracts/teacher/${email}`,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(result => {
+        resolve(result.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 export default {
   getTutor,
-  changePass
+  changePass,
+  getListContracts
 };

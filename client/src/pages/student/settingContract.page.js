@@ -8,19 +8,17 @@ import * as _ from 'lodash';
 
 const { Sider } = Layout;
 const cookies = new Cookies();
-const currTutor = cookies.get('CURR_TUTOR');
-
 const SettingContract = ({ setshowLayout }) => {
   const history = useHistory();
+  const currTutor = cookies.get('CURR_TUTOR');
 
   useEffect(() => {
     async function fetchLayout() {
       await setshowLayout(true);
     }
     fetchLayout();
-  }, [currTutor]);
+  }, []);
 
-  console.log('currTutor', currTutor);
   const navigation = key => {
     if (key === '1') {
       history.push('/student-profile');

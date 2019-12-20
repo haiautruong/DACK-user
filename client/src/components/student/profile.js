@@ -17,6 +17,7 @@ const UpdateInfoForm = ({ user }) => {
   const [showModalChangePass, setShowModalChangePass] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
+
   useEffect(() => {
     setPhoneNumber(user.phoneNumber);
     setAvatar(user.avatar);
@@ -30,26 +31,25 @@ const UpdateInfoForm = ({ user }) => {
     user.fullName,
     user.address
   ]);
+
   const updateInfo = async () => {
-    // console.log('avatar', avatarFile.originFileObj);
+    const formData = new FormData();
 
-    const data = {
-      email: user.email,
-      fullName,
-      address,
-      phoneNumber,
-      avatarFile
-    };
+    if (avatarFile) {
+      formData.append('file', avatarFile.originFileObj);
+    }
+    formData.append('email', user.email);
+    formData.append('fullName', fullName);
+    formData.append('address', address);
+    formData.append('avatar', user.avatar);
+    formData.append('phoneNumber', phoneNumber);
 
-    dispatch(updateUserInfo(data));
-    window.location.reload();
+    await dispatch(updateUserInfo(formData));
   };
 
   const cancel = () => {
     history.push('/');
   };
-
-  useEffect(() => {}, []);
 
   return (
     <Row className="container-tutors">

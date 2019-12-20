@@ -54,7 +54,16 @@ const DetailTutorPage = ({ setshowLayout }) => {
               textAlign: 'center',
               position: 'relative'
             }}
-            cover={<img alt="" src={tutor.avatar} />}
+            cover={
+              <img
+                alt=""
+                src={
+                  tutor.avatar && tutor.avatar !== 'undefined'
+                    ? tutor.avatar
+                    : 'https://www.speakingtigerbooks.com/wp-content/uploads/2017/05/default-avatar.png'
+                }
+              />
+            }
             bordered={false}
           >
             <div>{renderStar(tutor.rating)}</div>

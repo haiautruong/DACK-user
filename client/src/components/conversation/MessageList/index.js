@@ -13,6 +13,11 @@ export default function MessageList() {
     getMessages();
   }, []);
 
+  useEffect(() => {
+    const scrollHeight = document.getElementById('scrollable').scrollHeight;
+    document.getElementById('scrollable').scrollTop = scrollHeight;
+  }, [messages]);
+
   const getMessages = () => {
     const tempMessages = [
       {

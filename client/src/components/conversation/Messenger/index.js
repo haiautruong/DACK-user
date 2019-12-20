@@ -11,7 +11,7 @@ export default function Messenger() {
         <ConversationList />
       </div>
 
-      <div className="scrollable content">
+      <div className="scrollable content" id="scrollable">
         <MessageList />
       </div>
       <Compose />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Select, Button, InputNumber, DatePicker } from 'antd';
 import PropTypes from 'prop-types';
+import { formatCurrency } from '../../utils/helper';
 const { Option } = Select;
 
 const formItemLayout = {
@@ -88,83 +89,92 @@ const FormContract = props => {
   };
 
   return (
-    <Form {...formItemLayout} onSubmit={handleSubmit}>
-      <Form.Item label="Tutor name">
-        <Input value={tutor.fullName} disabled />
-      </Form.Item>
-      <Form.Item label="Subject">
-        {getFieldDecorator('subject', {
-          rules: [
-            {
-              required: true,
-              message: 'Please select a subject!'
-            }
-          ]
-        })(
-          <Select placeholder="Select a subject" onChange={handleChangeSubject}>
-            {tutor.skills.map(skill => (
-              <Option key={skill}>{skill}</Option>
-            ))}
-          </Select>
-        )}
-      </Form.Item>
-      <Form.Item label="Total hour">
-        {getFieldDecorator('totalHour', {
-          rules: [
-            {
-              required: true,
-              message: 'Must be a number and not empty!'
-            }
-          ]
-        })(<InputNumber style={{ width: '100%' }} />)}
-      </Form.Item>
-      <Form.Item label="Date start">
-        {getFieldDecorator('startDate', {
-          rules: [
-            {
-              required: true,
-              message: 'Please select a subject!'
-            }
-          ]
-        })(
-          <DatePicker
-            disabledDate={disabledStartDate}
-            format="DD-MM-YYYY"
-            setFieldsValue={startValue}
-            placeholder="Start"
-            onChange={onStartChange}
-            onOpenChange={handleStartOpenChange}
-            style={{ width: '100%' }}
-          />
-        )}
-      </Form.Item>
-      <Form.Item label="Date End">
-        {getFieldDecorator('endDate', {
-          rules: [
-            {
-              required: true,
-              message: 'Please select a date!'
-            }
-          ]
-        })(
-          <DatePicker
-            style={{ width: '100%' }}
-            disabledDate={disabledEndDate}
-            format="DD-MM-YYYY"
-            setFieldsValue={endValue}
-            placeholder="End"
-            onChange={onEndChange}
-            open={endOpen}
-            onOpenChange={handleEndOpenChange}
-          />
-        )}
-      </Form.Item>
-      <Form.Item {...tailFormItemLayout}>
-        <Button className="btn-register" htmlType="submit">
-          Register
-        </Button>
-      </Form.Item>
-    </Form>
+    <div>
+      <h3 style={{ textAlign: 'center' }}>Create your contract</h3>
+      <Form {...formItemLayout} onSubmit={handleSubmit}>
+        <Form.Item label="Tutor name">
+          <Input value={tutor.fullName} disabled />
+        </Form.Item>
+        <Form.Item label="Price/hour">
+          <Input value={formatCurrency(tutor.pricePerHour)} disabled />
+        </Form.Item>
+        <Form.Item label="Subject">
+          {getFieldDecorator('subject', {
+            rules: [
+              {
+                required: true,
+                message: 'Please select a subject!'
+              }
+            ]
+          })(
+            <Select
+              placeholder="Select a subject"
+              onChange={handleChangeSubject}
+            >
+              {tutor.skills.map(skill => (
+                <Option key={skill}>{skill}</Option>
+              ))}
+            </Select>
+          )}
+        </Form.Item>
+        <Form.Item label="Total hour">
+          {getFieldDecorator('totalHour', {
+            rules: [
+              {
+                required: true,
+                message: 'Must be a number and not empty!'
+              }
+            ]
+          })(<InputNumber style={{ width: '100%' }} />)}
+        </Form.Item>
+        <Form.Item label="Date start">
+          {getFieldDecorator('startDate', {
+            rules: [
+              {
+                required: true,
+                message: 'Please select a subject!'
+              }
+            ]
+          })(
+            <DatePicker
+              disabledDate={disabledStartDate}
+              format="DD-MM-YYYY"
+              setFieldsValue={startValue}
+              placeholder="Start"
+              onChange={onStartChange}
+              onOpenChange={handleStartOpenChange}
+              style={{ width: '100%' }}
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="Date End">
+          {getFieldDecorator('endDate', {
+            rules: [
+              {
+                required: true,
+                message: 'Please select a date!'
+              }
+            ]
+          })(
+            <DatePicker
+              style={{ width: '100%' }}
+              disabledDate={disabledEndDate}
+              format="DD-MM-YYYY"
+              setFieldsValue={endValue}
+              placeholder="End"
+              onChange={onEndChange}
+              open={endOpen}
+              onOpenChange={handleEndOpenChange}
+            />
+          )}
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button className="btn-register" htmlType="submit">
+            Register
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 

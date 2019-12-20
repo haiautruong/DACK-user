@@ -54,6 +54,8 @@ const ListPolicies = ({ setshowLayout }) => {
       }
     } else if (key === '2') {
       history.push('/policy');
+    } else if (key === '3'){
+      history.push('/conversation');
     }
   };
   const renderListPolicy = (list = [], page) => {

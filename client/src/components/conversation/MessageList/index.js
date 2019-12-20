@@ -146,12 +146,12 @@ export default function MessageList() {
   };
 
   return (
-      <>
+    <>
       <Toolbar title="Email Here"/>
-        <div>
-          <div style={{padding: '10px 10px 70px'}}>{renderMessages()}</div>
-          <Compose/>
-        </div>
-        </>
+      <div>
+        <div style={{padding: '10px 10px 70px'}}>{renderMessages()}</div>
+        <Compose/>
+      </div>
+    </>
   );
 }

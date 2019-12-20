@@ -28,9 +28,9 @@ export const logout = () => dispatch => {
 
 export const updateUserInfo = userData => dispatch =>
   new Promise(async (resolve, reject) => {
-    const res = await authApi.updateInfo(userData);
+    const user = cookies.get('CURR_USER');
+    const res = await authApi.updateInfo(userData, user.type);
     if (res.returnCode === 1) {
-      const user = cookies.get('CURR_USER');
       cookies.remove('CURR_USER');
       cookies.set('CURR_USER', { ...res.data, type: user.type });
       resolve(dispatch(doLoginSuccess(res.data)));

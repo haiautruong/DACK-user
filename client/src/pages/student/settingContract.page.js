@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Icon, Layout, Menu } from 'antd';
 import { useHistory, withRouter } from 'react-router-dom';
 import FormContract from '../../components/student/formContract';
 import { Cookies } from 'react-cookie';
+import PropTypes from 'prop-types';
 
 const { Sider } = Layout;
 const cookies = new Cookies();
@@ -55,6 +55,10 @@ const SettingContract = ({ setshowLayout }) => {
       </div>
     </div>
   );
+};
+
+SettingContract.propTypes = {
+  setshowLayout: PropTypes.func
 };
 
 export default withRouter(SettingContract);

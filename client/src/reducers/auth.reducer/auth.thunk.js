@@ -10,7 +10,6 @@ export const login = (email, password, type) => dispatch =>
   new Promise(async (resolve, reject) => {
     dispatch(doLogin(email, password, type));
     const res = await authApi.login(email, password, type);
-    console.log('res login', res);
     if (res.returnCode === 1) {
       const cookies = new Cookies();
       cookies.set('MY_TOKEN', res.data.token);

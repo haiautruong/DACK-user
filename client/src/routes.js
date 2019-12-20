@@ -9,7 +9,8 @@ import {
   DetailTutor,
   StudentProfile,
   ListPolicies,
-  Policy
+  Policy,
+  SettingContract
 } from './pages';
 import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -91,19 +92,24 @@ const AppRouter = () => {
               <Route exact path="/">
                 <HomePage t={t} i18n={i18n} setshowLayout={setshowLayout} />
               </Route>
-              <TeacherRoute 
+              <TeacherRoute
                 path="/teacher-profile"
                 component={UpdateTutor}
                 setshowLayout={setshowLayout}
                 redirect={'/'}
-              >
-              </TeacherRoute>
-              <StudentRoute 
+              ></TeacherRoute>
+              <StudentRoute
                 path="/student-profile"
                 component={StudentProfile}
                 setshowLayout={setshowLayout}
-                redirect={'/'}>
-              </StudentRoute>
+                redirect={'/'}
+              ></StudentRoute>
+              <StudentRoute
+                path="/setting-contract"
+                component={SettingContract}
+                setshowLayout={setshowLayout}
+                redirect={'/'}
+              ></StudentRoute>
               <Route exact path="/policy">
                 <ListPolicies setshowLayout={setshowLayout} />
               </Route>

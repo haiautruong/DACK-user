@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import {useLocation, withRouter} from 'react-router-dom';
-import {Col, Pagination, Row} from 'antd';
-import {logout} from '../reducers/auth.reducer';
-import {homeApi} from '../api';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, withRouter } from 'react-router-dom';
+import { Col, Pagination, Row } from 'antd';
+import { logout } from '../reducers/auth.reducer';
+import { homeApi } from '../api';
 import CardTutor from '../components/CardTutor';
 import SkillFilter from '../components/filter/SkillFilter';
 import PlaceFilter from '../components/filter/PlaceFilter';
 import PriceFilter from '../components/filter/PriceFilter';
-import {ITEM_PER_PAGE} from '../constant';
-import {sliceArray} from '../utils/helper';
+import { ITEM_PER_PAGE } from '../constant';
+import { sliceArray } from '../utils/helper';
 
 // const { Option } = Select;
 
@@ -41,7 +41,6 @@ const HomePage = ({ setshowLayout }) => {
       .getListTutors()
       .then(result => {
         if (result.returnCode === 1) {
-          console.log('tutors', result.data.tutors);
           setTutors(result.data.tutors);
           setFilteredTutor(result.data.tutors);
           setTotal(result.data.tutors.length);

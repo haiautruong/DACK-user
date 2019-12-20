@@ -28,7 +28,6 @@ const changePass = (email, oldPassword, newPassword) => {
 };
 
 const getListContracts = email => {
-  console.log('email', email);
   return new Promise((resolve, reject) => {
     axios({
       method: 'get',
@@ -38,7 +37,6 @@ const getListContracts = email => {
       }
     })
       .then(result => {
-        console.log('resule', result);
         resolve(result.data);
       })
       .catch(error => {

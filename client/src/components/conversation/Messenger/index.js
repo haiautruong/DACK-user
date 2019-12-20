@@ -1,6 +1,7 @@
 import React from 'react';
 import ConversationList from '../ConversationList';
 import MessageList from '../MessageList';
+import Compose from '../Compose';
 import './Messenger.css';
 
 export default function Messenger() {
@@ -13,6 +14,7 @@ export default function Messenger() {
       <div className="scrollable content">
         <MessageList />
       </div>
+      <Compose />
     </div>
   );
 }

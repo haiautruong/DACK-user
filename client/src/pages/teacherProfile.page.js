@@ -62,6 +62,8 @@ const UpdateTutor = ({ setshowLayout }) => {
       history.push('/teacher-profile');
     } else if (key === '2') {
       history.push('/policy');
+    } else if (key === '3'){
+      history.push('/conversation');
     }
   };
 

@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
 import SliderShow from './components/SliderShow';
 import { TeacherRoute, StudentRoute } from './components';
+import Conversation from './pages/conversation.page';
 
 const { Header, Footer, Content } = Layout;
 const cookies = new Cookies();
@@ -91,14 +92,14 @@ const AppRouter = () => {
               <Route exact path="/">
                 <HomePage t={t} i18n={i18n} setshowLayout={setshowLayout} />
               </Route>
-              <TeacherRoute 
+              <TeacherRoute
                 path="/teacher-profile"
                 component={UpdateTutor}
                 setshowLayout={setshowLayout}
                 redirect={'/'}
               >
               </TeacherRoute>
-              <StudentRoute 
+              <StudentRoute
                 path="/student-profile"
                 component={StudentProfile}
                 setshowLayout={setshowLayout}
@@ -112,6 +113,9 @@ const AppRouter = () => {
               </Route>
               <Route exact path="/detail-tutor/:email">
                 <DetailTutor setshowLayout={setshowLayout} />
+              </Route>
+              <Route exact path="/conversation">
+                <Conversation setshowLayout={setshowLayout} />
               </Route>
             </Switch>
           </Content>

@@ -9,10 +9,6 @@ const CardPolicy = props => {
   const history = useHistory();
   const { id, status, teacherEmail, studentEmail, subject } = props;
 
-  const handleOnCard = () => {
-    history.push(`/policy/${id}`);
-  };
-
   const renderTitle = () => {
     return (
       <div>
@@ -27,7 +23,7 @@ const CardPolicy = props => {
       style={{ cursor: 'pointer' }}
       title={renderTitle()}
       bordered={false}
-      onClick={handleOnCard}
+      onClick={props.onClick}
     >
       <p>{`Tutor: ${teacherEmail}`}</p>
       <p>{`Student: ${studentEmail}`}</p>

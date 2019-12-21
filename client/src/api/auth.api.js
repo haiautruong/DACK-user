@@ -45,7 +45,29 @@ const updateInfo = (userData, type) => {
   });
 };
 
+const resetPass = (email) => {
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'post',
+      url: `${API_URL}/resetpass`,
+      data: {
+        email
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+        .then(result => {
+          resolve(result.data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+  });
+};
+
 export default {
   login,
-  updateInfo
+  updateInfo,
+  resetPass
 };

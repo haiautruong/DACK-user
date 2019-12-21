@@ -1,17 +1,20 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { Icon, Checkbox } from 'antd';
-import { useInput } from '../hooks';
+import React, {useState} from 'react';
+import {connect} from 'react-redux';
+import {Checkbox, Icon} from 'antd';
+import {useInput} from '../hooks';
 import * as _ from 'lodash';
-import { signupApi } from '../api';
-import { login } from '../reducers/auth.reducer';
+import {signupApi} from '../api';
+import {login} from '../reducers/auth.reducer';
 
-import { useHistory, Link } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
+import ModalComfirm from './ModalComfirm';
 
-const SignUp = ({ login }) => {
+const SignUp = () => {
   const [type, setType] = useState(2);
   const [message, setMessage] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const { value: fullName, bind: bindFullName } = useInput('fullName');
   const { value: email, bind: bindEmail } = useInput('email');
   const { value: password, bind: bindPassword } = useInput('password');
@@ -40,6 +43,7 @@ const SignUp = ({ login }) => {
     }
 
     if (_.isEmpty(email)) {
+      console.log('email empty');
       document.getElementById('email').classList.add('invalid');
       isYes = true;
     }
@@ -65,6 +69,11 @@ const SignUp = ({ login }) => {
 
   const handleSubmit = evt => {
     evt.preventDefault();
+
+    if (!document.getElementsByClassName('notify')[0].classList.contains('hide')){
+      document.getElementsByClassName('notify')[0].classList.add('hide');
+    }
+
     const user = {
       fullName,
       email,
@@ -77,23 +86,18 @@ const SignUp = ({ login }) => {
     if (!notifyInvalid()) {
       signupApi.signup(user).then(async response => {
         if (response.returnCode === 1) {
-          const res = await login(email, password, type);
-          if (res) {
-            if (type === 2) {
-              history.push('/');
-            } else {
-              history.push('/teacher-profile');
-              console.log('res', res);
-            }
-          } else {
-            console.log('Auto login fail');
-          }
+          setModalOpen(true);
         } else {
           setMessage(response.returnMessage);
           document.getElementsByClassName('notify')[0].classList.remove('hide');
         }
       });
     }
+  };
+
+  const signUpSuccess = (isOpenModal) => {
+    setModalOpen(isOpenModal);
+    history.push('/login');
   };
 
   const onCheckBox = e => {
@@ -106,6 +110,10 @@ const SignUp = ({ login }) => {
 
   return (
     <div className="container-wrapper">
+      <ModalComfirm open={modalOpen}
+        setOpenComfirm={signUpSuccess}
+        message="Tạo tài khoản thành công. Vui lòng kích hoạt tài khoản qua email."/>
+
       <Link to="/">
         <Icon className="icon-home" type="home" />
       </Link>

@@ -139,10 +139,10 @@ exports.updateStatus = async function (req, res, next) {
 
         if (result != null && result.affectedRows === 1) {
             redis.del(redis.REDIS_KEY.CONTRACT + contractID);
-            redis.del(redis.REDIS_KEY.CONTRACT_BY_STUDENT + req.body.studentEmail);
-            redis.del(redis.REDIS_KEY.CONTRACT_BY_TEACHER + req.body.teacherEmail);
-
             const newContract = await redis.getAsyncWithCallback(redis.REDIS_KEY.CONTRACT, contractID, contractModel.getContract);
+
+            redis.del(redis.REDIS_KEY.CONTRACT_BY_STUDENT + newContract.studentEmail);
+            redis.del(redis.REDIS_KEY.CONTRACT_BY_TEACHER + newContract.teacherEmail);
 
             return res.json({
                 returnCode: 1,
@@ -171,10 +171,10 @@ exports.updateReview = async function (req, res, next) {
 
         if (result != null && result.affectedRows === 1) {
             redis.del(redis.REDIS_KEY.CONTRACT + contractID);
-            redis.del(redis.REDIS_KEY.CONTRACT_BY_STUDENT + req.body.studentEmail);
-            redis.del(redis.REDIS_KEY.CONTRACT_BY_TEACHER + req.body.teacherEmail);
-
             const newContract = await redis.getAsyncWithCallback(redis.REDIS_KEY.CONTRACT, contractID, contractModel.getContract);
+
+            redis.del(redis.REDIS_KEY.CONTRACT_BY_STUDENT + newContract.studentEmail);
+            redis.del(redis.REDIS_KEY.CONTRACT_BY_TEACHER + newContract.teacherEmail);
 
             return res.json({
                 returnCode: 1,

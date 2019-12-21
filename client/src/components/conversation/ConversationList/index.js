@@ -1,40 +1,82 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useState } from 'react';
 import ConversationListItem from '../ConversationListItem';
-import axios from 'axios';
+import { Cookies } from 'react-cookie';
+import { tutorApi, studentApi } from '../../../api';
+import * as _ from 'lodash';
+import { connect } from 'react-redux';
+import { changeChatter } from '../../../reducers/app.reducer';
 
-export default function ConversationList() {
+const cookies = new Cookies();
+
+function ConversationList({ chatter, changeChatter, newMessage }) {
+  const currUser = cookies.get('CURR_USER');
   const [conversations, setConversations] = useState([]);
+  const [changeCurrChat, setChangeCurrChat] = useState(null);
+
+  const target = currUser.type === 1 ? tutorApi : studentApi;
   useEffect(() => {
     getConversations();
-  },[]);
+    if (!_.isEmpty(conversations) && _.isEmpty(chatter)) {
+      changeChatter(conversations[0]);
+    }
+  }, [conversations.length, newMessage]);
+
+  useEffect(() => {}, [changeCurrChat]);
 
   const getConversations = () => {
-    axios.get('https://randomuser.me/api/?results=20').then(response => {
-      let newConversations = response.data.results.map(result => {
-        return {
-          photo: result.picture.large,
-          name: `${result.name.first} ${result.name.last}`,
-          text: 'Hello world! This is a long message that needs to be truncated.'
-        };
+    target
+      .getListConversation(currUser.email)
+      .then(response => {
+        let newConversations = response.data.map(result => {
+          return {
+            photo: result.avatar,
+            name: result.fullName,
+            text: result.message,
+            conversationID: result.conversationID,
+            email: result.email
+          };
+        });
+        setConversations([...newConversations]);
+      })
+      .catch(err => {
+        alert('err list converstion' + err);
       });
-      setConversations([...conversations, ...newConversations]);
-    });
   };
-  const style =  {
+  const style = {
     display: 'flex',
     flexDirection: 'column'
   };
 
-  return (
-    <div style={style}>
-      {
-        conversations.map(conversation =>
-          <ConversationListItem
-            key={conversation.name}
-            data={conversation}
-          />
-        )
-      }
-    </div>
-  );
+  const renderListConversation = () => {
+    return conversations.map(conversation => (
+      <ConversationListItem
+        key={conversation.conversationID}
+        data={conversation}
+        setChangeCurrChat={setChangeCurrChat}
+      />
+    ));
+  };
+
+  if (_.isEmpty(conversations)) {
+    return (
+      <div style={{ textAlign: 'center', paddingTop: 20 }}>
+        No conversation found
+      </div>
+    );
+  }
+
+  return <div style={style}>{renderListConversation()}</div>;
 }
+
+const mapStateToProps = state => ({
+  chatter: state.appReducer.chatter,
+  newMessage: state.appReducer.newMessage
+});
+
+const mapDispatchToProps = dispatch => ({
+  changeChatter: (username, password, type) =>
+    dispatch(changeChatter(username, password, type))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConversationList);

@@ -7,6 +7,7 @@ const validateToken = (req, res, next) => {
     }, async (err, user, info) => {
         try {
             if (err || !user) {
+                console.error('validateToken ex: ' + err);
                 return res.json({
                     returnCode: -1,
                     returnMessage: "JWT Not Valid."

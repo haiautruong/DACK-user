@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, useParams, useHistory } from 'react-router-dom';
 import { renderStar, formatCurrency, renderTags } from '../utils/helper';
 import { Row, Card, Col, Button } from 'antd';
-import { tutorApi } from '../api';
+import { tutorApi, chatApi } from '../api';
 import { Cookies } from 'react-cookie';
 
 const cookies = new Cookies();
@@ -12,6 +12,7 @@ const DetailTutorPage = ({ setshowLayout }) => {
   const [tutor, setTutor] = useState({});
   let { email } = useParams();
   const history = useHistory();
+  const currUser = cookies.get('CURR_USER');
 
   useEffect(() => {
     async function fetchLayout() {
@@ -33,6 +34,14 @@ const DetailTutorPage = ({ setshowLayout }) => {
   const linkToSettingContract = () => {
     cookies.set('CURR_TUTOR', tutor);
     history.push('/setting-contract');
+  };
+
+  const linkToSettingChat = () => {
+    chatApi.getConversation(email, currUser.email).then(res => {
+      if (res.returnCode === 1) {
+        history.push('/conversation');
+      }
+    });
   };
 
   const grid33 = {
@@ -67,16 +76,30 @@ const DetailTutorPage = ({ setshowLayout }) => {
             bordered={false}
           >
             <div>{renderStar(tutor.rating)}</div>
-            <div>
-              <Button
-                className="btn-register"
-                style={{ width: '100%' }}
-                size="large"
-                onClick={linkToSettingContract}
-              >
-                Register
-              </Button>
-            </div>
+            {currUser.type === 2 && (
+              <dvi>
+                <div>
+                  <Button
+                    className="btn-register"
+                    style={{ width: '100%' }}
+                    size="large"
+                    onClick={linkToSettingContract}
+                  >
+                    Register
+                  </Button>
+                </div>
+                <div>
+                  <Button
+                    className="btn-register"
+                    style={{ width: '100%', marginTop: 10 }}
+                    size="large"
+                    onClick={linkToSettingChat}
+                  >
+                    Conversation
+                  </Button>
+                </div>
+              </dvi>
+            )}
           </Card>
         </Col>
         <Col span={19}>
@@ -131,8 +154,5 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = () => ({});
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailTutorPage)
+  connect(mapStateToProps, mapDispatchToProps)(DetailTutorPage)
 );

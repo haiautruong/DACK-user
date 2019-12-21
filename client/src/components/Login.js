@@ -1,15 +1,18 @@
 /* eslint-disable no-unused-vars, react/no-unescaped-entities, react/prop-types */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Checkbox, Icon } from 'antd';
+import { Button, Checkbox, Icon } from 'antd';
 import { login } from '../reducers/auth.reducer';
 import { useHistory, Link } from 'react-router-dom';
 import * as _ from 'lodash';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
+import ModalResetPass from './ModalResetPass';
 
 const Login = ({ login }) => {
-  // const [checked, setChecked] = useState(true);
+  const [error, setError] = useState('');
+  const [openModalResetPass, setOpenModalResetPass] = useState(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [type, setType] = useState(2);
@@ -42,6 +45,8 @@ const Login = ({ login }) => {
   };
 
   const handleLogin = () => {
+    setError('');
+
     if (!notifyInvalid()) {
       login(email, password, type)
         .then(res => {
@@ -52,9 +57,7 @@ const Login = ({ login }) => {
           }
         })
         .catch(err => {
-          if (document.getElementById('notify')) {
-            document.getElementById('notify').classList.remove('hide');
-          }
+          setError(err.payload.message);
         });
     }
   };
@@ -68,8 +71,10 @@ const Login = ({ login }) => {
   };
 
   const onLoginFB = () => {
-    window.open(
-      `http://162145.online/auth/facebook/init/${type}`,
+    setError('');
+
+    const subWindow = window.open(
+      `https://162145.online/auth/facebook/init/${type}`,
       'mywindow',
       'location=1,status=1,scrollbars=1, width=700,height=550'
     );
@@ -88,17 +93,18 @@ const Login = ({ login }) => {
             history.push('/teacher-profile');
           }
         } else {
-          if (document.getElementById('notify')) {
-            document.getElementById('notify').classList.remove('hide');
-          }
+          setError(data.returnMessage);
+          subWindow.close();
         }
       }
     });
   };
 
   const onLoginGG = () => {
-    window.open(
-      `http://162145.online/auth/google/init/${type}`,
+    setError('');
+
+    const subWindow = window.open(
+      `https://162145.online/auth/google/init/${type}`,
       'mywindow',
       'location=1,status=1,scrollbars=1, width=700,height=550'
     );
@@ -117,9 +123,8 @@ const Login = ({ login }) => {
             history.push('/teacher-profile');
           }
         } else {
-          if (document.getElementById('notify')) {
-            document.getElementById('notify').classList.remove('hide');
-          }
+          setError(data.returnMessage);
+          subWindow.close();
         }
       }
     });
@@ -130,6 +135,11 @@ const Login = ({ login }) => {
       <Link to="/">
         <Icon className="icon-home" type="home" />
       </Link>
+      <ModalResetPass
+        visible={openModalResetPass}
+        setVisible={setOpenModalResetPass}
+      />
+
       <div className="signin-content">
         <div className="signin-image">
           <figure>
@@ -142,9 +152,11 @@ const Login = ({ login }) => {
 
         <div className="signin-form">
           <h2 className="form-title">Sign in</h2>
-          <span id="notify" className="hide">
-            Your email or password incorrect !
-          </span>
+          <div className="form-group">
+            <span id="notify" style={{ color: 'red' }}>
+              {error}
+            </span>
+          </div>
           <div className="form-group">
             <label className="icon" htmlFor="your_name">
               <Icon type="user" />
@@ -179,6 +191,12 @@ const Login = ({ login }) => {
               className="form-submit"
               value="Sign in"
             />
+            <p
+              onClick={() => setOpenModalResetPass(true)}
+              className="forget-pass"
+            >
+              Forget password ?
+            </p>
           </div>
           <div className="social-login">
             <span className="social-label">Or sign in with</span>
@@ -219,7 +237,4 @@ const mapDispatchToProps = dispatch => ({
   login: (username, password, type) => dispatch(login(username, password, type))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

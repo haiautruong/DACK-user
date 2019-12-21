@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Message from '../Message';
 import moment from 'moment';
 import Toolbar from '../Toolbar';
 import './MessageList.css';
+import { Cookies } from 'react-cookie';
+import { chatApi } from '../../../api';
+import * as _ from 'lodash';
+import PropTypes from 'prop-types';
 
-const MY_USER_ID = 'apple';
+const cookies = new Cookies();
 
-export default function MessageList() {
+function MessageList(props) {
   const [messages, setMessages] = useState([]);
+  const currUser = cookies.get('CURR_USER');
+  const { newMessage } = props;
+
+  const MY_USER_ID = currUser.type;
 
   useEffect(() => {
     getMessages();
-  }, []);
+  }, [newMessage.timestamp, props.chatter]);
 
   useEffect(() => {
     const scrollHeight = document.getElementById('scrollable').scrollHeight;
@@ -19,86 +28,18 @@ export default function MessageList() {
   }, [messages]);
 
   const getMessages = () => {
-    const tempMessages = [
-      {
-        id: 1,
-        author: 'apple',
-        message:
-          'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-        timestamp: new Date().getTime()
-      },
-      {
-        id: 2,
-        author: 'orange',
-        message:
-          'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-        timestamp: new Date().getTime()
-      },
-      {
-        id: 3,
-        author: 'orange',
-        message:
-          'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-        timestamp: new Date().getTime()
-      },
-      {
-        id: 4,
-        author: 'apple',
-        message:
-          'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-        timestamp: new Date().getTime()
-      },
-      {
-        id: 5,
-        author: 'apple',
-        message:
-          'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-        timestamp: new Date().getTime()
-      },
-      {
-        id: 6,
-        author: 'apple',
-        message:
-          'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-        timestamp: new Date().getTime()
-      },
-      {
-        id: 7,
-        author: 'orange',
-        message:
-          'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-        timestamp: new Date().getTime()
-      },
-      {
-        id: 8,
-        author: 'orange',
-        message:
-          'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-        timestamp: new Date().getTime()
-      },
-      {
-        id: 9,
-        author: 'apple',
-        message:
-          'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-        timestamp: new Date().getTime()
-      },
-      {
-        id: 10,
-        author: 'orange',
-        message:
-          'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-        timestamp: new Date().getTime()
-      },
-      {
-        id: 11,
-        author: 'apple',
-        message:
-          'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-        timestamp: new Date().getTime()
-      }
-    ];
-    setMessages([...messages, ...tempMessages]);
+    if (props.chatter) {
+      const teacherEmail =
+        currUser.type === 1 ? currUser.email : props.chatter.email;
+      const studentEmail =
+        currUser.type === 2 ? currUser.email : props.chatter.email;
+
+      chatApi.getConversation(teacherEmail, studentEmail).then(res => {
+        if (res.returnCode === 1) {
+          setMessages([..._.cloneDeep(res.data.messages)]);
+        }
+      });
+    }
   };
 
   const renderMessages = () => {
@@ -110,7 +51,7 @@ export default function MessageList() {
       let previous = messages[i - 1];
       let current = messages[i];
       let next = messages[i + 1];
-      let isMine = current.author === MY_USER_ID;
+      let isMine = current.sender === MY_USER_ID;
       let currentMoment = moment(current.timestamp);
       let prevBySameAuthor = false;
       let nextBySameAuthor = false;
@@ -123,7 +64,7 @@ export default function MessageList() {
         let previousDuration = moment.duration(
           currentMoment.diff(previousMoment)
         );
-        prevBySameAuthor = previous.author === current.author;
+        prevBySameAuthor = previous.sender === current.sender;
 
         if (prevBySameAuthor && previousDuration.as('hours') < 1) {
           startsSequence = false;
@@ -137,7 +78,7 @@ export default function MessageList() {
       if (next) {
         let nextMoment = moment(next.timestamp);
         let nextDuration = moment.duration(nextMoment.diff(currentMoment));
-        nextBySameAuthor = next.author === current.author;
+        nextBySameAuthor = next.sender === current.sender;
 
         if (nextBySameAuthor && nextDuration.as('hours') < 1) {
           endsSequence = false;
@@ -164,10 +105,24 @@ export default function MessageList() {
 
   return (
     <div>
-      <Toolbar title="Email Here" />
+      <Toolbar title={props.chatter && props.chatter.email} />
       <div>
         <div className="container-message">{renderMessages()}</div>
       </div>
     </div>
   );
 }
+
+MessageList.propTypes = {
+  newMessage: PropTypes.object,
+  chatter: PropTypes.object
+};
+
+const mapStateToProps = state => ({
+  newMessage: state.appReducer.newMessage,
+  chatter: state.appReducer.chatter
+});
+
+const mapDispatchToProps = () => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessageList);

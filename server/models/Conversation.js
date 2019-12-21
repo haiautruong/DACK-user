@@ -2,7 +2,7 @@ const conn = require('../utilities/mysql');
 
 module.exports.getConversationByTeacher = async (teacherEmail) => {
     const [res, f] = await conn.getConnection()
-        .query(`SELECT C.conversationID, U.fullName, U.avatar, (SELECT M.message FROM Message M WHERE C.conversationID = M.conversationID ORDER BY M.messageID DESC LIMIT 1) AS message FROM Conversation C JOIN User U ON C.studentEmail = U.email WHERE C.teacherEmail = '${teacherEmail}' ORDER BY C.conversationID DESC`)
+        .query(`SELECT C.conversationID,U.email, U.fullName, U.avatar, (SELECT M.message FROM Message M WHERE C.conversationID = M.conversationID ORDER BY M.messageID DESC LIMIT 1) AS message FROM Conversation C JOIN User U ON C.studentEmail = U.email WHERE C.teacherEmail = '${teacherEmail}' ORDER BY C.conversationID DESC`)
         .then(([rows, fields]) => {
             return [rows, fields];
         })
@@ -26,7 +26,7 @@ module.exports.getConversationByTeacher = async (teacherEmail) => {
 
 module.exports.getConversationByStudent = async (studentEmail) => {
     const [res, f] = await conn.getConnection()
-        .query(`SELECT C.conversationID, U.fullName, U.avatar, (SELECT M.message FROM Message M WHERE C.conversationID = M.conversationID ORDER BY M.messageID DESC LIMIT 1) AS message FROM Conversation C JOIN User U ON C.teacherEmail = U.email WHERE C.studentEmail = '${studentEmail}' ORDER BY C.conversationID DESC`)
+        .query(`SELECT C.conversationID,U.email, U.fullName, U.avatar, (SELECT M.message FROM Message M WHERE C.conversationID = M.conversationID ORDER BY M.messageID DESC LIMIT 1) AS message FROM Conversation C JOIN User U ON C.teacherEmail = U.email WHERE C.studentEmail = '${studentEmail}' ORDER BY C.conversationID DESC`)
         .then(([rows, fields]) => {
             return [rows, fields];
         })

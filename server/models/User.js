@@ -19,9 +19,13 @@ module.exports.getUser = async (email) => {
 };
 
 module.exports.createUser = async (user) => {
-    if (!user.avatar){
+    if (!user.avatar) {
         user.avatar = 'https://www.speakingtigerbooks.com/wp-content/uploads/2017/05/default-avatar.png';
     }
+    if (!user.token) {
+        user.token = '';
+    }
+
     const hash = bcrypt.hashSync(user.password, 8);
     const [res, f] = await conn.getConnection()
         .query('INSERT INTO User SET ?', {
@@ -31,8 +35,9 @@ module.exports.createUser = async (user) => {
             address: user.address,
             phoneNumber: user.phoneNumber,
             avatar: user.avatar,
-            status: 1,
-            type: user.type
+            status: user.status,
+            type: user.type,
+            token: user.token
         }).then(([rows, fields]) => {
             return [rows, fields];
         }).catch((err) => {
@@ -47,6 +52,20 @@ module.exports.updateInfo = async (email, user, avatar) => {
 
     let query = `UPDATE User SET fullName = '${user.fullName}', phoneNumber = '${user.phoneNumber}', 
                    address = '${user.address}', avatar = '${avatar}'where email = '${email}'`;
+    const [res, f] = await conn.getConnection()
+        .query(query).then(([rows, fields]) => {
+            return [rows, fields];
+        }).catch((err) => {
+            console.error(err.message);
+            return [null, null];
+        });
+
+    return res;
+};
+
+module.exports.updateStatus = async (email, status) => {
+
+    let query = `UPDATE User SET status = '${status}' where email = '${email}'`;
     const [res, f] = await conn.getConnection()
         .query(query).then(([rows, fields]) => {
             return [rows, fields];

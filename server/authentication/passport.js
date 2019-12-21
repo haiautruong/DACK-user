@@ -49,6 +49,13 @@ passport.use(new LocalStrategy({
             });
         }
 
+        if (user.status === 2) {
+            return cb(null, false, {
+                returnCode: -7,
+                returnMessage: 'Account Has Not Been Activated. Login To Your Email To Activate'
+            });
+        }
+
         bcrypt.compare(password, user.password).then((res) => {
             if (!res) {
                 return cb(null, false, {
@@ -108,12 +115,13 @@ passport.use(new FacebookStrategy({
                 if (!user) {
                     const newUser = {};
                     newUser.email = profile.emails[0].value;
-                    newUser.password = '123';
+                    newUser.password = 'Aa123456';
                     newUser.address = '';
                     newUser.phoneNumber = '';
                     newUser.fullName = profile.displayName;
                     newUser.avatar = profile.photos[0].value;
                     newUser.type = type;
+                    newUser.status = 1;
 
                     await UserModel.createUser(newUser);
                     redis.del(redis.REDIS_KEY.ALL_TEACHER);
@@ -148,12 +156,13 @@ passport.use(new GoogleStrategy({
                 if (!user) {
                     const newUser = {};
                     newUser.email = profile.emails[0].value;
-                    newUser.password = '123';
+                    newUser.password = 'Aa123456';
                     newUser.address = '';
                     newUser.phoneNumber = '';
                     newUser.fullName = profile.displayName;
                     newUser.avatar = profile.photos[0].value;
                     newUser.type = type;
+                    newUser.status = 1;
 
                     await UserModel.createUser(newUser);
                     redis.del(redis.REDIS_KEY.ALL_TEACHER);

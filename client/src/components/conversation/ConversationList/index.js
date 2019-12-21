@@ -9,7 +9,7 @@ import { changeChatter } from '../../../reducers/app.reducer';
 
 const cookies = new Cookies();
 
-function ConversationList({ chatter, changeChatter }) {
+function ConversationList({ chatter, changeChatter, newMessage }) {
   const currUser = cookies.get('CURR_USER');
   const [conversations, setConversations] = useState([]);
   const [changeCurrChat, setChangeCurrChat] = useState(null);
@@ -20,7 +20,7 @@ function ConversationList({ chatter, changeChatter }) {
     if (!_.isEmpty(conversations) && _.isEmpty(chatter)) {
       changeChatter(conversations[0]);
     }
-  }, [conversations.length]);
+  }, [conversations.length, newMessage]);
 
   useEffect(() => {}, [changeCurrChat]);
 
@@ -70,7 +70,8 @@ function ConversationList({ chatter, changeChatter }) {
 }
 
 const mapStateToProps = state => ({
-  chatter: state.appReducer.chatter
+  chatter: state.appReducer.chatter,
+  newMessage: state.appReducer.newMessage
 });
 
 const mapDispatchToProps = dispatch => ({

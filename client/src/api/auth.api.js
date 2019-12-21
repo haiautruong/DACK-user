@@ -45,7 +45,7 @@ const updateInfo = (userData, type) => {
   });
 };
 
-const resetPass = (email) => {
+const resetPass = email => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'post',
@@ -57,12 +57,12 @@ const resetPass = (email) => {
         'Content-Type': 'application/json'
       }
     })
-        .then(result => {
-          resolve(result.data);
-        })
-        .catch(error => {
-          reject(error);
-        });
+      .then(result => {
+        resolve(result.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
   });
 };
 

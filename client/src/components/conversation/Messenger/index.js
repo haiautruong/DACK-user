@@ -1,10 +1,12 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import ConversationList from '../ConversationList';
 import MessageList from '../MessageList';
 import Compose from '../Compose';
 import './Messenger.css';
+import { connect } from 'react-redux';
 
-export default function Messenger() {
+function Messenger({ chatter }) {
   return (
     <div className="messenger">
       <div className="scrollable sidebar">
@@ -12,9 +14,17 @@ export default function Messenger() {
       </div>
 
       <div className="scrollable content" id="scrollable">
-        <MessageList />
+        {chatter && <MessageList />}
       </div>
       <Compose />
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  chatter: state.appReducer.chatter
+});
+
+const mapDispatchToProps = () => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Messenger);

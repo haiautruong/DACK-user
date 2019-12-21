@@ -20,6 +20,10 @@ const ListPolicies = ({ setshowLayout }) => {
   const user = cookies.get('CURR_USER');
   const target = user.type === 1 ? tutorApi : studentApi;
 
+  const fetchData = async () => {
+
+  };
+
   useEffect(() => {
     async function fetchLayout() {
       await setshowLayout(true);

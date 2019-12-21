@@ -20,6 +20,7 @@ const ListPolicies = ({ setshowLayout }) => {
   const [total, setTotal] = useState(policies.length);
   const [showModal, setShowModal] = useState(false);
   const [policyDetail, setPolicyDetail] = useState(null);
+  const [status, setStatus] = useState(null);
   const [review, setReview] = useState(null);
   const [rating, setRating] = useState(null);
   const [changed, setChanged] = useState(false);
@@ -86,6 +87,7 @@ const ListPolicies = ({ setshowLayout }) => {
               setPolicyDetail(policy);
               setReview(policy.review);
               setRating(policy.rating);
+              setStatus(policy.status);
               setShowModal(true);
             }}
           />
@@ -176,8 +178,9 @@ const ListPolicies = ({ setshowLayout }) => {
             Close
           </Button>,
           <Button key="submit" type="primary" disabled={!changed} onClick={async () => {
-            const res = await homeApi.editContract(policyDetail.contractID, review, rating);
-            if(res.returnCode === 1){
+            let resStatus = await homeApi.changeStatus(policyDetail.contractID, status);
+            let resEdit = await homeApi.editContract(policyDetail.contractID, review, rating);
+            if(resEdit.returnCode === 1 && resStatus.returnCode){
               console.log('reload data');
               loadData();
             }
@@ -316,14 +319,9 @@ const ListPolicies = ({ setshowLayout }) => {
               </Row>
               <Row className='contract-row' type="flex" justify="center">
                 <Col span={12}>
-                  <Radio.Group value={policyDetail.status} onChange={async (e) => {
-                    let res = await homeApi.changeStatus(policyDetail.contractID, e.target.value);
-                    console.log('res', res);
-                    if(res.returnCode === 1){
-                      setPolicyDetail(res.data);
-                      loadData();
-                    }
-                    
+                  <Radio.Group value={status} onChange={async (e) => {
+                    setChanged(true);
+                    setStatus(e.target.value);
                   }}>
                     <Radio.Button value={0}>CANCEL</Radio.Button>
                     <Radio.Button value={2}>WAITING</Radio.Button>

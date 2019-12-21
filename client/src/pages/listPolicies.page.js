@@ -32,6 +32,7 @@ const ListPolicies = ({ setshowLayout }) => {
   const [total, setTotal] = useState(policies.length);
   const [showModal, setShowModal] = useState(false);
   const [policyDetail, setPolicyDetail] = useState(null);
+  const [status, setStatus] = useState(null);
   const [review, setReview] = useState(null);
   const [rating, setRating] = useState(null);
   const [changed, setChanged] = useState(false);
@@ -99,6 +100,7 @@ const ListPolicies = ({ setshowLayout }) => {
               setPolicyDetail(policy);
               setReview(policy.review);
               setRating(policy.rating);
+              setStatus(policy.status);
               setShowModal(true);
             }}
           />
@@ -180,32 +182,24 @@ const ListPolicies = ({ setshowLayout }) => {
           >
             Close
           </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            disabled={!changed}
-            onClick={async () => {
-              const res = await homeApi.editContract(
-                policyDetail.contractID,
-                review,
-                rating
-              );
-              if (res.returnCode === 1) {
-                console.log('reload data');
-                loadData();
-              }
-              setShowModal(false);
-              setChanged(false);
-            }}
-          >
+          <Button key="submit" type="primary" disabled={!changed} onClick={async () => {
+            let resStatus = await homeApi.changeStatus(policyDetail.contractID, status);
+            let resEdit = await homeApi.editContract(policyDetail.contractID, review, rating);
+            if(resEdit.returnCode === 1 && resStatus.returnCode){
+              console.log('reload data');
+              loadData();
+            }
+            setShowModal(false);
+            setChanged(false);
+          }}>
             Save
           </Button>
         ]}
         width="50%"
       >
-        {policyDetail ? (
-          <div>
-            <Row
+        {policyDetail ? 
+            <div>
+              <Row
               className="contract-row"
               style={{
                 borderRadius: '5px',
@@ -325,38 +319,27 @@ const ListPolicies = ({ setshowLayout }) => {
                     <Rate allowHalf value={rating} onChange={(value) => {
                       setChanged(true);
                       setRating(value);
-                    }}
-                  />
-                </h1>
-              </Col>
-            </Row>
-            <Row className="contract-row" type="flex" justify="center">
-              <Col span={12}>
-                <Radio.Group
-                  value={policyDetail.status}
-                  onChange={async e => {
-                    let res = await homeApi.changeStatus(
-                      policyDetail.contractID,
-                      e.target.value
-                    );
-                    console.log('res', res);
-                    if (res.returnCode === 1) {
-                      setPolicyDetail(res.data);
-                      loadData();
-                    }
-                  }}
-                >
-                  <Radio.Button value={0}>CANCEL</Radio.Button>
-                  <Radio.Button value={2}>WAITING</Radio.Button>
-                  <Radio.Button value={3}>ON GOING</Radio.Button>
-                  <Radio.Button value={1}>DONE</Radio.Button>
-                </Radio.Group>
-              </Col>
-            </Row>
-          </div>
-        ) : (
-          ''
-        )}
+                    }}/>
+                  </h1>
+                </Col>
+              </Row>
+              <Row className='contract-row' type="flex" justify="center">
+                <Col span={12}>
+                  <Radio.Group value={status} onChange={async (e) => {
+                    setChanged(true);
+                    setStatus(e.target.value);
+                  }}>
+                    <Radio.Button value={0}>CANCEL</Radio.Button>
+                    <Radio.Button value={2}>WAITING</Radio.Button>
+                    <Radio.Button value={3}>ON GOING</Radio.Button>
+                    <Radio.Button value={1}>DONE</Radio.Button>
+                  </Radio.Group>
+                </Col>
+              </Row>
+            </div>
+            :
+            ''
+        }
       </Modal>
     </div>
   );

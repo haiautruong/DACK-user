@@ -212,7 +212,7 @@ const FormContract = props => {
               signedPrice: tutor.pricePerHour,
               totalHour: policyDetail.totalHour,
               totalPrice: parseInt(tutor.pricePerHour)*parseInt(policyDetail.totalHour),
-            }
+            };
             const res = await homeApi.createContract(data);
             console.log('res from create', res);
             if(res.returnCode === 1){
@@ -229,16 +229,16 @@ const FormContract = props => {
             <div>
               <Row className='contract-row'
               
-              type='flex'
-              justify='center'
-              align='middle'
+                type='flex'
+                justify='center'
+                align='middle'
               >
                 <Col span={8}
-                style={{
-                  borderRadius: '5px',
-                  borderStyle: 'solid',
-                  paddingTop: '12px',
-                }}
+                  style={{
+                    borderRadius: '5px',
+                    borderStyle: 'solid',
+                    paddingTop: '12px',
+                  }}
                 >
                   <span className='contract-item-title'>Subject: </span>
                   <h1 style={{fontSize: 'large'}}>

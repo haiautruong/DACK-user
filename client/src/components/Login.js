@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, react/no-unescaped-entities, react/prop-types */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import {Button, Checkbox, Icon} from 'antd';
+import { Button, Checkbox, Icon } from 'antd';
 import { login } from '../reducers/auth.reducer';
 import { useHistory, Link } from 'react-router-dom';
 import * as _ from 'lodash';
@@ -135,8 +135,10 @@ const Login = ({ login }) => {
       <Link to="/">
         <Icon className="icon-home" type="home" />
       </Link>
-      <ModalResetPass visible={openModalResetPass}
-                      setVisible={setOpenModalResetPass}/>
+      <ModalResetPass
+        visible={openModalResetPass}
+        setVisible={setOpenModalResetPass}
+      />
 
       <div className="signin-content">
         <div className="signin-image">
@@ -151,7 +153,7 @@ const Login = ({ login }) => {
         <div className="signin-form">
           <h2 className="form-title">Sign in</h2>
           <div className="form-group">
-            <span id="notify" style={{color:'red'}}>
+            <span id="notify" style={{ color: 'red' }}>
               {error}
             </span>
           </div>
@@ -189,6 +191,12 @@ const Login = ({ login }) => {
               className="form-submit"
               value="Sign in"
             />
+            <p
+              onClick={() => setOpenModalResetPass(true)}
+              className="forget-pass"
+            >
+              Forget password ?
+            </p>
           </div>
           <div className="social-login">
             <span className="social-label">Or sign in with</span>
@@ -229,7 +237,4 @@ const mapDispatchToProps = dispatch => ({
   login: (username, password, type) => dispatch(login(username, password, type))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

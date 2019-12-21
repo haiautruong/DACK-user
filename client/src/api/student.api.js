@@ -45,7 +45,26 @@ const getListContracts = email => {
   });
 };
 
+const getListConversation = email => {
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'get',
+      url: `${API_URL}/private/conversations/student/${email}`,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(result => {
+        resolve(result.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 export default {
   changePass,
-  getListContracts
+  getListContracts,
+  getListConversation
 };

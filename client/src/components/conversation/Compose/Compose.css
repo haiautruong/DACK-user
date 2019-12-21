@@ -27,12 +27,12 @@
 }
 
 .compose .toolbar-button {
-  color: #a9abad;
+  color: #096dd9;
   margin-left: 15px;
 }
 
 .compose .toolbar-button:hover {
-  color: #99999c;
+  color: #1890ff;
 }
 
 .send-button {

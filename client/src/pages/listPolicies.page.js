@@ -182,7 +182,6 @@ const ListPolicies = ({ setshowLayout }) => {
           >
             Close
           </Button>,
-<<<<<<< HEAD
           <Button key="submit" type="primary" disabled={!changed} onClick={async () => {
             let resStatus = await homeApi.changeStatus(policyDetail.contractID, status);
             let resEdit = await homeApi.editContract(policyDetail.contractID, review, rating);
@@ -193,34 +192,14 @@ const ListPolicies = ({ setshowLayout }) => {
             setShowModal(false);
             setChanged(false);
           }}>
-=======
-          <Button
-            key="submit"
-            type="primary"
-            disabled={!changed}
-            onClick={async () => {
-              const res = await homeApi.editContract(
-                policyDetail.contractID,
-                review,
-                rating
-              );
-              if (res.returnCode === 1) {
-                console.log('reload data');
-                loadData();
-              }
-              setShowModal(false);
-              setChanged(false);
-            }}
-          >
->>>>>>> e29828472e937f412d4a239c50f12eb320d466d6
             Save
           </Button>
         ]}
         width="50%"
       >
-        {policyDetail ? (
-          <div>
-            <Row
+        {policyDetail ? 
+            <div>
+              <Row
               className="contract-row"
               style={{
                 borderRadius: '5px',
@@ -340,7 +319,6 @@ const ListPolicies = ({ setshowLayout }) => {
                     <Rate allowHalf value={rating} onChange={(value) => {
                       setChanged(true);
                       setRating(value);
-<<<<<<< HEAD
                     }}/>
                   </h1>
                 </Col>
@@ -362,40 +340,6 @@ const ListPolicies = ({ setshowLayout }) => {
             :
             ''
         }
-=======
-                    }}
-                  />
-                </h1>
-              </Col>
-            </Row>
-            <Row className="contract-row" type="flex" justify="center">
-              <Col span={12}>
-                <Radio.Group
-                  value={policyDetail.status}
-                  onChange={async e => {
-                    let res = await homeApi.changeStatus(
-                      policyDetail.contractID,
-                      e.target.value
-                    );
-                    console.log('res', res);
-                    if (res.returnCode === 1) {
-                      setPolicyDetail(res.data);
-                      loadData();
-                    }
-                  }}
-                >
-                  <Radio.Button value={0}>CANCEL</Radio.Button>
-                  <Radio.Button value={2}>WAITING</Radio.Button>
-                  <Radio.Button value={3}>ON GOING</Radio.Button>
-                  <Radio.Button value={1}>DONE</Radio.Button>
-                </Radio.Group>
-              </Col>
-            </Row>
-          </div>
-        ) : (
-          ''
-        )}
->>>>>>> e29828472e937f412d4a239c50f12eb320d466d6
       </Modal>
     </div>
   );

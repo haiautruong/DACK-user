@@ -61,9 +61,24 @@ const changeStatus = async (id, newStatus) => {
   return resData;
 };
 
+const editContract = async (id, review, rating) => {
+  const res = await fetch(`${API_URL}/private/contracts/review/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({review, rating})
+  });
+  const resData = await res.json();
+  console.log('return change', resData);
+  return resData;
+}
+
 export default {
   getListTutors,
   getSkills,
   getPolicy,
-  changeStatus
+  changeStatus,
+  editContract
 };

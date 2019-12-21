@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Pagination, Icon, Layout, Menu, Row, Col, Modal, Radio } from 'antd';
+import { Pagination, Icon, Layout, Menu, Row, Col, Modal, Radio, Typography, Rate, Button } from 'antd';
 import { useHistory, withRouter } from 'react-router-dom';
 import CardPolicy from '../components/CardPolicy';
 import { ITEM_PER_PAGE_POLICY } from '../constant';
@@ -9,6 +9,7 @@ import { studentApi } from '../api';
 import { Cookies } from 'react-cookie';
 import { sliceArray } from '../utils/helper';
 
+const { Paragraph } = Typography;
 const cookies = new Cookies();
 const { Sider } = Layout;
 
@@ -19,6 +20,9 @@ const ListPolicies = ({ setshowLayout }) => {
   const [total, setTotal] = useState(policies.length);
   const [showModal, setShowModal] = useState(false);
   const [policyDetail, setPolicyDetail] = useState(null);
+  const [review, setReview] = useState(null);
+  const [rating, setRating] = useState(null);
+  const [changed, setChanged] = useState(false);
   const user = cookies.get('CURR_USER');
   const target = user.type === 1 ? tutorApi : studentApi;
 
@@ -26,7 +30,7 @@ const ListPolicies = ({ setshowLayout }) => {
     target
       .getListContracts(user.email)
       .then(result => {
-        console.log('result', result)
+        console.log('result', result);
         if (result.returnCode === 1) {
           setPolices(result.data);
           setTotal(result.data.length);
@@ -37,7 +41,7 @@ const ListPolicies = ({ setshowLayout }) => {
       .catch(error => {
         console.log('error get list tutor', error);
       });
-  }
+  };
 
   useEffect(() => {
     async function fetchLayout() {
@@ -78,8 +82,10 @@ const ListPolicies = ({ setshowLayout }) => {
             teacherEmail={policy.teacherEmail}
             studentEmail={policy.studentEmail}
             subject={policy.subject}
-            onClick={() => {
-              setPolicyDetail(policy)
+            onClick={async () => {
+              setPolicyDetail(policy);
+              setReview(policy.review);
+              setRating(policy.rating);
               setShowModal(true);
             }}
           />
@@ -87,6 +93,11 @@ const ListPolicies = ({ setshowLayout }) => {
       );
     });
   };
+
+  const onChangeReview = (str) => {
+    setChanged(true);
+    setReview(str);
+  }
 
   // const renderListPolicy = (list = [], page) => {
   //   console.log('policies', policies);
@@ -157,6 +168,25 @@ const ListPolicies = ({ setshowLayout }) => {
         onCancel={async () => {
           await setShowModal(false);
         }}
+        footer={[
+          <Button key="back" onClick={() => {
+            setShowModal(false);
+            setChanged(false);
+          }}>
+            Close
+          </Button>,
+          <Button key="submit" type="primary" disabled={!changed} onClick={async () => {
+            const res = await homeApi.editContract(policyDetail.contractID, review, rating);
+            if(res.returnCode === 1){
+              console.log('reload data');
+              loadData();
+            }
+            setShowModal(false);
+            setChanged(false);
+          }}>
+            Save
+          </Button>,
+        ]}
         width='50%'
       >
         {
@@ -266,16 +296,21 @@ const ListPolicies = ({ setshowLayout }) => {
               <Row className='contract-row'>
                 <Col span={12}>
                   <span className='contract-item-title'>Review: </span>
+                  <Paragraph 
+                    editable={{ onChange: onChangeReview }}
+                  >
                   {
-                    policyDetail.review
+                    review
                   }
+                </Paragraph>
                 </Col>
                 <Col span={12}>
                   <span className='contract-item-title'>Rating: </span>
                   <h1 style={{fontSize: 'large'}}>
-                    {
-                      policyDetail.rating
-                    }
+                    <Rate allowHalf value={rating} onChange={(value) => {
+                      setChanged(true);
+                      setRating(value);
+                    }}/>
                   </h1>
                 </Col>
               </Row>
@@ -291,7 +326,7 @@ const ListPolicies = ({ setshowLayout }) => {
                     
                   }}>
                     <Radio.Button value={0}>CANCEL</Radio.Button>
-                    <Radio.Button value={2}>'WAITING</Radio.Button>
+                    <Radio.Button value={2}>WAITING</Radio.Button>
                     <Radio.Button value={3}>ON GOING</Radio.Button>
                     <Radio.Button value={1}>DONE</Radio.Button>
                   </Radio.Group>

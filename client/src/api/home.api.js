@@ -71,7 +71,19 @@ const editContract = async (id, review, rating) => {
     body: JSON.stringify({review, rating})
   });
   const resData = await res.json();
-  console.log('return change', resData);
+  return resData;
+};
+
+const createContract = async (data) => {
+  const res = await fetch(`${API_URL}/private/contracts`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(data)
+  });
+  const resData = await res.json();
   return resData;
 };
 
@@ -80,5 +92,6 @@ export default {
   getSkills,
   getPolicy,
   changeStatus,
-  editContract
+  editContract,
+  createContract
 };

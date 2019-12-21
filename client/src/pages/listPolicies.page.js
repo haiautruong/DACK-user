@@ -7,7 +7,7 @@ import { ITEM_PER_PAGE_POLICY } from '../constant';
 import { tutorApi, homeApi } from '../api';
 import { studentApi } from '../api';
 import { Cookies } from 'react-cookie';
-import { sliceArray } from '../utils/helper';
+import { sliceArray, formatCurrency } from '../utils/helper';
 
 const { Paragraph } = Typography;
 const cookies = new Cookies();
@@ -267,7 +267,7 @@ const ListPolicies = ({ setshowLayout }) => {
                   <span className='contract-item-title'>Per hour</span>
                   <h1 style={{fontSize: 'large'}}>
                     {
-                      policyDetail.signedPrice
+                      formatCurrency(policyDetail.signedPrice)
                     }
                   </h1>
                 </Col>
@@ -288,7 +288,7 @@ const ListPolicies = ({ setshowLayout }) => {
                 <Col span={6}>
                   <h1 style={{fontSize: 'xx-large'}}>
                     {
-                      policyDetail.totalPrice
+                      formatCurrency(policyDetail.totalPrice)
                     }
                   </h1>
                 </Col>

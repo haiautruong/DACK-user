@@ -1,15 +1,17 @@
 /* eslint-disable no-unused-vars, react/no-unescaped-entities, react/prop-types */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Checkbox, Icon } from 'antd';
+import {Button, Checkbox, Icon} from 'antd';
 import { login } from '../reducers/auth.reducer';
 import { useHistory, Link } from 'react-router-dom';
 import * as _ from 'lodash';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
+import ModalResetPass from './ModalResetPass';
 
 const Login = ({ login }) => {
   const [error, setError] = useState('');
+  const [openModalResetPass, setOpenModalResetPass] = useState(false);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -133,6 +135,9 @@ const Login = ({ login }) => {
       <Link to="/">
         <Icon className="icon-home" type="home" />
       </Link>
+      <ModalResetPass visible={openModalResetPass}
+                      setVisible={setOpenModalResetPass}/>
+
       <div className="signin-content">
         <div className="signin-image">
           <figure>

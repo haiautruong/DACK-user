@@ -45,7 +45,8 @@
           "always"
       ],
       "new-cap": 2,
-      "no-case-declarations": 0
+      "no-case-declarations": 0,
+      "react/prop-types": 0
   },
   "parserOptions": {
       "ecmaVersion": 2017,

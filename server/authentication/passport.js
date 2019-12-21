@@ -108,12 +108,13 @@ passport.use(new FacebookStrategy({
                 if (!user) {
                     const newUser = {};
                     newUser.email = profile.emails[0].value;
-                    newUser.password = '123';
+                    newUser.password = 'Aa123456';
                     newUser.address = '';
                     newUser.phoneNumber = '';
                     newUser.fullName = profile.displayName;
                     newUser.avatar = profile.photos[0].value;
                     newUser.type = type;
+                    newUser.status = 1;
 
                     await UserModel.createUser(newUser);
                     redis.del(redis.REDIS_KEY.ALL_TEACHER);
@@ -148,12 +149,13 @@ passport.use(new GoogleStrategy({
                 if (!user) {
                     const newUser = {};
                     newUser.email = profile.emails[0].value;
-                    newUser.password = '123';
+                    newUser.password = 'Aa123456';
                     newUser.address = '';
                     newUser.phoneNumber = '';
                     newUser.fullName = profile.displayName;
                     newUser.avatar = profile.photos[0].value;
                     newUser.type = type;
+                    newUser.status = 1;
 
                     await UserModel.createUser(newUser);
                     redis.del(redis.REDIS_KEY.ALL_TEACHER);

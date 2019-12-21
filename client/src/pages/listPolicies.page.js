@@ -97,7 +97,7 @@ const ListPolicies = ({ setshowLayout }) => {
   const onChangeReview = (str) => {
     setChanged(true);
     setReview(str);
-  }
+  };
 
   // const renderListPolicy = (list = [], page) => {
   //   console.log('policies', policies);
@@ -299,10 +299,10 @@ const ListPolicies = ({ setshowLayout }) => {
                   <Paragraph 
                     editable={{ onChange: onChangeReview }}
                   >
-                  {
-                    review
-                  }
-                </Paragraph>
+                    {
+                      review
+                    }
+                  </Paragraph>
                 </Col>
                 <Col span={12}>
                   <span className='contract-item-title'>Rating: </span>

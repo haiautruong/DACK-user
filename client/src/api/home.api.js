@@ -73,7 +73,7 @@ const editContract = async (id, review, rating) => {
   const resData = await res.json();
   console.log('return change', resData);
   return resData;
-}
+};
 
 export default {
   getListTutors,

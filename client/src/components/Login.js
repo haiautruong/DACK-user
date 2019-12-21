@@ -9,7 +9,8 @@ import axios from 'axios';
 import { Cookies } from 'react-cookie';
 
 const Login = ({ login }) => {
-  // const [checked, setChecked] = useState(true);
+  const [error, setError] = useState('');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [type, setType] = useState(2);
@@ -42,6 +43,8 @@ const Login = ({ login }) => {
   };
 
   const handleLogin = () => {
+    setError('');
+
     if (!notifyInvalid()) {
       login(email, password, type)
         .then(res => {
@@ -52,9 +55,7 @@ const Login = ({ login }) => {
           }
         })
         .catch(err => {
-          if (document.getElementById('notify')) {
-            document.getElementById('notify').classList.remove('hide');
-          }
+          setError(err.payload.message);
         });
     }
   };
@@ -68,8 +69,10 @@ const Login = ({ login }) => {
   };
 
   const onLoginFB = () => {
-    window.open(
-      `http://162145.online/auth/facebook/init/${type}`,
+    setError('');
+
+    const subWindow = window.open(
+      `https://162145.online/auth/facebook/init/${type}`,
       'mywindow',
       'location=1,status=1,scrollbars=1, width=700,height=550'
     );
@@ -88,17 +91,18 @@ const Login = ({ login }) => {
             history.push('/teacher-profile');
           }
         } else {
-          if (document.getElementById('notify')) {
-            document.getElementById('notify').classList.remove('hide');
-          }
+          setError(data.returnMessage);
+          subWindow.close();
         }
       }
     });
   };
 
   const onLoginGG = () => {
-    window.open(
-      `http://162145.online/auth/google/init/${type}`,
+    setError('');
+
+    const subWindow = window.open(
+      `https://162145.online/auth/google/init/${type}`,
       'mywindow',
       'location=1,status=1,scrollbars=1, width=700,height=550'
     );
@@ -117,9 +121,8 @@ const Login = ({ login }) => {
             history.push('/teacher-profile');
           }
         } else {
-          if (document.getElementById('notify')) {
-            document.getElementById('notify').classList.remove('hide');
-          }
+          setError(data.returnMessage);
+          subWindow.close();
         }
       }
     });
@@ -142,9 +145,11 @@ const Login = ({ login }) => {
 
         <div className="signin-form">
           <h2 className="form-title">Sign in</h2>
-          <span id="notify" className="hide">
-            Your email or password incorrect !
-          </span>
+          <div className="form-group">
+            <span id="notify" style={{color:'red'}}>
+              {error}
+            </span>
+          </div>
           <div className="form-group">
             <label className="icon" htmlFor="your_name">
               <Icon type="user" />

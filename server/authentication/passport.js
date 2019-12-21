@@ -49,6 +49,13 @@ passport.use(new LocalStrategy({
             });
         }
 
+        if (user.status === 2) {
+            return cb(null, false, {
+                returnCode: -7,
+                returnMessage: 'Account Has Not Been Activated. Login To Your Email To Activate'
+            });
+        }
+
         bcrypt.compare(password, user.password).then((res) => {
             if (!res) {
                 return cb(null, false, {

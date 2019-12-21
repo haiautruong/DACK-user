@@ -11,18 +11,20 @@ export const login = (email, password, type) => dispatch =>
     dispatch(doLogin(email, password, type));
     const res = await authApi.login(email, password, type);
     if (res.returnCode === 1) {
-      const cookies = new Cookies();
-      cookies.set('MY_TOKEN', res.data.token);
-      cookies.set('CURR_USER', res.data.user);
-      resolve(dispatch(doLoginSuccess(res.data.user)));
+        cookies.remove('MY_TOKEN');
+        cookies.remove('CURR_USER');
+        cookies.set('MY_TOKEN', res.data.token);
+        cookies.set('CURR_USER', res.data.user);
+        resolve(dispatch(doLoginSuccess(res.data.user)));
     } else {
-      reject(dispatch(doLoginFail(res.returnMessage)));
+        reject(dispatch(doLoginFail(res.returnMessage)));
     }
   });
 
 export const logout = () => dispatch => {
   dispatch(doLogout());
   cookies.set('CURR_USER', '');
+  cookies.set('MY_TOKEN', '');
 };
 
 export const updateUserInfo = userData => dispatch =>

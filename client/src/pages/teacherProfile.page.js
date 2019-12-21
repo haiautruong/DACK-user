@@ -62,8 +62,10 @@ const UpdateTutor = ({ setshowLayout }) => {
       history.push('/teacher-profile');
     } else if (key === '2') {
       history.push('/policy');
-    } else if (key === '3'){
+    } else if (key === '3') {
       history.push('/conversation');
+    } else if (key === '4') {
+      history.push('/statistics');
     }
   };
 
@@ -90,12 +92,16 @@ const UpdateTutor = ({ setshowLayout }) => {
               <span className="nav-text">Personal Info</span>
             </Menu.Item>
             <Menu.Item key="2">
-              <Icon type="history" />
-              <span className="nav-text">Teaching History</span>
+              <Icon type="book" />
+              <span className="nav-text">Contracts</span>
             </Menu.Item>
             <Menu.Item key="3">
               <Icon type="message" />
               <span className="nav-text">Conversation</span>
+            </Menu.Item>
+            <Menu.Item key="4">
+              <Icon type="line-chart" />
+              <span className="nav-text">Statistics Income</span>
             </Menu.Item>
           </Menu>
         </Sider>

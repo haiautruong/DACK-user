@@ -1,6 +1,18 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Pagination, Icon, Layout, Menu, Row, Col, Modal, Radio, Typography, Rate, Button } from 'antd';
+import {
+  Pagination,
+  Icon,
+  Layout,
+  Menu,
+  Row,
+  Col,
+  Modal,
+  Radio,
+  Typography,
+  Rate,
+  Button
+} from 'antd';
 import { useHistory, withRouter } from 'react-router-dom';
 import CardPolicy from '../components/CardPolicy';
 import { ITEM_PER_PAGE_POLICY } from '../constant';
@@ -49,7 +61,6 @@ const ListPolicies = ({ setshowLayout }) => {
     }
     fetchLayout();
     loadData();
-    
   }, []);
 
   const onChangePagination = page => {
@@ -65,8 +76,10 @@ const ListPolicies = ({ setshowLayout }) => {
       }
     } else if (key === '2') {
       history.push('/policy');
-    } else if (key === '3'){
+    } else if (key === '3') {
       history.push('/conversation');
+    } else if (key === '4') {
+      history.push('/statistics');
     }
   };
   const renderListPolicy = (list = [], page) => {
@@ -94,27 +107,10 @@ const ListPolicies = ({ setshowLayout }) => {
     });
   };
 
-  const onChangeReview = (str) => {
+  const onChangeReview = str => {
     setChanged(true);
     setReview(str);
   };
-
-  // const renderListPolicy = (list = [], page) => {
-  //   console.log('policies', policies);
-  //   return policies.map((policy, index) => {
-  //     return (
-  //       <Col key={index} span={8}>
-  //         <CardPolicy
-  //           id={policy.contractID}
-  //           status={policy.status}
-  //           teacherEmail={policy.teacherEmail}
-  //           studentEmail={policy.studentEmail}
-  //           subject={policy.subject}
-  //         />
-  //       </Col>
-  //     );
-  //   });
-  // };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
@@ -132,12 +128,18 @@ const ListPolicies = ({ setshowLayout }) => {
             </Menu.Item>
             <Menu.Item key="2">
               <Icon type="book" />
-              <span className="nav-text">Your policy</span>
+              <span className="nav-text">Contracts</span>
             </Menu.Item>
             <Menu.Item key="3">
               <Icon type="message" />
               <span className="nav-text">Conversation</span>
             </Menu.Item>
+            {user.type === 1 && (
+              <Menu.Item key="4">
+                <Icon type="line-chart" />
+                <span className="nav-text">Statistics Income</span>
+              </Menu.Item>
+            )}
           </Menu>
         </Sider>
       </div>
@@ -159,7 +161,7 @@ const ListPolicies = ({ setshowLayout }) => {
           'No policy found'
         )}
       </div>
-      <Modal 
+      <Modal
         title="Contract Info"
         visible={showModal}
         onOk={async () => {
@@ -169,30 +171,43 @@ const ListPolicies = ({ setshowLayout }) => {
           await setShowModal(false);
         }}
         footer={[
-          <Button key="back" onClick={() => {
-            setShowModal(false);
-            setChanged(false);
-          }}>
+          <Button
+            key="back"
+            onClick={() => {
+              setShowModal(false);
+              setChanged(false);
+            }}
+          >
             Close
           </Button>,
-          <Button key="submit" type="primary" disabled={!changed} onClick={async () => {
-            const res = await homeApi.editContract(policyDetail.contractID, review, rating);
-            if(res.returnCode === 1){
-              console.log('reload data');
-              loadData();
-            }
-            setShowModal(false);
-            setChanged(false);
-          }}>
+          <Button
+            key="submit"
+            type="primary"
+            disabled={!changed}
+            onClick={async () => {
+              const res = await homeApi.editContract(
+                policyDetail.contractID,
+                review,
+                rating
+              );
+              if (res.returnCode === 1) {
+                console.log('reload data');
+                loadData();
+              }
+              setShowModal(false);
+              setChanged(false);
+            }}
+          >
             Save
-          </Button>,
+          </Button>
         ]}
-        width='50%'
+        width="50%"
       >
-        {
-          policyDetail ?
-            <div>
-              <Row className='contract-row' style={{
+        {policyDetail ? (
+          <div>
+            <Row
+              className="contract-row"
+              style={{
                 borderRadius: '5px',
                 borderStyle: 'solid',
                 paddingTop: '12px'
@@ -310,32 +325,38 @@ const ListPolicies = ({ setshowLayout }) => {
                     <Rate allowHalf value={rating} onChange={(value) => {
                       setChanged(true);
                       setRating(value);
-                    }}/>
-                  </h1>
-                </Col>
-              </Row>
-              <Row className='contract-row' type="flex" justify="center">
-                <Col span={12}>
-                  <Radio.Group value={policyDetail.status} onChange={async (e) => {
-                    let res = await homeApi.changeStatus(policyDetail.contractID, e.target.value);
+                    }}
+                  />
+                </h1>
+              </Col>
+            </Row>
+            <Row className="contract-row" type="flex" justify="center">
+              <Col span={12}>
+                <Radio.Group
+                  value={policyDetail.status}
+                  onChange={async e => {
+                    let res = await homeApi.changeStatus(
+                      policyDetail.contractID,
+                      e.target.value
+                    );
                     console.log('res', res);
-                    if(res.returnCode === 1){
+                    if (res.returnCode === 1) {
                       setPolicyDetail(res.data);
                       loadData();
                     }
-                    
-                  }}>
-                    <Radio.Button value={0}>CANCEL</Radio.Button>
-                    <Radio.Button value={2}>WAITING</Radio.Button>
-                    <Radio.Button value={3}>ON GOING</Radio.Button>
-                    <Radio.Button value={1}>DONE</Radio.Button>
-                  </Radio.Group>
-                </Col>
-              </Row>
-            </div>
-            :
-            ''
-        }
+                  }}
+                >
+                  <Radio.Button value={0}>CANCEL</Radio.Button>
+                  <Radio.Button value={2}>WAITING</Radio.Button>
+                  <Radio.Button value={3}>ON GOING</Radio.Button>
+                  <Radio.Button value={1}>DONE</Radio.Button>
+                </Radio.Group>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          ''
+        )}
       </Modal>
     </div>
   );

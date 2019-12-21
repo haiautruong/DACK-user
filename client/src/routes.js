@@ -9,8 +9,8 @@ import {
   DetailTutor,
   StudentProfile,
   ListPolicies,
-  Policy,
-  SettingContract
+  SettingContract,
+  Statistics
 } from './pages';
 import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -52,7 +52,7 @@ const AppRouter = () => {
                           : '/student-profile'
                       }
                     >
-                                            My Profile
+                      My Profile
                     </Link>
                   </Menu.Item>
                   <Menu.Item key="1">
@@ -63,7 +63,7 @@ const AppRouter = () => {
                       onClick={async () => await cookies.set('CURR_USER', '')}
                       to="/login"
                     >
-                                            Logout
+                      Logout
                     </Link>
                   </Menu.Item>
                 </Menu>
@@ -77,7 +77,7 @@ const AppRouter = () => {
           </div>
           <Link to="/login" className={user ? 'hide' : ''}>
             <Button className="btn-signin" type="primary" size="large">
-                            Sign in
+              Sign in
             </Button>
           </Link>
         </Header>
@@ -99,6 +99,12 @@ const AppRouter = () => {
                 setshowLayout={setshowLayout}
                 redirect={'/'}
               />
+              <TeacherRoute
+                path="/statistics"
+                component={Statistics}
+                setshowLayout={setshowLayout}
+                redirect={'/'}
+              />
               <StudentRoute
                 path="/student-profile"
                 component={StudentProfile}
@@ -114,9 +120,6 @@ const AppRouter = () => {
               <Route exact path="/policy">
                 <ListPolicies setshowLayout={setshowLayout} />
               </Route>
-              <Route exact path="/policy/:id">
-                <Policy setshowLayout={setshowLayout} />
-              </Route>
               <Route exact path="/detail-tutor/:email">
                 <DetailTutor setshowLayout={setshowLayout} />
               </Route>
@@ -130,7 +133,7 @@ const AppRouter = () => {
           className={`${showLayout ? '' : 'hide'}`}
           style={{ textAlign: 'center', padding: '12px 50px' }}
         >
-                    &copy; Copyright - HCMUS-2019
+          &copy; Copyright - HCMUS-2019
         </Footer>
       </Layout>
     </Router>

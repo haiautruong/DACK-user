@@ -10,17 +10,15 @@ import * as _ from 'lodash';
 import PropTypes from 'prop-types';
 
 const cookies = new Cookies();
-
 function MessageList(props) {
   const [messages, setMessages] = useState([]);
   const currUser = cookies.get('CURR_USER');
-  const { newMessage } = props;
 
   const MY_USER_ID = currUser.type;
 
   useEffect(() => {
     getMessages();
-  }, [newMessage.timestamp, props.chatter]);
+  });
 
   useEffect(() => {
     const scrollHeight = document.getElementById('scrollable').scrollHeight;

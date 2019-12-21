@@ -45,7 +45,7 @@ const updateInfo = (userData, type) => {
   });
 };
 
-const resetPass = (email) => {
+const resetPass = email => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'post',

@@ -1,14 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { Icon, Layout, Menu } from 'antd';
-import { useHistory, withRouter } from 'react-router-dom';
-import Messenger from '../components/conversation/Messenger';
+import { useHistory } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 
-const { Sider } = Layout;
 const cookies = new Cookies();
+const { Sider } = Layout;
 
-const Conversation = ({ setshowLayout }) => {
+const Statistics = ({ setshowLayout }) => {
   const history = useHistory();
   const user = cookies.get('CURR_USER');
 
@@ -16,7 +15,6 @@ const Conversation = ({ setshowLayout }) => {
     async function fetchLayout() {
       await setshowLayout(true);
     }
-
     fetchLayout();
   }, []);
 
@@ -43,7 +41,7 @@ const Conversation = ({ setshowLayout }) => {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={['3']}
+            defaultSelectedKeys={['4']}
             onSelect={({ key }) => navigation(key)}
           >
             <Menu.Item key="1">
@@ -67,9 +65,9 @@ const Conversation = ({ setshowLayout }) => {
           </Menu>
         </Sider>
       </div>
-      <Messenger />
+      <div className="container-info">=,=</div>
     </div>
   );
 };
 
-export default withRouter(Conversation);
+export default Statistics;

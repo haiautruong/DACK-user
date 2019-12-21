@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Pagination, Icon, Layout, Menu, Row, Col } from 'antd';
+import { Pagination, Icon, Layout, Menu, Row, Col, Modal, Radio, Typography, Rate, Button } from 'antd';
 import { useHistory, withRouter } from 'react-router-dom';
 import CardPolicy from '../components/CardPolicy';
 import { ITEM_PER_PAGE_POLICY } from '../constant';
-import { tutorApi } from '../api';
+import { tutorApi, homeApi } from '../api';
 import { studentApi } from '../api';
 import { Cookies } from 'react-cookie';
 import { sliceArray } from '../utils/helper';
 
+const { Paragraph } = Typography;
 const cookies = new Cookies();
 const { Sider } = Layout;
 
@@ -17,22 +18,19 @@ const ListPolicies = ({ setshowLayout }) => {
   const [policies, setPolices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [total, setTotal] = useState(policies.length);
+  const [showModal, setShowModal] = useState(false);
+  const [policyDetail, setPolicyDetail] = useState(null);
+  const [review, setReview] = useState(null);
+  const [rating, setRating] = useState(null);
+  const [changed, setChanged] = useState(false);
   const user = cookies.get('CURR_USER');
   const target = user.type === 1 ? tutorApi : studentApi;
 
-  const fetchData = async () => {
-
-  };
-
-  useEffect(() => {
-    async function fetchLayout() {
-      await setshowLayout(true);
-    }
-    fetchLayout();
-
+  const loadData = () => {
     target
       .getListContracts(user.email)
       .then(result => {
+        console.log('result', result);
         if (result.returnCode === 1) {
           setPolices(result.data);
           setTotal(result.data.length);
@@ -43,6 +41,15 @@ const ListPolicies = ({ setshowLayout }) => {
       .catch(error => {
         console.log('error get list tutor', error);
       });
+  };
+
+  useEffect(() => {
+    async function fetchLayout() {
+      await setshowLayout(true);
+    }
+    fetchLayout();
+    loadData();
+    
   }, []);
 
   const onChangePagination = page => {
@@ -75,11 +82,22 @@ const ListPolicies = ({ setshowLayout }) => {
             teacherEmail={policy.teacherEmail}
             studentEmail={policy.studentEmail}
             subject={policy.subject}
+            onClick={async () => {
+              setPolicyDetail(policy);
+              setReview(policy.review);
+              setRating(policy.rating);
+              setShowModal(true);
+            }}
           />
         </Col>
       );
     });
   };
+
+  const onChangeReview = (str) => {
+    setChanged(true);
+    setReview(str);
+  }
 
   // const renderListPolicy = (list = [], page) => {
   //   console.log('policies', policies);
@@ -141,6 +159,184 @@ const ListPolicies = ({ setshowLayout }) => {
           'No policy found'
         )}
       </div>
+      <Modal 
+        title="Contract Info"
+        visible={showModal}
+        onOk={async () => {
+          await setShowModal(false);
+        }}
+        onCancel={async () => {
+          await setShowModal(false);
+        }}
+        footer={[
+          <Button key="back" onClick={() => {
+            setShowModal(false);
+            setChanged(false);
+          }}>
+            Close
+          </Button>,
+          <Button key="submit" type="primary" disabled={!changed} onClick={async () => {
+            const res = await homeApi.editContract(policyDetail.contractID, review, rating);
+            if(res.returnCode === 1){
+              console.log('reload data');
+              loadData();
+            }
+            setShowModal(false);
+            setChanged(false);
+          }}>
+            Save
+          </Button>,
+        ]}
+        width='50%'
+      >
+        {
+          policyDetail ?
+            <div>
+              <Row className='contract-row' style={{
+                borderRadius: '5px',
+                borderStyle: 'solid',
+                paddingTop: '12px'
+              }}>
+                <Col span={8}>
+                  <span className='contract-item-title'>Subject: </span>
+                  <h1 style={{fontSize: 'large'}}>
+                    {
+                      policyDetail.subject
+                    }
+                  </h1>
+                </Col>
+                <Col span={8}>
+                  <span className='contract-item-title'>ID: </span>
+                  <h1 style={{fontSize: 'xx-large'}}>
+                    {
+                      policyDetail.contractID
+                    }
+                  </h1>
+                </Col>
+                <Col span={8}>
+                  <span className='contract-item-title'>Creation Date: </span>
+                  <h1 style={{fontSize: 'large'}}>
+                    {
+                      policyDetail.creationDate
+                    }
+                  </h1>
+                </Col>
+              </Row>
+              <Row className='contract-row'>
+                <Col span={12}>
+                  <span className='contract-item-title'>Teacher Email: </span>
+                  <h1 style={{fontSize: 'x-large	'}}>
+                    {
+                      policyDetail.teacherEmail
+                    }
+                  </h1>
+                  
+                </Col>
+                <Col span={12}>
+                  <span className='contract-item-title'>Student Email: </span>
+                  <h1 style={{fontSize: 'x-large'}}>
+                    {
+                      policyDetail.studentEmail
+                    }
+                  </h1>
+                </Col>
+              </Row>
+              <Row className='contract-row'>
+                <Col span={12}>
+                  <span className='contract-item-title'>Start Date: </span>
+                  <h1 style={{fontSize: 'x-large'}}>
+                    {
+                      policyDetail.startDate
+                    }
+                  </h1>
+                </Col>
+                <Col span={12}>
+                  <span className='contract-item-title'>End Date: </span>
+                  <h1 style={{fontSize: 'x-large'}}>
+                    {
+                      policyDetail.endDate
+                    }
+                  </h1>
+                </Col>
+              </Row>
+              <Row className='contract-row price'>
+                <Col span={4}>
+                  <h2 className='contract-item-title'>Price: </h2>
+                </Col>
+                <Col span={4}>
+                  <span className='contract-item-title'>Per hour</span>
+                  <h1 style={{fontSize: 'large'}}>
+                    {
+                      policyDetail.signedPrice
+                    }
+                  </h1>
+                </Col>
+                <Col span={4}>
+                X
+                </Col>
+                <Col span={4}>
+                  <span className='contract-item-title'>Hour(s)</span>
+                  <h1 style={{fontSize: 'large'}}>
+                    {
+                      policyDetail.totalHour
+                    }
+                  </h1>
+                </Col>
+                <Col span={2}>
+                =
+                </Col>
+                <Col span={6}>
+                  <h1 style={{fontSize: 'xx-large'}}>
+                    {
+                      policyDetail.totalPrice
+                    }
+                  </h1>
+                </Col>
+              </Row>
+              <Row className='contract-row'>
+                <Col span={12}>
+                  <span className='contract-item-title'>Review: </span>
+                  <Paragraph 
+                    editable={{ onChange: onChangeReview }}
+                  >
+                  {
+                    review
+                  }
+                </Paragraph>
+                </Col>
+                <Col span={12}>
+                  <span className='contract-item-title'>Rating: </span>
+                  <h1 style={{fontSize: 'large'}}>
+                    <Rate allowHalf value={rating} onChange={(value) => {
+                      setChanged(true);
+                      setRating(value);
+                    }}/>
+                  </h1>
+                </Col>
+              </Row>
+              <Row className='contract-row' type="flex" justify="center">
+                <Col span={12}>
+                  <Radio.Group value={policyDetail.status} onChange={async (e) => {
+                    let res = await homeApi.changeStatus(policyDetail.contractID, e.target.value);
+                    console.log('res', res);
+                    if(res.returnCode === 1){
+                      setPolicyDetail(res.data);
+                      loadData();
+                    }
+                    
+                  }}>
+                    <Radio.Button value={0}>CANCEL</Radio.Button>
+                    <Radio.Button value={2}>WAITING</Radio.Button>
+                    <Radio.Button value={3}>ON GOING</Radio.Button>
+                    <Radio.Button value={1}>DONE</Radio.Button>
+                  </Radio.Group>
+                </Col>
+              </Row>
+            </div>
+            :
+            ''
+        }
+      </Modal>
     </div>
   );
 };

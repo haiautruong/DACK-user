@@ -1,5 +1,9 @@
 import axios from 'axios';
 import { API_URL } from '../constant';
+import { Cookies } from 'react-cookie';
+
+const cookies = new Cookies();
+const token = cookies.get('MY_TOKEN');
 
 const getListTutors = () => {
   return new Promise((resolve, reject) => {
@@ -31,7 +35,50 @@ const getSkills = () => {
   });
 };
 
+const getPolicy = async(id) => {
+  const res = await fetch(`${API_URL}/private/contracts/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  const resData = await res.json();
+  return resData;
+};
+
+const changeStatus = async (id, newStatus) => {
+  const res = await fetch(`${API_URL}/private/contracts/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({status: newStatus})
+  });
+  const resData = await res.json();
+  console.log('return change', resData);
+  return resData;
+};
+
+const editContract = async (id, review, rating) => {
+  const res = await fetch(`${API_URL}/private/contracts/review/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({review, rating})
+  });
+  const resData = await res.json();
+  console.log('return change', resData);
+  return resData;
+}
+
 export default {
   getListTutors,
-  getSkills
+  getSkills,
+  getPolicy,
+  changeStatus,
+  editContract
 };

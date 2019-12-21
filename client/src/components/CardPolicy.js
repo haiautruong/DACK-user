@@ -1,17 +1,13 @@
 import React from 'react';
 import { Card } from 'antd';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import '../style/component/cardTutor.scss';
 import PropTypes from 'prop-types';
 import { formatStatus } from '../utils/helper';
 
 const CardPolicy = props => {
-  const history = useHistory();
+  // const history = useHistory();
   const { id, status, teacherEmail, studentEmail, subject } = props;
-
-  const handleOnCard = () => {
-    history.push(`/policy/${id}`);
-  };
 
   const renderTitle = () => {
     return (
@@ -27,7 +23,7 @@ const CardPolicy = props => {
       style={{ cursor: 'pointer' }}
       title={renderTitle()}
       bordered={false}
-      onClick={handleOnCard}
+      onClick={props.onClick}
     >
       <p>{`Tutor: ${teacherEmail}`}</p>
       <p>{`Student: ${studentEmail}`}</p>
@@ -41,7 +37,8 @@ CardPolicy.propTypes = {
   status: PropTypes.string.isRequired,
   teacherEmail: PropTypes.string.isRequired,
   studentEmail: PropTypes.string.isRequired,
-  subject: PropTypes.string.isRequired
+  subject: PropTypes.string.isRequired,
+  onClick: PropTypes.any.isRequired
 };
 
 export default CardPolicy;

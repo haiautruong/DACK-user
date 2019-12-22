@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Icon, Layout, Menu } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
+import IncomeStatistics from '../components/IncomeStatistics';
 
 const cookies = new Cookies();
 const { Sider } = Layout;
@@ -12,6 +13,11 @@ const Statistics = ({ setshowLayout }) => {
   const user = cookies.get('CURR_USER');
 
   useEffect(() => {
+    if (user.type === 2){
+      history.push('/');
+      return;
+    }
+
     async function fetchLayout() {
       await setshowLayout(true);
     }
@@ -59,13 +65,15 @@ const Statistics = ({ setshowLayout }) => {
             {user.type === 1 && (
               <Menu.Item key="4">
                 <Icon type="line-chart" />
-                <span className="nav-text">Statistics Income</span>
+                <span className="nav-text">Income Statistics</span>
               </Menu.Item>
             )}
           </Menu>
         </Sider>
       </div>
-      <div className="container-info">=,=</div>
+      <div className="container-info">
+        <IncomeStatistics/>
+      </div>
     </div>
   );
 };

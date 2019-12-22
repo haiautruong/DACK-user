@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Select, Button, InputNumber, DatePicker,
-  Modal, Row, Col 
+  Modal, Row, Col
 } from 'antd';
 import PropTypes from 'prop-types';
 import { formatCurrency } from '../../utils/helper';
@@ -51,7 +51,7 @@ const FormContract = props => {
       if (!err) {
         setPolicyDetail(values);
         setShowModal(true);
-        
+
       }
     });
   };
@@ -186,7 +186,7 @@ const FormContract = props => {
           </Button>
         </Form.Item>
       </Form>
-      <Modal 
+      <Modal
         title="Confirm Contract Info"
         visible={showModal}
         onOk={async () => {
@@ -228,7 +228,7 @@ const FormContract = props => {
           policyDetail ?
             <div>
               <Row className='contract-row'
-              
+
                 type='flex'
                 justify='center'
                 align='middle'
@@ -256,7 +256,7 @@ const FormContract = props => {
                       tutor.email
                     }
                   </h1>
-                  
+
                 </Col>
                 <Col span={12}>
                   <span className='contract-item-title'>Student Email: </span>

@@ -195,7 +195,7 @@ const Login = ({ login }) => {
               onClick={() => setOpenModalResetPass(true)}
               className="forget-pass"
             >
-              Forget password ?
+              Forgot password ?
             </p>
           </div>
           <div className="social-login">

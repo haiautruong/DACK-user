@@ -101,7 +101,7 @@ const UpdateTutor = ({ setshowLayout }) => {
             </Menu.Item>
             <Menu.Item key="4">
               <Icon type="line-chart" />
-              <span className="nav-text">Statistics Income</span>
+              <span className="nav-text">Income Statistics</span>
             </Menu.Item>
           </Menu>
         </Sider>

@@ -142,3 +142,27 @@ module.exports.createComplaint = async (complaint) => {
 
     return res;
 };
+
+module.exports.getIncome = async (teacherEmail) => {
+    const [res, f] = await conn.getConnection()
+        .query(`SELECT endDate as date, sum(totalPrice) as value FROM Contract  WHERE status = 1 AND teacherEmail = '${teacherEmail}' GROUP BY endDate ORDER BY endDate ASC`)
+        .then(([rows, fields]) => {
+            return [rows, fields];
+        })
+        .catch(err => {
+            console.error(err.message);
+            return [null, null];
+        });
+
+    if (!res || !res[0])
+        return null;
+
+    const result = [];
+
+    for (let row of res) {
+        const obj = {...row};
+        result.push(obj);
+    }
+
+    return result;
+};

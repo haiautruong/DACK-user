@@ -143,6 +143,7 @@ exports.updateStatus = async function (req, res, next) {
 
             redis.del(redis.REDIS_KEY.CONTRACT_BY_STUDENT + newContract.studentEmail);
             redis.del(redis.REDIS_KEY.CONTRACT_BY_TEACHER + newContract.teacherEmail);
+            redis.del(redis.REDIS_KEY.INCOME + newContract.teacherEmail);
 
             return res.json({
                 returnCode: 1,
@@ -175,6 +176,7 @@ exports.updateReview = async function (req, res, next) {
 
             redis.del(redis.REDIS_KEY.CONTRACT_BY_STUDENT + newContract.studentEmail);
             redis.del(redis.REDIS_KEY.CONTRACT_BY_TEACHER + newContract.teacherEmail);
+            redis.del(redis.REDIS_KEY.INCOME + newContract.teacherEmail);
 
             return res.json({
                 returnCode: 1,
@@ -187,6 +189,31 @@ exports.updateReview = async function (req, res, next) {
                 returnMessage: "Exception. Retry Later."
             });
         }
+    } catch (e) {
+        console.error(e);
+        return res.json({
+            returnCode: 0,
+            returnMessage: "Exception. Retry Later."
+        });
+    }
+};
+
+exports.getIncome = async function (req, res, next) {
+    try {
+        const result = {date: [], value: []};
+        let income = await redis.getAsyncWithCallback(redis.REDIS_KEY.INCOME, req.params.teacherEmail, contractModel.getIncome);
+        if (income) {
+            for (let i of income){
+                result.date.push(i.date);
+                result.value.push(i.value);
+            }
+        }
+
+        return res.json({
+            returnCode: 1,
+            returnMessage: "Success",
+            data: result
+        });
     } catch (e) {
         console.error(e);
         return res.json({

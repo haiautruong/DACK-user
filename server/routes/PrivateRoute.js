@@ -30,4 +30,6 @@ router.get('/conversations/student/:studentEmail', ConversationController.getCon
 router.get('/conversations', ConversationController.getMessages);
 router.post('/conversations', ConversationController.createMessage);
 
+router.get('/income/:teacherEmail', ContractController.getIncome);
+
 module.exports = router;

@@ -10,7 +10,7 @@ import i18n from './i18n';
 import 'antd/dist/antd.css';
 
 ReactGA.initialize('UA-154863429-1');
-ReactGA.pageview('/');
+
 
 const App = () => {
   return (

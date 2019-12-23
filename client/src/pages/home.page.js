@@ -11,6 +11,7 @@ import PlaceFilter from '../components/filter/PlaceFilter';
 import PriceFilter from '../components/filter/PriceFilter';
 import {ITEM_PER_PAGE_HOME} from '../constant';
 import {sliceArray} from '../utils/helper';
+import ReactGA from "react-ga";
 
 // const { Option } = Select;
 
@@ -38,6 +39,8 @@ const HomePage = ({setshowLayout}) => {
   // let history = useHistory();
   const location = useLocation();
   useEffect(() => {
+    ReactGA.pageview('/');
+
     async function checkLocation() {
       if (location.pathname === '/login' || location.pathname === '/signup') {
         await setshowLayout(false);
@@ -133,11 +136,11 @@ const HomePage = ({setshowLayout}) => {
 
   const applySort = () => {
     const asc = (a, b) => {
-        return a.pricePerHour - b.pricePerHour;
+      return a.pricePerHour - b.pricePerHour;
     };
 
     const desc = (a, b) => {
-        return b.pricePerHour - a.pricePerHour;
+      return b.pricePerHour - a.pricePerHour;
     };
 
     filteredTutors.sort(isSortAsc ? asc : desc);
@@ -169,12 +172,12 @@ const HomePage = ({setshowLayout}) => {
         <Col span={7}>
           <PriceFilter handleChange={handleChangePriceFilter}/>
         </Col>
-          <Col span={2} style={{display:'flex', alignItems: 'center'}}>
-              <Button type="primary" ghost onClick={applySort}>
-                  {isSortAsc ? <Icon type="sort-descending" /> : <Icon type="sort-ascending" />}
+        <Col span={2} style={{display:'flex', alignItems: 'center'}}>
+          <Button type="primary" ghost onClick={applySort}>
+            {isSortAsc ? <Icon type="sort-descending" /> : <Icon type="sort-ascending" />}
                   Sort By Price
-              </Button>
-          </Col>
+          </Button>
+        </Col>
       </Row>
       <Row className="container-tutors">
         {renderListTutor(filteredTutors, currentPage)}

@@ -5,6 +5,7 @@ import {withRouter,useLocation} from 'react-router-dom';
 import { authHook } from '../hooks';
 import SignUp from '../components/SignUp';
 import {useHistory} from 'react-router-dom';
+import ReactGA from "react-ga";
 const SignUpPage = ({ setshowLayout }) => {
   const location = useLocation();
   const history = useHistory();
@@ -21,6 +22,10 @@ const SignUpPage = ({ setshowLayout }) => {
     }
     checkLocation();
   });
+
+  useEffect(()=> {
+    ReactGA.pageview('/signup');
+  },[]);
   return (
     <div className="main">
       <SignUp />

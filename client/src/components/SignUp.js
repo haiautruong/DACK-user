@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {useState} from 'react';
+import ReactGA from "react-ga";
 import {connect} from 'react-redux';
 import {Checkbox, Icon} from 'antd';
 import {useInput} from '../hooks';
@@ -84,10 +85,19 @@ const SignUp = () => {
     };
 
     if (!notifyInvalid()) {
+      ReactGA.event({
+        category:'Signup',
+        action: 'Click Signup'
+      });
+
       signupApi.signup(user).then(async response => {
         if (response.returnCode === 1) {
           setModalOpen(true);
         } else {
+          ReactGA.event({
+            category:'Signup',
+            action: 'Signup Failed'
+          });
           setMessage(response.returnMessage);
           document.getElementsByClassName('notify')[0].classList.remove('hide');
         }
@@ -96,6 +106,10 @@ const SignUp = () => {
   };
 
   const signUpSuccess = (isOpenModal) => {
+    ReactGA.event({
+      category:'Signup',
+      action: 'Signup Succeed'
+    });
     setModalOpen(isOpenModal);
     history.push('/login');
   };

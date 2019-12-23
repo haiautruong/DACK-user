@@ -20,11 +20,6 @@ function MessageList(props) {
     getMessages();
   });
 
-  useEffect(() => {
-    const scrollHeight = document.getElementById('scrollable').scrollHeight;
-    document.getElementById('scrollable').scrollTop = scrollHeight;
-  }, [messages]);
-
   const getMessages = () => {
     if (props.chatter) {
       const teacherEmail =

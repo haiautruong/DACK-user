@@ -34,7 +34,7 @@ const CardPolicy = props => {
 
 CardPolicy.propTypes = {
   id: PropTypes.number.isRequired,
-  status: PropTypes.string.isRequired,
+  status: PropTypes.number.isRequired,
   teacherEmail: PropTypes.string.isRequired,
   studentEmail: PropTypes.string.isRequired,
   subject: PropTypes.string.isRequired,

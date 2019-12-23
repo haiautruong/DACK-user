@@ -1,4 +1,5 @@
 const contractModel = require('../models/Contract');
+const teacherModel = require('../models/Teacher');
 const redis = require('../utilities/redis');
 
 exports.createContract = async function (req, res, next) {
@@ -143,6 +144,7 @@ exports.updateStatus = async function (req, res, next) {
 
             redis.del(redis.REDIS_KEY.CONTRACT_BY_STUDENT + newContract.studentEmail);
             redis.del(redis.REDIS_KEY.CONTRACT_BY_TEACHER + newContract.teacherEmail);
+            redis.del(redis.REDIS_KEY.INCOME + newContract.teacherEmail);
 
             return res.json({
                 returnCode: 1,
@@ -175,6 +177,13 @@ exports.updateReview = async function (req, res, next) {
 
             redis.del(redis.REDIS_KEY.CONTRACT_BY_STUDENT + newContract.studentEmail);
             redis.del(redis.REDIS_KEY.CONTRACT_BY_TEACHER + newContract.teacherEmail);
+            redis.del(redis.REDIS_KEY.INCOME + newContract.teacherEmail);
+
+            const result2 = await teacherModel.updateRating(newContract.teacherEmail);
+            if (result2 != null && result2.affectedRows === 1) {
+                redis.del(redis.REDIS_KEY.ALL_TEACHER);
+                redis.del(redis.REDIS_KEY.USER + newContract.teacherEmail);
+            }
 
             return res.json({
                 returnCode: 1,
@@ -187,6 +196,31 @@ exports.updateReview = async function (req, res, next) {
                 returnMessage: "Exception. Retry Later."
             });
         }
+    } catch (e) {
+        console.error(e);
+        return res.json({
+            returnCode: 0,
+            returnMessage: "Exception. Retry Later."
+        });
+    }
+};
+
+exports.getIncome = async function (req, res, next) {
+    try {
+        const result = {date: [], value: []};
+        let income = await redis.getAsyncWithCallback(redis.REDIS_KEY.INCOME, req.params.teacherEmail, contractModel.getIncome);
+        if (income) {
+            for (let i of income){
+                result.date.push(i.date);
+                result.value.push(i.value);
+            }
+        }
+
+        return res.json({
+            returnCode: 1,
+            returnMessage: "Success",
+            data: result
+        });
     } catch (e) {
         console.error(e);
         return res.json({

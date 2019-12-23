@@ -32,6 +32,7 @@ const ListPolicies = ({ setshowLayout }) => {
   const [total, setTotal] = useState(policies.length);
   const [showModal, setShowModal] = useState(false);
   const [policyDetail, setPolicyDetail] = useState(null);
+  const [status, setStatus] = useState(null);
   const [review, setReview] = useState(null);
   const [rating, setRating] = useState(null);
   const [changed, setChanged] = useState(false);
@@ -99,6 +100,7 @@ const ListPolicies = ({ setshowLayout }) => {
               setPolicyDetail(policy);
               setReview(policy.review);
               setRating(policy.rating);
+              setStatus(policy.status);
               setShowModal(true);
             }}
           />
@@ -137,7 +139,7 @@ const ListPolicies = ({ setshowLayout }) => {
             {user.type === 1 && (
               <Menu.Item key="4">
                 <Icon type="line-chart" />
-                <span className="nav-text">Statistics Income</span>
+                <span className="nav-text">Income Statistics</span>
               </Menu.Item>
             )}
           </Menu>
@@ -185,12 +187,16 @@ const ListPolicies = ({ setshowLayout }) => {
             type="primary"
             disabled={!changed}
             onClick={async () => {
-              const res = await homeApi.editContract(
+              let resStatus = await homeApi.changeStatus(
+                policyDetail.contractID,
+                status
+              );
+              let resEdit = await homeApi.editContract(
                 policyDetail.contractID,
                 review,
                 rating
               );
-              if (res.returnCode === 1) {
+              if (resEdit.returnCode === 1 && resStatus.returnCode) {
                 console.log('reload data');
                 loadData();
               }
@@ -299,20 +305,34 @@ const ListPolicies = ({ setshowLayout }) => {
                 </h1>
               </Col>
             </Row>
+            <Row className="contract-row">
+              <Col span={12}>
+                <span className="contract-item-title">Review: </span>
+                <Paragraph editable={{ onChange: onChangeReview }}>
+                  {review}
+                </Paragraph>
+              </Col>
+              <Col span={12}>
+                <span className="contract-item-title">Rating: </span>
+                <h1 style={{ fontSize: 'large' }}>
+                  <Rate
+                    allowHalf
+                    value={rating}
+                    onChange={value => {
+                      setChanged(true);
+                      setRating(value);
+                    }}
+                  />
+                </h1>
+              </Col>
+            </Row>
             <Row className="contract-row" type="flex" justify="center">
               <Col span={12}>
                 <Radio.Group
-                  value={policyDetail.status}
+                  value={status}
                   onChange={async e => {
-                    let res = await homeApi.changeStatus(
-                      policyDetail.contractID,
-                      e.target.value
-                    );
-                    console.log('res', res);
-                    if (res.returnCode === 1) {
-                      setPolicyDetail(res.data);
-                      loadData();
-                    }
+                    setChanged(true);
+                    setStatus(e.target.value);
                   }}
                 >
                   <Radio.Button value={0}>CANCEL</Radio.Button>

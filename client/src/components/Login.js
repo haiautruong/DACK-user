@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars, react/no-unescaped-entities, react/prop-types */
 import React, { useState } from 'react';
+import ReactGA from 'react-ga';
 import { connect } from 'react-redux';
 import { Button, Checkbox, Icon } from 'antd';
 import { login } from '../reducers/auth.reducer';
@@ -8,6 +9,7 @@ import * as _ from 'lodash';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import ModalResetPass from './ModalResetPass';
+
 
 const Login = ({ login }) => {
   const [error, setError] = useState('');
@@ -48,6 +50,10 @@ const Login = ({ login }) => {
     setError('');
 
     if (!notifyInvalid()) {
+      ReactGA.event({
+        category: 'Login',
+        action:'Normal Login'
+      });
       login(email, password, type)
         .then(res => {
           if (type === 2) {
@@ -72,6 +78,10 @@ const Login = ({ login }) => {
 
   const onLoginFB = () => {
     setError('');
+    ReactGA.event({
+      category: 'Login',
+      action:'Facebook Login'
+    });
 
     const subWindow = window.open(
       `https://162145.online/auth/facebook/init/${type}`,
@@ -102,6 +112,10 @@ const Login = ({ login }) => {
 
   const onLoginGG = () => {
     setError('');
+    ReactGA.event({
+      category: 'Login',
+      action:'Google Login'
+    });
 
     const subWindow = window.open(
       `https://162145.online/auth/google/init/${type}`,
@@ -195,7 +209,7 @@ const Login = ({ login }) => {
               onClick={() => setOpenModalResetPass(true)}
               className="forget-pass"
             >
-              Forget password ?
+              Forgot password ?
             </p>
           </div>
           <div className="social-login">

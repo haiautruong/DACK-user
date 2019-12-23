@@ -22,6 +22,7 @@ const DetailTutorPage = ({ setshowLayout }) => {
     tutorApi
       .getTutor(email)
       .then(result => {
+        console.log(result);
         if (result.returnCode === 1) {
           setTutor(result.data);
         }
@@ -77,7 +78,7 @@ const DetailTutorPage = ({ setshowLayout }) => {
           >
             <div>{renderStar(tutor.rating)}</div>
             {currUser.type === 2 && (
-              <dvi>
+              <div>
                 <div>
                   <Button
                     className="btn-register"
@@ -98,7 +99,7 @@ const DetailTutorPage = ({ setshowLayout }) => {
                     Conversation
                   </Button>
                 </div>
-              </dvi>
+              </div>
             )}
           </Card>
         </Col>

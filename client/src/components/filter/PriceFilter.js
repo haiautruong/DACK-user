@@ -6,7 +6,7 @@ function formatter(value) {
   if (value === 0)
   {return '0';}
 
-  return `${value}000 VNĐ`;
+  return `${value * 2}000 VNĐ`;
 }
 
 const PriceFilter = ({handleChange}) => {
@@ -14,8 +14,8 @@ const PriceFilter = ({handleChange}) => {
     <h1 style={{margin: 'auto 20px'}}>Prices</h1>
     <Slider range
       tipFormatter={formatter}
-      style={{width:'50%'}}
-      defaultValue={[0, 100]}
+      style={{width:'60%'}}
+      defaultValue={[0, 200]}
       onChange={handleChange}
     />
     <Icon type="dollar" theme="twoTone"

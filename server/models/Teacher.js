@@ -59,3 +59,15 @@ module.exports.updateInfo = async (email, user) => {
     return res;
 };
 
+module.exports.updateRating = async (email) => {
+  const query = `UPDATE Teacher SET rating = (SELECT AVG(rating) FROM Contract WHERE teacherEmail = '${email}') WHERE email='${email}')`
+    const [res, f] = await conn.getConnection()
+        .query(query).then(([rows, fields]) => {
+            return [rows, fields];
+        }).catch((err) => {
+            console.error(err.message);
+            return [null, null];
+        });
+
+    return res;
+};

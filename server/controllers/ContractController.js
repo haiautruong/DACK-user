@@ -1,4 +1,5 @@
 const contractModel = require('../models/Contract');
+const teacherModel = require('../models/Teacher');
 const redis = require('../utilities/redis');
 
 exports.createContract = async function (req, res, next) {
@@ -177,6 +178,12 @@ exports.updateReview = async function (req, res, next) {
             redis.del(redis.REDIS_KEY.CONTRACT_BY_STUDENT + newContract.studentEmail);
             redis.del(redis.REDIS_KEY.CONTRACT_BY_TEACHER + newContract.teacherEmail);
             redis.del(redis.REDIS_KEY.INCOME + newContract.teacherEmail);
+
+            const result2 = await teacherModel.updateRating(newContract.teacherEmail);
+            if (result2 != null && result2.affectedRows === 1) {
+                redis.del(redis.REDIS_KEY.ALL_TEACHER);
+                redis.del(redis.REDIS_KEY.USER + newContract.teacherEmail);
+            }
 
             return res.json({
                 returnCode: 1,

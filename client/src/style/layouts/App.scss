@@ -98,3 +98,14 @@
 .card-policy {
   margin-bottom: 16px !important;
 }
+
+.no-history {
+  font-style: italic;
+  font-size: 11px;
+  color: lightgray;
+}
+
+.history-list {
+  height: 180px;
+  overflow: auto;
+}

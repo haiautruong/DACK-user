@@ -2,14 +2,21 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, useParams, useHistory } from 'react-router-dom';
-import { renderStar, formatCurrency, renderTags } from '../utils/helper';
+import {
+  renderStar,
+  formatCurrency,
+  renderTags,
+  formatStatus
+} from '../utils/helper';
 import { Row, Card, Col, Button } from 'antd';
 import { tutorApi, chatApi } from '../api';
 import { Cookies } from 'react-cookie';
+import * as _ from 'lodash';
 
 const cookies = new Cookies();
 const DetailTutorPage = ({ setshowLayout }) => {
   const [tutor, setTutor] = useState({});
+  const [historyTeaching, setHistoryTeaching] = useState([]);
   let { email } = useParams();
   const history = useHistory();
   const currUser = cookies.get('CURR_USER');
@@ -22,15 +29,26 @@ const DetailTutorPage = ({ setshowLayout }) => {
     tutorApi
       .getTutor(email)
       .then(result => {
-        console.log(result);
         if (result.returnCode === 1) {
           setTutor(result.data);
+          setHistoryTeaching(result.data.contracts);
         }
       })
       .catch(error => {
         console.log('error get list tutor', error);
       });
   }, []);
+
+  const renderHistory = list => {
+    return list.map((item, index) => {
+      return (
+        <li key={index}>
+          <span>{`${item.startDate} - ${item.endDate}: ${item.subject}`}</span>
+          <span>{formatStatus(item.status)}</span>
+        </li>
+      );
+    });
+  };
 
   const linkToSettingContract = () => {
     cookies.set('CURR_TUTOR', tutor);
@@ -134,6 +152,16 @@ const DetailTutorPage = ({ setshowLayout }) => {
                   ? renderTags(tutor.canTeachingPlaces, false)
                   : 'Updating...'}
               </div>
+            </Card.Grid>
+            <Card.Grid hoverable={false} style={grid33}>
+              <p className="text-small">Teaching history</p>
+              {!_.isEmpty(historyTeaching) ? (
+                <div className="history-list">
+                  <ul>{renderHistory(historyTeaching)}</ul>
+                </div>
+              ) : (
+                <span className="no-history">No history teaching found</span>
+              )}
             </Card.Grid>
             <Card.Grid hoverable={false} style={grid100}>
               <p className="text-small">Self description</p>

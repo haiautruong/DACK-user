@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
-import { Form, Input, Select, Button, InputNumber, DatePicker,
-  Modal, Row, Col 
+import {
+  Form,
+  Input,
+  Select,
+  Button,
+  InputNumber,
+  DatePicker,
+  Modal,
+  Row,
+  Col
 } from 'antd';
 import PropTypes from 'prop-types';
 import { formatCurrency } from '../../utils/helper';
@@ -47,11 +55,10 @@ const FormContract = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    props.form.validateFieldsAndScroll(async(err, values) => {
+    props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         setPolicyDetail(values);
         setShowModal(true);
-        
       }
     });
   };
@@ -186,7 +193,7 @@ const FormContract = props => {
           </Button>
         </Form.Item>
       </Form>
-      <Modal 
+      <Modal
         title="Confirm Contract Info"
         visible={showModal}
         onOk={async () => {
@@ -196,133 +203,120 @@ const FormContract = props => {
           await setShowModal(false);
         }}
         footer={[
-          <Button key="back" onClick={() => {
-            setShowModal(false);
-          }}>
+          <Button
+            key="back"
+            onClick={() => {
+              setShowModal(false);
+            }}
+          >
             Close
           </Button>,
-          <Button key="submit" type="primary" onClick={async () => {
-            setShowModal(false);
-            const data ={
-              teacherEmail: tutor.email,
-              studentEmail: user.email,
-              subject: policyDetail.subject,
-              startDate: `${policyDetail.startDate._d.getFullYear()}-${policyDetail.startDate._d.getMonth()+1}-${policyDetail.startDate._d.getDate()}`,
-              endDate: `${policyDetail.endDate._d.getFullYear()}-${policyDetail.endDate._d.getMonth()+1}-${policyDetail.endDate._d.getDate()}`,
-              signedPrice: tutor.pricePerHour,
-              totalHour: policyDetail.totalHour,
-              totalPrice: parseInt(tutor.pricePerHour)*parseInt(policyDetail.totalHour),
-            }
-            const res = await homeApi.createContract(data);
-            console.log('res from create', res);
-            if(res.returnCode === 1){
-              history.push('/policy');
-            }
-          }}>
+          <Button
+            key="submit"
+            type="primary"
+            onClick={async () => {
+              setShowModal(false);
+              const data = {
+                teacherEmail: tutor.email,
+                studentEmail: user.email,
+                subject: policyDetail.subject,
+                startDate: `${policyDetail.startDate._d.getFullYear()}-${policyDetail.startDate._d.getMonth() +
+                  1}-${policyDetail.startDate._d.getDate()}`,
+                endDate: `${policyDetail.endDate._d.getFullYear()}-${policyDetail.endDate._d.getMonth() +
+                  1}-${policyDetail.endDate._d.getDate()}`,
+                signedPrice: tutor.pricePerHour,
+                totalHour: policyDetail.totalHour,
+                totalPrice:
+                  parseInt(tutor.pricePerHour) *
+                  parseInt(policyDetail.totalHour)
+              };
+              const res = await homeApi.createContract(data);
+              console.log('res from create', res);
+              if (res.returnCode === 1) {
+                history.push('/policy');
+              }
+            }}
+          >
             Create
-          </Button>,
+          </Button>
         ]}
-        width='50%'
+        width="50%"
       >
-        {
-          policyDetail ?
-            <div>
-              <Row className='contract-row'
-              
-              type='flex'
-              justify='center'
-              align='middle'
-              >
-                <Col span={8}
+        {policyDetail ? (
+          <div>
+            <Row
+              className="contract-row"
+              type="flex"
+              justify="center"
+              align="middle"
+            >
+              <Col
+                span={8}
                 style={{
                   borderRadius: '5px',
                   borderStyle: 'solid',
-                  paddingTop: '12px',
+                  paddingTop: '12px'
                 }}
-                >
-                  <span className='contract-item-title'>Subject: </span>
-                  <h1 style={{fontSize: 'large'}}>
-                    {
-                      policyDetail.subject
-                    }
-                  </h1>
-                </Col>
-              </Row>
-              <Row className='contract-row'>
-                <Col span={12}>
-                  <span className='contract-item-title'>Teacher Email: </span>
-                  <h1 style={{fontSize: 'x-large	'}}>
-                    {
-                      tutor.email
-                    }
-                  </h1>
-                  
-                </Col>
-                <Col span={12}>
-                  <span className='contract-item-title'>Student Email: </span>
-                  <h1 style={{fontSize: 'x-large'}}>
-                    {
-                      user.email
-                    }
-                  </h1>
-                </Col>
-              </Row>
-              <Row className='contract-row'>
-                <Col span={12}>
-                  <span className='contract-item-title'>Start Date: </span>
-                  <h1 style={{fontSize: 'x-large'}}>
-                    {
-                      `${policyDetail.startDate._d.getFullYear()}-${policyDetail.startDate._d.getMonth()+1}-${policyDetail.startDate._d.getDate()}`
-                    }
-                  </h1>
-                </Col>
-                <Col span={12}>
-                  <span className='contract-item-title'>End Date: </span>
-                  <h1 style={{fontSize: 'x-large'}}>
-                    {
-                      `${policyDetail.endDate._d.getFullYear()}-${policyDetail.endDate._d.getMonth()+1}-${policyDetail.endDate._d.getDate()}`
-                    }
-                  </h1>
-                </Col>
-              </Row>
-              <Row className='contract-row price'>
-                <Col span={4}>
-                  <h2 className='contract-item-title'>Price: </h2>
-                </Col>
-                <Col span={4}>
-                  <span className='contract-item-title'>Per hour</span>
-                  <h1 style={{fontSize: 'large'}}>
-                    {
-                      formatCurrency(tutor.pricePerHour)
-                    }
-                  </h1>
-                </Col>
-                <Col span={4}>
-                X
-                </Col>
-                <Col span={4}>
-                  <span className='contract-item-title'>Hour(s)</span>
-                  <h1 style={{fontSize: 'large'}}>
-                    {
-                      policyDetail.totalHour
-                    }
-                  </h1>
-                </Col>
-                <Col span={2}>
-                =
-                </Col>
-                <Col span={6}>
-                  <h1 style={{fontSize: 'xx-large'}}>
-                    {
-                      formatCurrency(parseInt(tutor.pricePerHour)*parseInt(policyDetail.totalHour))
-                    }
-                  </h1>
-                </Col>
-              </Row>
-            </div>
-            :
-            ''
-        }
+              >
+                <span className="contract-item-title">Subject: </span>
+                <h1 style={{ fontSize: 'large' }}>{policyDetail.subject}</h1>
+              </Col>
+            </Row>
+            <Row className="contract-row">
+              <Col span={12}>
+                <span className="contract-item-title">Teacher Email: </span>
+                <h1 style={{ fontSize: 'x-large	' }}>{tutor.email}</h1>
+              </Col>
+              <Col span={12}>
+                <span className="contract-item-title">Student Email: </span>
+                <h1 style={{ fontSize: 'x-large' }}>{user.email}</h1>
+              </Col>
+            </Row>
+            <Row className="contract-row">
+              <Col span={12}>
+                <span className="contract-item-title">Start Date: </span>
+                <h1 style={{ fontSize: 'x-large' }}>
+                  {`${policyDetail.startDate._d.getFullYear()}-${policyDetail.startDate._d.getMonth() +
+                    1}-${policyDetail.startDate._d.getDate()}`}
+                </h1>
+              </Col>
+              <Col span={12}>
+                <span className="contract-item-title">End Date: </span>
+                <h1 style={{ fontSize: 'x-large' }}>
+                  {`${policyDetail.endDate._d.getFullYear()}-${policyDetail.endDate._d.getMonth() +
+                    1}-${policyDetail.endDate._d.getDate()}`}
+                </h1>
+              </Col>
+            </Row>
+            <Row className="contract-row price">
+              <Col span={4}>
+                <h2 className="contract-item-title">Price: </h2>
+              </Col>
+              <Col span={4}>
+                <span className="contract-item-title">Per hour</span>
+                <h1 style={{ fontSize: 'large' }}>
+                  {formatCurrency(tutor.pricePerHour)}
+                </h1>
+              </Col>
+              <Col span={4}>X</Col>
+              <Col span={4}>
+                <span className="contract-item-title">Hour(s)</span>
+                <h1 style={{ fontSize: 'large' }}>{policyDetail.totalHour}</h1>
+              </Col>
+              <Col span={2}>=</Col>
+              <Col span={6}>
+                <h1 style={{ fontSize: 'xx-large' }}>
+                  {formatCurrency(
+                    parseInt(tutor.pricePerHour) *
+                      parseInt(policyDetail.totalHour)
+                  )}
+                </h1>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          ''
+        )}
       </Modal>
     </div>
   );

@@ -1,24 +1,19 @@
 /* eslint-disable react/prop-types */
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import {useLocation, withRouter} from 'react-router-dom';
-import {Button, Col, Icon, Pagination, Row} from 'antd';
-import {logout} from '../reducers/auth.reducer';
-import {homeApi} from '../api';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, withRouter } from 'react-router-dom';
+import { Button, Col, Icon, Pagination, Row } from 'antd';
+import { logout } from '../reducers/auth.reducer';
+import { homeApi } from '../api';
 import CardTutor from '../components/CardTutor';
 import SkillFilter from '../components/filter/SkillFilter';
 import PlaceFilter from '../components/filter/PlaceFilter';
 import PriceFilter from '../components/filter/PriceFilter';
-import {ITEM_PER_PAGE_HOME} from '../constant';
-import {sliceArray} from '../utils/helper';
-import ReactGA from "react-ga";
+import { ITEM_PER_PAGE_HOME } from '../constant';
+import { sliceArray } from '../utils/helper';
+import ReactGA from 'react-ga';
 
-// const { Option } = Select;
-
-// import { useTranslation } from 'react-i18next';
-// import { LanguageToggle } from '../components';
-
-const HomePage = ({setshowLayout}) => {
+const HomePage = ({ setshowLayout }) => {
   const [tutors, setTutors] = useState([]);
   const [filteredTutors, setFilteredTutor] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -164,18 +159,22 @@ const HomePage = ({setshowLayout}) => {
     <div className="home-page">
       <Row className="content-header">
         <Col span={7}>
-          <SkillFilter skills={skills} handleChange={handleChangeSkillFilter}/>
+          <SkillFilter skills={skills} handleChange={handleChangeSkillFilter} />
         </Col>
         <Col span={7}>
-          <PlaceFilter handleChange={handleChangePlaceFilter}/>
+          <PlaceFilter handleChange={handleChangePlaceFilter} />
         </Col>
         <Col span={7}>
-          <PriceFilter handleChange={handleChangePriceFilter}/>
+          <PriceFilter handleChange={handleChangePriceFilter} />
         </Col>
-        <Col span={2} style={{display:'flex', alignItems: 'center'}}>
+        <Col span={2} style={{ display: 'flex', alignItems: 'center' }}>
           <Button type="primary" ghost onClick={applySort}>
-            {isSortAsc ? <Icon type="sort-descending" /> : <Icon type="sort-ascending" />}
-                  Sort By Price
+            {isSortAsc ? (
+              <Icon type="sort-descending" />
+            ) : (
+              <Icon type="sort-ascending" />
+            )}
+            Sort By Price
           </Button>
         </Col>
       </Row>
@@ -203,8 +202,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(HomePage)
+  connect(mapStateToProps, mapDispatchToProps)(HomePage)
 );

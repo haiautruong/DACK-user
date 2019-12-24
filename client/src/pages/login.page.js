@@ -5,7 +5,7 @@ import {withRouter,useLocation, useHistory} from 'react-router-dom';
 import { authHook } from '../hooks';
 // import { useTranslation } from 'react-i18next';
 import Login from '../components/Login';
-import ReactGA from "react-ga";
+import ReactGA from 'react-ga';
 const LoginPage = ({ setshowLayout }) => {
   const location = useLocation();
   const history = useHistory();

@@ -237,7 +237,7 @@ const FormContract = props => {
               }
             }}
           >
-            Create
+            Pay
           </Button>
         ]}
         width="50%"

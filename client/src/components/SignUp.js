@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, {useState} from 'react';
-import ReactGA from "react-ga";
+import ReactGA from 'react-ga';
 import {connect} from 'react-redux';
 import {Checkbox, Icon} from 'antd';
 import {useInput} from '../hooks';

@@ -12,7 +12,7 @@ import {
   SettingContract,
   Statistics
 } from './pages';
-import { Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
+import { Row, Col, Layout, Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Cookies } from 'react-cookie';
 import SliderShow from './components/SliderShow';
@@ -29,57 +29,70 @@ const AppRouter = () => {
   return (
     <Router>
       <Layout>
-        <Header className={`${showLayout ? '' : 'hide'}`}>
-          <Link to="/">
-            <Icon className="icon-home" type="home" />
-          </Link>
-          <SliderShow />
-          <div className={`user ${user ? '' : 'hide'}`} id="user-control">
-            <Avatar
-              shape="square"
-              size="large"
-              src={user ? user.avatar : null}
-            />
-            <Dropdown
-              className="avatar-username"
-              overlay={() => (
-                <Menu>
-                  <Menu.Item key="0">
-                    <Link
-                      to={
-                        user.type === 1
-                          ? '/teacher-profile'
-                          : '/student-profile'
-                      }
-                    >
-                      My Profile
-                    </Link>
-                  </Menu.Item>
-                  <Menu.Item key="1">
-                    <Link to="/">Settings</Link>
-                  </Menu.Item>
-                  <Menu.Item key="2">
-                    <Link
-                      onClick={async () => await cookies.set('CURR_USER', '')}
-                      to="/login"
-                    >
-                      Logout
-                    </Link>
-                  </Menu.Item>
-                </Menu>
-              )}
-              trigger={['click']}
-            >
-              <a className="ant-dropdown-link" href="#">
-                {user ? user.fullName : ''} <Icon type="down" />
-              </a>
-            </Dropdown>
-          </div>
-          <Link to="/login" className={user ? 'hide' : ''}>
-            <Button className="btn-signin" type="primary" size="large">
-              Sign in
-            </Button>
-          </Link>
+        <Header
+          style={{ paddingLeft: 20 }}
+          className={`${showLayout ? '' : 'hide'}`}
+        >
+          <Row>
+            <Col span={7}>
+              <Link to="/">
+                <img className="logo" alt="" src="/images/logo.png" />
+              </Link>
+            </Col>
+            <Col span={9}>
+              <SliderShow />
+            </Col>
+            <Col span={8}>
+              <div className={`user ${user ? '' : 'hide'}`} id="user-control">
+                <Avatar
+                  shape="square"
+                  size="large"
+                  src={user ? user.avatar : null}
+                />
+                <Dropdown
+                  className="avatar-username"
+                  overlay={() => (
+                    <Menu>
+                      <Menu.Item key="0">
+                        <Link
+                          to={
+                            user.type === 1
+                              ? '/teacher-profile'
+                              : '/student-profile'
+                          }
+                        >
+                          My Profile
+                        </Link>
+                      </Menu.Item>
+                      <Menu.Item key="1">
+                        <Link to="/">Settings</Link>
+                      </Menu.Item>
+                      <Menu.Item key="2">
+                        <Link
+                          onClick={async () =>
+                            await cookies.set('CURR_USER', '')
+                          }
+                          to="/login"
+                        >
+                          Logout
+                        </Link>
+                      </Menu.Item>
+                    </Menu>
+                  )}
+                  trigger={['click']}
+                >
+                  <a className="ant-dropdown-link" href="#">
+                    {user ? user.fullName : ''} <Icon type="down" />
+                  </a>
+                </Dropdown>
+              </div>
+              <Link to="/login" className={user ? 'hide' : ''}>
+                <Button className="btn-signin" type="primary" size="large">
+                  Sign in
+                </Button>
+              </Link>
+            </Col>
+          </Row>
         </Header>
         <Layout className="content-wrapper">
           <Content>
@@ -131,19 +144,25 @@ const AppRouter = () => {
         </Layout>
         <Footer
           className={`${showLayout ? '' : 'hide'}`}
-          style={{ textAlign: 'center', padding: '12px 50px' }}
+          style={{ padding: '12px 20px' }}
         >
-          &copy; Copyright - HCMUS-2019
+          <div style={{ float: 'left' }}>
+            <ul className="footer-contact">
+              <li>
+                {' '}
+                <Icon type="home" /> 227 Nguyen Van Cu Stress, Ward 4, District
+                5, HCM city
+              </li>
+              <li>
+                {' '}
+                <Icon type="phone" /> 028 6288 4499
+              </li>
+            </ul>
+          </div>
         </Footer>
       </Layout>
     </Router>
   );
 };
 
-// const mapStateToProps = state => ({});
-
-// const mapDispatchToProps = dispatch => ({});
-
 export default connect()(AppRouter);
-// mapStateToProps,
-// mapDispatchToProps

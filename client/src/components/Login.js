@@ -10,7 +10,6 @@ import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import ModalResetPass from './ModalResetPass';
 
-
 const Login = ({ login }) => {
   const [error, setError] = useState('');
   const [openModalResetPass, setOpenModalResetPass] = useState(false);
@@ -52,7 +51,7 @@ const Login = ({ login }) => {
     if (!notifyInvalid()) {
       ReactGA.event({
         category: 'Login',
-        action:'Normal Login'
+        action: 'Normal Login'
       });
       login(email, password, type)
         .then(res => {
@@ -80,7 +79,7 @@ const Login = ({ login }) => {
     setError('');
     ReactGA.event({
       category: 'Login',
-      action:'Facebook Login'
+      action: 'Facebook Login'
     });
 
     const subWindow = window.open(
@@ -114,7 +113,7 @@ const Login = ({ login }) => {
     setError('');
     ReactGA.event({
       category: 'Login',
-      action:'Google Login'
+      action: 'Google Login'
     });
 
     const subWindow = window.open(

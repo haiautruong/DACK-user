@@ -11,27 +11,8 @@ const CardPolicy = props => {
 
   const renderTitle = () => {
     return (
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <div>
-          {id} - {formatStatus(status)}
-        </div>
-        <div>
-          {
-            status === 0 ?
-            <div 
-              style={{ 
-                backgroundColor: '#ff4d4f', 
-                color: '#fff', 
-                paddingLeft: '15px', 
-                paddingRight: '15px', 
-                borderRadius: '5px' 
-              }}>
-              Send Complaint
-            </div>
-            :
-            null
-          }
-        </div>
+      <div>
+        {id} - {formatStatus(status)}
       </div>
     );
   };

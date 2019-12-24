@@ -87,11 +87,25 @@ const createContract = async (data) => {
   return resData;
 };
 
+const createComplaint = async (contractID, content) => {
+  const res = await fetch(`${API_URL}/private/complaints`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({contractID, content})
+  });
+  const resData = await res.json();
+  return resData;
+}
+
 export default {
   getListTutors,
   getSkills,
   getPolicy,
   changeStatus,
   editContract,
-  createContract
+  createContract,
+  createComplaint
 };

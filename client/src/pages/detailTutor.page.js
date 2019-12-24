@@ -95,7 +95,7 @@ const DetailTutorPage = ({ setshowLayout }) => {
             bordered={false}
           >
             <div>{renderStar(tutor.rating)}</div>
-            {currUser && (
+            {currUser && currUser.type === 2 && (
               <div>
                 <div>
                   <Button

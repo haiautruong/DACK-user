@@ -11,7 +11,7 @@ const TeacherRoute = ({path, component: Component, redirect, setshowLayout }) =>
   return (
     <Route path={path}>
       {
-        user.type === 1 ? 
+        user && user.type === 1 ? 
           <Component setshowLayout={setshowLayout} />
           :
           <Redirect to={redirect}/>

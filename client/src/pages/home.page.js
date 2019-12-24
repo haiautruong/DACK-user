@@ -11,7 +11,7 @@ import PlaceFilter from '../components/filter/PlaceFilter';
 import PriceFilter from '../components/filter/PriceFilter';
 import {ITEM_PER_PAGE_HOME} from '../constant';
 import {sliceArray} from '../utils/helper';
-import ReactGA from "react-ga";
+import ReactGA from 'react-ga';
 
 // const { Option } = Select;
 

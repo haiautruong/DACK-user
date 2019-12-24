@@ -182,22 +182,34 @@ const ListPolicies = ({ setshowLayout }) => {
           >
             Close
           </Button>,
-          <Button key="submit" type="primary" disabled={!changed} onClick={async () => {
-            let resStatus = await homeApi.changeStatus(policyDetail.contractID, status);
-            let resEdit = await homeApi.editContract(policyDetail.contractID, review, rating);
-            if(resEdit.returnCode === 1 && resStatus.returnCode){
-              console.log('reload data');
-              loadData();
-            }
-            setShowModal(false);
-            setChanged(false);
-          }}>
+          <Button
+            key="submit"
+            type="primary"
+            disabled={!changed}
+            onClick={async () => {
+              let resStatus = await homeApi.changeStatus(
+                policyDetail.contractID,
+                status
+              );
+              let resEdit = await homeApi.editContract(
+                policyDetail.contractID,
+                review,
+                rating
+              );
+              if (resEdit.returnCode === 1 && resStatus.returnCode) {
+                console.log('reload data');
+                loadData();
+              }
+              setShowModal(false);
+              setChanged(false);
+            }}
+          >
             Save
           </Button>
         ]}
         width="50%"
       >
-        {policyDetail ?
+        {policyDetail ? (
           <div>
             <Row
               className="contract-row"
@@ -205,130 +217,124 @@ const ListPolicies = ({ setshowLayout }) => {
                 borderRadius: '5px',
                 borderStyle: 'solid',
                 paddingTop: '12px'
-              }}>
+              }}
+            >
               <Col span={8}>
-                <span className='contract-item-title'>Subject: </span>
-                <h1 style={{fontSize: 'large'}}>
-                  {
-                    policyDetail.subject
-                  }
-                </h1>
+                <span className="contract-item-title">Subject: </span>
+                <h1 style={{ fontSize: 'large' }}>{policyDetail.subject}</h1>
               </Col>
               <Col span={8}>
-                <span className='contract-item-title'>ID: </span>
-                <h1 style={{fontSize: 'xx-large'}}>
-                  {
-                    policyDetail.contractID
-                  }
+                <span className="contract-item-title">ID: </span>
+                <h1 style={{ fontSize: 'xx-large' }}>
+                  {policyDetail.contractID}
                 </h1>
               </Col>
               <Col span={8}>
-                <span className='contract-item-title'>Creation Date: </span>
-                <h1 style={{fontSize: 'large'}}>
-                  {
-                    policyDetail.creationDate
-                  }
+                <span className="contract-item-title">Creation Date: </span>
+                <h1 style={{ fontSize: 'large' }}>
+                  {policyDetail.creationDate}
                 </h1>
               </Col>
             </Row>
-            <Row className='contract-row'>
+            <Row className="contract-row">
               <Col span={12}>
-                <span className='contract-item-title'>Teacher Email: </span>
-                <h1 style={{fontSize: 'x-large	'}}>
-                  {
-                    policyDetail.teacherEmail
-                  }
+                <span className="contract-item-title">Teacher Email: </span>
+                <h1 style={{ fontSize: 'x-large	' }}>
+                  {policyDetail.teacherEmail}
                 </h1>
-
               </Col>
               <Col span={12}>
-                <span className='contract-item-title'>Student Email: </span>
-                <h1 style={{fontSize: 'x-large'}}>
-                  {
-                    policyDetail.studentEmail
-                  }
+                <span className="contract-item-title">Student Email: </span>
+                <h1 style={{ fontSize: 'x-large' }}>
+                  {policyDetail.studentEmail}
                 </h1>
               </Col>
             </Row>
-            <Row className='contract-row'>
+            <Row className="contract-row">
               <Col span={12}>
-                <span className='contract-item-title'>Start Date: </span>
-                <h1 style={{fontSize: 'x-large'}}>
-                  {
-                    policyDetail.startDate
-                  }
+                <span className="contract-item-title">Start Date: </span>
+                <h1 style={{ fontSize: 'x-large' }}>
+                  {policyDetail.startDate}
                 </h1>
               </Col>
               <Col span={12}>
-                <span className='contract-item-title'>End Date: </span>
-                <h1 style={{fontSize: 'x-large'}}>
-                  {
-                    policyDetail.endDate
-                  }
-                </h1>
+                <span className="contract-item-title">End Date: </span>
+                <h1 style={{ fontSize: 'x-large' }}>{policyDetail.endDate}</h1>
               </Col>
             </Row>
-            <Row className='contract-row price'>
+            <Row className="contract-row price">
               <Col span={4}>
-                <h2 className='contract-item-title'>Price: </h2>
+                <h2 className="contract-item-title">Price: </h2>
               </Col>
               <Col span={4}>
-                <span className='contract-item-title'>Per hour</span>
-                <h1 style={{fontSize: 'large'}}>
-                  {
-                    formatCurrency(policyDetail.signedPrice)
-                  }
+                <span className="contract-item-title">Per hour</span>
+                <h1 style={{ fontSize: 'large' }}>
+                  {formatCurrency(policyDetail.signedPrice)}
                 </h1>
               </Col>
+              <Col span={4}>X</Col>
               <Col span={4}>
-                X
+                <span className="contract-item-title">Hour(s)</span>
+                <h1 style={{ fontSize: 'large' }}>{policyDetail.totalHour}</h1>
               </Col>
-              <Col span={4}>
-                <span className='contract-item-title'>Hour(s)</span>
-                <h1 style={{fontSize: 'large'}}>
-                  {
-                    policyDetail.totalHour
-                  }
-                </h1>
-              </Col>
-              <Col span={2}>
-                =
-              </Col>
+              <Col span={2}>=</Col>
               <Col span={6}>
-                <h1 style={{fontSize: 'xx-large'}}>
-                  {
-                    formatCurrency(policyDetail.totalPrice)
-                  }
+                <h1 style={{ fontSize: 'xx-large' }}>
+                  {formatCurrency(policyDetail.totalPrice)}
                 </h1>
               </Col>
             </Row>
-            <Row className='contract-row'>
+            <Row className="contract-row">
               <Col span={12}>
-                <span className='contract-item-title'>Review: </span>
-                <Paragraph
-                  editable={{ onChange: onChangeReview }}
-                >
-                  {
-                    review
-                  }
+                <span className="contract-item-title">Review: </span>
+                <Paragraph editable={{ onChange: onChangeReview }}>
+                  {review}
                 </Paragraph>
               </Col>
               <Col span={12}>
-                <span className='contract-item-title'>Rating: </span>
-                <h1 style={{fontSize: 'large'}}>
-                  <Rate allowHalf value={rating} onChange={(value) => {
-                    setChanged(true);
-                    setRating(value);
-                  }}/>
+                <span className="contract-item-title">Rating: </span>
+                <h1 style={{ fontSize: 'large' }}>
+                  <Rate
+                    allowHalf
+                    value={rating}
+                    onChange={value => {
+                      setChanged(true);
+                      setRating(value);
+                    }}
+                  />
                 </h1>
               </Col>
             </Row>
-            <Row className='contract-row' type="flex" justify="center">
+            <Row className="contract-row">
               <Col span={12}>
-                <Radio.Group value={status} onChange={async (e) => {
-                  setChanged(true);
-                  setStatus(e.target.value);
-                }}>
+                <span className="contract-item-title">Review: </span>
+                <Paragraph editable={{ onChange: onChangeReview }}>
+                  {review}
+                </Paragraph>
+              </Col>
+              <Col span={12}>
+                <span className="contract-item-title">Rating: </span>
+                <h1 style={{ fontSize: 'large' }}>
+                  <Rate
+                    allowHalf
+                    value={rating}
+                    onChange={value => {
+                      setChanged(true);
+                      setRating(value);
+                    }}
+                  />
+                </h1>
+              </Col>
+            </Row>
+            <Row className="contract-row" type="flex" justify="center">
+              <Col span={12}>
+                <Radio.Group
+                  value={status}
+                  onChange={async e => {
+                    setChanged(true);
+                    setStatus(e.target.value);
+                  }}
+                >
                   <Radio.Button value={0}>CANCEL</Radio.Button>
                   <Radio.Button value={2}>WAITING</Radio.Button>
                   <Radio.Button value={3}>ON GOING</Radio.Button>
@@ -337,9 +343,9 @@ const ListPolicies = ({ setshowLayout }) => {
               </Col>
             </Row>
           </div>
-          :
+        ) : (
           ''
-        }
+        )}
       </Modal>
     </div>
   );

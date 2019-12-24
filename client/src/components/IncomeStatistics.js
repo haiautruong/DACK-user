@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Bar} from 'react-chartjs-2';
-import {Cookies} from 'react-cookie';
+import React, { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import { Cookies } from 'react-cookie';
 import tutorApi from '../api/tutor.api';
 
 const cookie = new Cookies();
@@ -10,13 +10,11 @@ const IncomeStatistics = () => {
     date: [],
     value: []
   });
-  useEffect( () => {
+  useEffect(() => {
     const curUser = cookie.get('CURR_USER');
-    tutorApi.getIncomeStatistics(curUser.email)
-      .then(res => {
-        setIncome(res.data);
-      });
-
+    tutorApi.getIncomeStatistics(curUser.email).then(res => {
+      setIncome(res.data);
+    });
   }, []);
 
   const data = {
@@ -34,24 +32,28 @@ const IncomeStatistics = () => {
     ]
   };
 
-  return (<div>
-    <h2>Income Statistics</h2>
-    <Bar
-      data={data}
-      height={100}
-      options={{
-        maintainAspectRatio: true,
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              min: 0
-            }
-          }]
-        }
-      }}
-    />
-  </div>);
+  return (
+    <div>
+      <h2>Income Statistics</h2>
+      <Bar
+        data={data}
+        height={100}
+        options={{
+          maintainAspectRatio: true,
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  min: 0
+                }
+              }
+            ]
+          }
+        }}
+      />
+    </div>
+  );
 };
 
 export default IncomeStatistics;

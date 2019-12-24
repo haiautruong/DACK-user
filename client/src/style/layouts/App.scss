@@ -99,6 +99,16 @@
   margin-bottom: 16px !important;
 }
 
+.no-history {
+  font-style: italic;
+  font-size: 11px;
+  color: lightgray;
+}
+
+.history-list {
+  height: 180px;
+  overflow: auto;
+
 .footer-contact {
   font-size: 12px;
   list-style: none;

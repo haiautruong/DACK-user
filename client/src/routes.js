@@ -66,8 +66,12 @@ const AppRouter = () => {
                       </Menu.Item>
                       <Menu.Item key="2">
                         <Link
-                          onClick={async () =>
-                            await cookies.set('CURR_USER', '')
+                          onClick={async () => {
+                            await cookies.set('CURR_USER', '');
+                            await cookies.set('MY_TOKEN', '');
+                            await cookies.remove('MY_TOKEN');
+                            await cookies.remove('CURR_USER');
+                            }
                           }
                           to="/login"
                         >

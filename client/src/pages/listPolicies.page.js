@@ -333,19 +333,19 @@ const ListPolicies = ({ setshowLayout }) => {
               </Col>
             </Row>
             {(policyDetail.status !== 1 && policyDetail.status !== 0) ?
-            <Row className='contract-row' type="flex" justify="center">
-              <Col span={12}>
-                <Radio.Group value={status} onChange={async (e) => {
-                  setChanged(true);
-                  setStatus(e.target.value);
-                }}>
-                  <Radio.Button value={0} >CANCEL</Radio.Button>
-                  <Radio.Button value={2} disabled>WAITING</Radio.Button>
-                  <Radio.Button value={3} disabled={user.type !== 1}>ON GOING</Radio.Button>
-                  <Radio.Button value={1} disabled={user.type !== 2}>DONE</Radio.Button>
-                </Radio.Group>
-              </Col>
-            </Row> : null }
+              <Row className='contract-row' type="flex" justify="center">
+                <Col span={12}>
+                  <Radio.Group value={status} onChange={async (e) => {
+                    setChanged(true);
+                    setStatus(e.target.value);
+                  }}>
+                    <Radio.Button value={0} >CANCEL</Radio.Button>
+                    <Radio.Button value={2} disabled>WAITING</Radio.Button>
+                    <Radio.Button value={3} disabled={user.type !== 1}>ON GOING</Radio.Button>
+                    <Radio.Button value={1} disabled={user.type !== 2}>DONE</Radio.Button>
+                  </Radio.Group>
+                </Col>
+              </Row> : null }
           </div>
           :
           ''

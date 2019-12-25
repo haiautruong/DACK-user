@@ -217,7 +217,7 @@ const ListPolicies = ({ setshowLayout }) => {
               }}>
               <Col span={8}>
                 <span className='contract-item-title'>Subject: </span>
-                <h1 style={{fontSize: 'large'}}>
+                <h1 style={{fontSize: 'medium'}}>
                   {
                     policyDetail.subject
                   }
@@ -225,7 +225,7 @@ const ListPolicies = ({ setshowLayout }) => {
               </Col>
               <Col span={8}>
                 <span className='contract-item-title'>ID: </span>
-                <h1 style={{fontSize: 'xx-large'}}>
+                <h1 style={{fontSize: 'x-large'}}>
                   {
                     policyDetail.contractID
                   }
@@ -233,7 +233,7 @@ const ListPolicies = ({ setshowLayout }) => {
               </Col>
               <Col span={8}>
                 <span className='contract-item-title'>Creation Date: </span>
-                <h1 style={{fontSize: 'large'}}>
+                <h1 style={{fontSize: 'medium'}}>
                   {
                     policyDetail.creationDate
                   }
@@ -243,7 +243,7 @@ const ListPolicies = ({ setshowLayout }) => {
             <Row className='contract-row'>
               <Col span={12}>
                 <span className='contract-item-title'>Teacher Email: </span>
-                <h1 style={{fontSize: 'x-large	'}}>
+                <h1 style={{fontSize: 'large	'}}>
                   {
                     policyDetail.teacherEmail
                   }
@@ -252,7 +252,7 @@ const ListPolicies = ({ setshowLayout }) => {
               </Col>
               <Col span={12}>
                 <span className='contract-item-title'>Student Email: </span>
-                <h1 style={{fontSize: 'x-large'}}>
+                <h1 style={{fontSize: 'large'}}>
                   {
                     policyDetail.studentEmail
                   }
@@ -262,7 +262,7 @@ const ListPolicies = ({ setshowLayout }) => {
             <Row className='contract-row'>
               <Col span={12}>
                 <span className='contract-item-title'>Start Date: </span>
-                <h1 style={{fontSize: 'x-large'}}>
+                <h1 style={{fontSize: 'large'}}>
                   {
                     policyDetail.startDate
                   }
@@ -270,7 +270,7 @@ const ListPolicies = ({ setshowLayout }) => {
               </Col>
               <Col span={12}>
                 <span className='contract-item-title'>End Date: </span>
-                <h1 style={{fontSize: 'x-large'}}>
+                <h1 style={{fontSize: 'large'}}>
                   {
                     policyDetail.endDate
                   }
@@ -279,11 +279,11 @@ const ListPolicies = ({ setshowLayout }) => {
             </Row>
             <Row className='contract-row price'>
               <Col span={4}>
-                <h2 className='contract-item-title'>Price: </h2>
+                <h3 className='contract-item-title'>Price: </h3>
               </Col>
               <Col span={4}>
                 <span className='contract-item-title'>Per hour</span>
-                <h1 style={{fontSize: 'large'}}>
+                <h1 style={{fontSize: 'medium'}}>
                   {
                     formatCurrency(policyDetail.signedPrice)
                   }
@@ -294,7 +294,7 @@ const ListPolicies = ({ setshowLayout }) => {
               </Col>
               <Col span={4}>
                 <span className='contract-item-title'>Hour(s)</span>
-                <h1 style={{fontSize: 'large'}}>
+                <h1 style={{fontSize: 'medium'}}>
                   {
                     policyDetail.totalHour
                   }
@@ -304,7 +304,7 @@ const ListPolicies = ({ setshowLayout }) => {
                 =
               </Col>
               <Col span={6}>
-                <h1 style={{fontSize: 'xx-large'}}>
+                <h1 style={{fontSize: 'x-large'}}>
                   {
                     formatCurrency(policyDetail.totalPrice)
                   }
@@ -324,7 +324,7 @@ const ListPolicies = ({ setshowLayout }) => {
               </Col>
               <Col span={12}>
                 <span className='contract-item-title'>Rating: </span>
-                <h1 style={{fontSize: 'large'}}>
+                <h1 style={{fontSize: 'medium'}}>
                   <Rate allowHalf value={rating} onChange={(value) => {
                     setChanged(true);
                     setRating(value);

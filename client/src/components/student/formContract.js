@@ -259,30 +259,30 @@ const FormContract = props => {
                 }}
               >
                 <span className="contract-item-title">Subject: </span>
-                <h1 style={{ fontSize: 'large' }}>{policyDetail.subject}</h1>
+                <h1 style={{ fontSize: 'medium' }}>{policyDetail.subject}</h1>
               </Col>
             </Row>
             <Row className="contract-row">
               <Col span={12}>
                 <span className="contract-item-title">Teacher Email: </span>
-                <h1 style={{ fontSize: 'x-large	' }}>{tutor.email}</h1>
+                <h1 style={{ fontSize: 'large	' }}>{tutor.email}</h1>
               </Col>
               <Col span={12}>
                 <span className="contract-item-title">Student Email: </span>
-                <h1 style={{ fontSize: 'x-large' }}>{user.email}</h1>
+                <h1 style={{ fontSize: 'large' }}>{user.email}</h1>
               </Col>
             </Row>
             <Row className="contract-row">
               <Col span={12}>
                 <span className="contract-item-title">Start Date: </span>
-                <h1 style={{ fontSize: 'x-large' }}>
+                <h1 style={{ fontSize: 'large' }}>
                   {`${policyDetail.startDate._d.getFullYear()}-${policyDetail.startDate._d.getMonth() +
                     1}-${policyDetail.startDate._d.getDate()}`}
                 </h1>
               </Col>
               <Col span={12}>
                 <span className="contract-item-title">End Date: </span>
-                <h1 style={{ fontSize: 'x-large' }}>
+                <h1 style={{ fontSize: 'large' }}>
                   {`${policyDetail.endDate._d.getFullYear()}-${policyDetail.endDate._d.getMonth() +
                     1}-${policyDetail.endDate._d.getDate()}`}
                 </h1>
@@ -294,18 +294,18 @@ const FormContract = props => {
               </Col>
               <Col span={4}>
                 <span className="contract-item-title">Per hour</span>
-                <h1 style={{ fontSize: 'large' }}>
+                <h1 style={{ fontSize: 'medium' }}>
                   {formatCurrency(tutor.pricePerHour)}
                 </h1>
               </Col>
               <Col span={4}>X</Col>
               <Col span={4}>
                 <span className="contract-item-title">Hour(s)</span>
-                <h1 style={{ fontSize: 'large' }}>{policyDetail.totalHour}</h1>
+                <h1 style={{ fontSize: 'medium' }}>{policyDetail.totalHour}</h1>
               </Col>
               <Col span={2}>=</Col>
               <Col span={6}>
-                <h1 style={{ fontSize: 'xx-large' }}>
+                <h1 style={{ fontSize: 'x-large' }}>
                   {formatCurrency(
                     parseInt(tutor.pricePerHour) *
                       parseInt(policyDetail.totalHour)

@@ -71,7 +71,7 @@ const AppRouter = () => {
                             await cookies.set('MY_TOKEN', '');
                             await cookies.remove('MY_TOKEN');
                             await cookies.remove('CURR_USER');
-                            }
+                          }
                           }
                           to="/login"
                         >

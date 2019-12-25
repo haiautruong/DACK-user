@@ -83,7 +83,7 @@ const Login = ({ login }) => {
     });
 
     const subWindow = window.open(
-      `https://162145.online/auth/facebook/init/${type}`,
+      `https://1612145.online/auth/facebook/init/${type}`,
       'mywindow',
       'location=1,status=1,scrollbars=1, width=700,height=550'
     );
@@ -117,7 +117,7 @@ const Login = ({ login }) => {
     });
 
     const subWindow = window.open(
-      `https://162145.online/auth/google/init/${type}`,
+      `https://1612145.online/auth/google/init/${type}`,
       'mywindow',
       'location=1,status=1,scrollbars=1, width=700,height=550'
     );

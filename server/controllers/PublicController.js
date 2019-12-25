@@ -47,8 +47,16 @@ exports.getTeacher = async function (req, res, next) {
             contracts = contracts.filter(c => (c.status === 1 || c.status === 3));
         }
 
-        teacher.canTeachingPlaces = JSON.parse(teacher.canTeachingPlaces);
-        teacher.skills = JSON.parse(teacher.skills);
+        try {
+            teacher.canTeachingPlaces = JSON.parse(teacher.canTeachingPlaces);
+        } catch (e) {
+            teacher.canTeachingPlaces = [];
+        }
+        try {
+            teacher.skills = JSON.parse(teacher.skills);
+        } catch (e) {
+            teacher.skills = [];
+        }
         teacher.contracts = contracts;
 
         return res.json({

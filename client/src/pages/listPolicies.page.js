@@ -12,7 +12,7 @@ import {
   Typography,
   Rate,
   Button,
-  Input 
+  Input
 } from 'antd';
 import { useHistory, withRouter } from 'react-router-dom';
 import CardPolicy from '../components/CardPolicy';
@@ -198,7 +198,7 @@ const ListPolicies = ({ setshowLayout }) => {
               setShowModal(false);
               setChanged(false);
             }
-            
+
           }}>
             Save
           </Button>
@@ -332,19 +332,20 @@ const ListPolicies = ({ setshowLayout }) => {
                 </h1>
               </Col>
             </Row>
+            {(policyDetail.status !== 1 && policyDetail.status !== 0) ?
             <Row className='contract-row' type="flex" justify="center">
               <Col span={12}>
                 <Radio.Group value={status} onChange={async (e) => {
                   setChanged(true);
                   setStatus(e.target.value);
                 }}>
-                  <Radio.Button value={0}>CANCEL</Radio.Button>
+                  <Radio.Button value={0} >CANCEL</Radio.Button>
                   <Radio.Button value={2} disabled>WAITING</Radio.Button>
-                  <Radio.Button value={3} disabled={user.type === 1 ? false : true}>ON GOING</Radio.Button>
-                  <Radio.Button value={1} disabled={user.type === 2 ? false : true}>DONE</Radio.Button>
+                  <Radio.Button value={3} disabled={user.type !== 1}>ON GOING</Radio.Button>
+                  <Radio.Button value={1} disabled={user.type !== 2}>DONE</Radio.Button>
                 </Radio.Group>
               </Col>
-            </Row>
+            </Row> : null }
           </div>
           :
           ''
@@ -382,8 +383,8 @@ const ListPolicies = ({ setshowLayout }) => {
         width="50%"
         zIndex= {10}
       >
-        <TextArea 
-          rows={10} 
+        <TextArea
+          rows={10}
           placeholder='Enter your complaint here.'
           onChange={(e) => setComplaint(e.target.value)}
         />

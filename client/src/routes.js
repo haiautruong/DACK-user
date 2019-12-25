@@ -64,9 +64,6 @@ const AppRouter = () => {
                           My Profile
                         </Link>
                       </Menu.Item>
-                      <Menu.Item key="1">
-                        <Link to="/">Settings</Link>
-                      </Menu.Item>
                       <Menu.Item key="2">
                         <Link
                           onClick={async () =>

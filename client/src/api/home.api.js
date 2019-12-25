@@ -98,7 +98,7 @@ const createComplaint = async (contractID, content) => {
   });
   const resData = await res.json();
   return resData;
-}
+};
 
 export default {
   getListTutors,

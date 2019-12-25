@@ -74,6 +74,7 @@ module.exports.updateStatus = async (contractID, status) => {
     }
 
     let query = `UPDATE Contract SET status = '${status}' ${date} where contractID = '${contractID}'`;
+    console.log(query);
     const [res, f] = await conn.getConnection()
         .query(query).then(([rows, fields]) => {
             return [rows, fields];

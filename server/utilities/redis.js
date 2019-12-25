@@ -9,15 +9,7 @@ if (client) {
     client.on('connect', async function () {
         console.log("### Redis Connected ###");
 
-        oldCacheKey = await getAsync(REDIS_KEY.OLD_CACHE_KEY);
-        if (oldCacheKey) {
-            oldCacheKey = JSON.parse(oldCacheKey);
-            for (let key of oldCacheKey)
-                client.del(key);
-            client.del(oldCacheKey);
-        }
-        oldCacheKey = [];
-
+        await deleteOldCache();
     });
 
     client.on('error', function (err) {
@@ -25,6 +17,18 @@ if (client) {
         process.exit();
     });
 }
+
+const deleteOldCache = async () => {
+    oldCacheKey = await getAsync(REDIS_KEY.OLD_CACHE_KEY);
+    if (oldCacheKey) {
+        oldCacheKey = JSON.parse(oldCacheKey);
+        for (let key of oldCacheKey)
+            client.del(key);
+
+        client.del(oldCacheKey);
+    }
+    oldCacheKey = [];
+};
 
 const getAsync = (key) => {
     return new Promise((resolve, reject) => {
@@ -110,6 +114,7 @@ const REDIS_KEY = {
 
 module.exports = {
     client,
+    deleteOldCache,
     getAsync,
     getAsyncWithCallback,
     del,

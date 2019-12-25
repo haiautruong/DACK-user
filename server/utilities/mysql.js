@@ -1,13 +1,16 @@
 const mysql = require('mysql2/promise');
 const nodeCleanup = require('node-cleanup');
+const redis = require('./redis');
 
 var conn = null;
 
-nodeCleanup(function (exitCode, signal) {
+nodeCleanup(async function (exitCode, signal) {
     if (conn != null){
         console.log("Cleanup Connection...");
         conn.end();
     }
+
+    await redis.deleteOldCache();
     process.exit();
 });
 

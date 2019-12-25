@@ -13,9 +13,7 @@ router.get('/facebook/init/:userType', function (req, res, next) {
 
 router.get('/facebook/callback',
     passport.authenticate('facebook', {
-        failureRedirect: 'http://localhost:3001/login',
         session: false
-
     }), (req, res) => {
         let responseHTML = '<script>res = %value%; window.opener.postMessage(res, "*");window.close();</script>';
 
@@ -57,7 +55,6 @@ router.get('/google/init/:userType', function (req, res, next) {
 
 router.get('/google/callback',
     passport.authenticate('google', {
-        failureRedirect: 'http://localhost:3001/login',
         session: false
     }), (req, res) => {
         let responseHTML = '<script>res = %value%; window.opener.postMessage(res, "*");window.close();</script>';

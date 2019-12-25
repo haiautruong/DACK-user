@@ -106,7 +106,7 @@ const UpdateTutor = ({ setshowLayout }) => {
           </Menu>
         </Sider>
       </div>
-      <div style={{ width: '100%', padding: 10, overflow: 'auto' }}>
+      <div style={{ width: '100%', padding: 10, overflow: 'auto', overflowY: 'hidden' }}>
         {isShowUpdate ? (
           <UpdateInfoForm user={tutor} setIsShowUpdate={setIsShowUpdate} />
         ) : (

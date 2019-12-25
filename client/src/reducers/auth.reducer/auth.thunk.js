@@ -25,6 +25,8 @@ export const logout = () => dispatch => {
   dispatch(doLogout());
   cookies.set('CURR_USER', '');
   cookies.set('MY_TOKEN', '');
+  cookies.remove('MY_TOKEN');
+  cookies.remove('CURR_USER');
 };
 
 export const updateUserInfo = userData => dispatch =>

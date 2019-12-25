@@ -97,8 +97,8 @@ passport.use(new JWTStrategy({
 // ############################# FACEBOOK STRATEGY #############################
 
 passport.use(new FacebookStrategy({
-        clientID: '3052325844992914',
-        clientSecret: 'c7552c6a180122424b03394405565d03',
+        clientID: process.env.FACEBOOK_CLIENT_ID,
+        clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
         callbackURL: '/auth/facebook/callback',
         proxy: true,
         passReqToCallback: true,
@@ -139,8 +139,8 @@ passport.use(new FacebookStrategy({
 // ############################# GOOGLE STRATEGY #############################
 
 passport.use(new GoogleStrategy({
-        clientID: '252799400863-ahothosujvcfngd2icoh7e8ofkffdgm1.apps.googleusercontent.com',
-        clientSecret: 'AN2uX7yjO7sZb9RiGdAja8zY',
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: '/auth/google/callback',
         proxy: true,
         passReqToCallback: true,
